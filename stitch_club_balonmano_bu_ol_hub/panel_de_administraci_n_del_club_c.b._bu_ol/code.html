@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "surface-container-high": "#e2e7ff",
+          "on-secondary-container": "#fffbff",
+          "inverse-on-surface": "#eef0ff",
+          "card-dark-surface": "#0B192C",
+          "on-primary": "#ffffff",
+          "surface-container-highest": "#dae2fd",
+          "surface-container-lowest": "#ffffff",
+          "primary-fixed-dim": "#94ccff",
+          "error-container": "#ffdad6",
+          "tertiary-container": "#4770be",
+          "on-secondary-fixed-variant": "#93000d",
+          "surface-container": "#eaedff",
+          "on-error-container": "#93000a",
+          "surface-light": "#F8FAFC",
+          "deep-navy": "#023E8A",
+          "on-tertiary-fixed": "#001a42",
+          "court-blue": "#0077B6",
+          "secondary": "#d62828",
+          "on-primary-fixed-variant": "#004b74",
+          "primary": "#0077B6",
+          "tertiary-fixed": "#d8e2ff",
+          "primary-container": "#0077b6",
+          "surface": "#ffffff",
+          "background": "#F8FAFC",
+          "error": "#ba1a1a",
+          "surface-bright": "#ffffff",
+          "on-tertiary-fixed-variant": "#0f4490",
+          "outline": "#707881",
+          "tertiary": "#023E8A",
+          "inverse-surface": "#283044",
+          "surface-container-low": "#f8faff",
+          "on-surface-variant": "#64748B",
+          "tertiary-fixed-dim": "#aec6ff",
+          "border-subtle": "#E2E8F0",
+          "card-dark-container": "#132238",
+          "inverse-primary": "#94ccff",
+          "secondary-fixed": "#ffdad6",
+          "on-primary-container": "#f3f7ff",
+          "outline-variant": "#bfc7d1",
+          "surface-tint": "#0077B6",
+          "surface-dim": "#d2d9f4",
+          "secondary-fixed-dim": "#ffb4ab",
+          "on-background": "#0F172A",
+          "on-secondary": "#ffffff",
+          "on-tertiary": "#ffffff",
+          "on-surface": "#0F172A",
+          "on-secondary-fixed": "#410002",
+          "secondary-container": "#ba1a1a",
+          "on-primary-fixed": "#001d32",
+          "surface-pure": "#FFFFFF",
+          "on-error": "#ffffff",
+          "on-tertiary-container": "#f7f7ff",
+          "away-red": "#D62828",
+          "primary-fixed": "#cde5ff",
+          "surface-variant": "#dae2fd"
+        },
+        "borderRadius": {
+          "DEFAULT": "0.25rem",
+          "lg": "0.5rem",
+          "xl": "0.75rem",
+          "full": "9999px"
+        },
+        "spacing": {
+          "margin": "2rem",
+          "space-sm": "0.5rem",
+          "space-md": "1rem",
+          "space-xs": "0.25rem",
+          "margin-mobile": "1rem",
+          "gutter-mobile": "0.75rem",
+          "space-xl": "2.5rem",
+          "space-lg": "1.5rem",
+          "gutter": "1.5rem"
+        },
+        "fontFamily": {
+          "headline-lg-mobile": ["Plus Jakarta Sans"],
+          "label-md": ["Plus Jakarta Sans"],
+          "body-sm": ["Inter"],
+          "score-display": ["Plus Jakarta Sans"],
+          "score-display-mobile": ["Plus Jakarta Sans"],
+          "body-md": ["Inter"],
+          "headline-lg": ["Plus Jakarta Sans"],
+          "headline-md": ["Plus Jakarta Sans"],
+          "display-hero": ["Plus Jakarta Sans"],
+          "display-hero-mobile": ["Plus Jakarta Sans"],
+          "body-lg": ["Inter"],
+          "label-lg": ["Plus Jakarta Sans"],
+          "headline-sm": ["Plus Jakarta Sans"]
+        },
+        "fontSize": {
+          "headline-lg-mobile": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+          "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "600" }],
+          "body-sm": ["12px", { "lineHeight": "18px", "fontWeight": "400" }],
+          "score-display": ["48px", { "lineHeight": "48px", "letterSpacing": "-0.01em", "fontWeight": "800" }],
+          "score-display-mobile": ["36px", { "lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "800" }],
+          "body-md": ["14px", { "lineHeight": "22px", "fontWeight": "400" }],
+          "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+          "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "700" }],
+          "display-hero": ["56px", { "lineHeight": "64px", "letterSpacing": "-0.03em", "fontWeight": "800" }],
+          "display-hero-mobile": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+          "body-lg": ["16px", { "lineHeight": "26px", "fontWeight": "400" }],
+          "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "700" }],
+          "headline-sm": ["16px", { "lineHeight": "24px", "fontWeight": "600" }]
+        }
+      }
+    }
+  }
+</script></head><body class="bg-background font-body-md text-on-surface antialiased min-h-screen selection:bg-court-blue/20 selection:text-court-blue"><header class="fixed top-0 w-full z-50 bg-white/95 backdrop-blur-md border-b border-border-subtle shadow-sm"><div class="h-20 w-full px-gutter flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-lg shrink-0"><div class="flex items-center gap-space-sm"><img alt="Professional headshot of a friendly Spanish sports club coordinator in his early 30s wearing a dark navy athletic polo shirt with a subtle club badge, warm smile, clean studio background with soft lighting." class="h-9 w-auto object-contain rounded-md" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBx5VNT5M_rwz4dCiEIJm_nZ1lw2h_iTRLr0STbJj5FxVP91mSyprUVaxpAXYK4np4iNzOXdX6u29kg692V6pQIAuqNHBzJ4fbTJsigQyrJgrf-qX0e20ZoIyNf6pHFMTDXZQKaEcAbEYx_l-OkvzWiLEfjYJ1rMANXwa8STSlS7UtAEp7vZrd8J95-WhFMLJlFXXo-RcejVOTqeSCW5tttaaderYkB08SuZ9dPg4Q"/><div class="flex flex-col"><span class="font-headline-sm text-headline-sm uppercase tracking-wider text-court-blue font-extrabold leading-none">C.B. BUÑOL</span><span class="font-label-md text-label-md uppercase tracking-widest text-on-surface-variant font-semibold">Balonmano</span></div></div><div class="hidden xl:flex items-center relative w-72"><span class="material-symbols-outlined absolute left-3 text-on-surface-variant pointer-events-none text-[20px]">search</span><input class="w-full h-11 pl-10 pr-4 bg-slate-100/80 border border-slate-200 rounded-lg font-body-sm text-body-sm text-on-surface placeholder:text-on-surface-variant focus:outline-none focus:ring-2 focus:ring-court-blue/30 focus:border-court-blue transition-all" placeholder="Buscar jugadores, partidos, noticias..." type="text"/></div></div><nav class="hidden lg:flex items-center gap-space-xs"><a class="px-space-md py-space-sm rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:text-court-blue hover:bg-slate-100 transition-colors" data-path="feed-social" href="#">Feed Social</a><a class="px-space-md py-space-sm rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:text-court-blue hover:bg-slate-100 transition-colors" data-path="gestion-de-equipo" href="#">Gestión de Equipo</a><a class="px-space-md py-space-sm rounded-lg font-label-lg text-label-lg bg-court-blue/10 text-court-blue font-bold shadow-sm" data-path="administracion" href="#">Administración</a><a class="px-space-md py-space-sm rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:text-court-blue hover:bg-slate-100 transition-colors" data-path="partidos-y-resultados" href="#">Partidos y Resultados</a></nav><div class="flex items-center gap-space-md shrink-0"><div class="relative flex items-center justify-center w-10 h-10 rounded-full bg-slate-100 hover:bg-slate-200 transition-colors cursor-pointer border border-slate-200"><span class="material-symbols-outlined text-court-blue text-[22px]">sports_handball</span><span class="absolute top-1.5 right-1.5 flex h-2.5 w-2.5"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-away-red opacity-75"></span><span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-away-red"></span></span></div><div class="flex items-center gap-space-sm pl-space-sm"><div class="hidden md:flex flex-col text-right"><span class="font-label-lg text-label-lg text-on-surface leading-tight font-bold">Carlos Martínez</span><div class="flex items-center justify-end gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-court-blue"></span><span class="font-label-md text-label-md text-on-surface-variant">Coord. Sénior</span></div></div><img alt="Profile" class="w-9 h-9 rounded-full object-cover ring-2 ring-court-blue/20" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDeFaCpxuYMtfW_9VTOX6aX8Rf72E2D4GRwyAVTpsTUAYVJ48l6GhGCmdWuVWkiEWkrJcC7BOUvJr02j0PL6T-G6kFet5bPWFoVk1iCitJvyfUI71btB7I0lVjiyZTNKEethyxtuC1UVnjeKCxsSY6jE3UYpUpY-KQ7Q3cT2tEDWzjXZempvSxKRa8VZykKYw_PCGttVX3ktU2J19C71oheYEbcekoUZNawdr5iNA8"/></div></div></div></header><main class="w-full pt-24 bg-background min-h-screen pb-12"><div class="flex flex-col w-full">
+<div class="w-full px-gutter py-space-md flex flex-col gap-space-lg">
+<!-- Header Context & Quick Actions Bar -->
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-md bg-white p-space-lg rounded-xl border border-border-subtle shadow-sm">
+<div class="flex items-center gap-space-md min-w-0">
+<div class="w-14 h-14 rounded-xl bg-court-blue/10 border border-court-blue/20 flex items-center justify-center shrink-0 shadow-sm">
+<span class="material-symbols-outlined text-court-blue text-[32px]">admin_panel_settings</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-2">
+<span class="font-label-md text-label-md uppercase tracking-widest text-court-blue font-bold">Temporada 2024 / 2025</span>
+<span class="w-1.5 h-1.5 rounded-full bg-court-blue"></span>
+<span class="font-label-md text-label-md text-on-surface-variant font-medium">FBMCV · C.B. Buñol</span>
+</div>
+<span class="font-headline-lg text-headline-lg text-on-surface font-extrabold truncate">Panel de Gestión y Directiva</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Control unificado de socios, licencias federativas, tesorería e intendencia de pista</p>
+</div>
+</div>
+<!-- Action Cluster -->
+<div class="flex flex-wrap items-center gap-space-sm shrink-0">
+<button class="flex items-center gap-2 px-space-md h-11 rounded-lg bg-white border border-border-subtle text-on-surface hover:text-court-blue hover:border-court-blue/50 transition-colors font-label-lg text-label-lg shadow-sm" id="btn-comunicado-trigger">
+<span class="material-symbols-outlined text-[18px] text-court-blue">campaign</span>
+<span>Programar Comunicado</span>
+</button>
+<button class="flex items-center gap-2 px-space-md h-11 rounded-lg bg-white border border-border-subtle text-on-surface hover:text-court-blue hover:border-court-blue/50 transition-colors font-label-lg text-label-lg shadow-sm" onclick="triggerSepaModal()">
+<span class="material-symbols-outlined text-[18px] text-deep-navy">account_balance</span>
+<span>Generar Remesa SEPA</span>
+</button>
+<button class="flex items-center gap-2 px-space-lg h-11 rounded-lg bg-away-red text-white hover:bg-away-red/90 transition-all font-label-lg text-label-lg shadow-md shadow-away-red/20 font-bold" onclick="toggleAltaModal(true)">
+<span class="material-symbols-outlined text-[20px]">person_add</span>
+<span>Nueva Alta de Socio</span>
+</button>
+</div>
+</div>
+<!-- KPI Metric Cards Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-space-md">
+<!-- Card 1: Total Socios -->
+<div class="p-space-lg rounded-xl bg-white border border-border-subtle shadow-sm flex flex-col justify-between relative overflow-hidden group hover:shadow-md transition-shadow">
+<div class="absolute -right-4 -bottom-4 w-28 h-28 bg-court-blue/5 rounded-full blur-2xl pointer-events-none"></div>
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md uppercase tracking-wider text-on-surface-variant font-bold">Socios Activos</span>
+<span class="px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 font-label-md text-label-md font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">trending_up</span> +18%
+          </span>
+</div>
+<div class="my-space-sm flex items-baseline gap-2">
+<span class="font-score-display text-score-display text-on-surface font-extrabold">342</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">censados</span>
+</div>
+<div class="flex items-center justify-between text-body-sm text-on-surface-variant border-t border-slate-100 pt-3">
+<span>Altas nuevas este mes</span>
+<span class="font-label-md text-label-md text-court-blue font-bold">+24 abonados</span>
+</div>
+</div>
+<!-- Card 2: Equipos Federados -->
+<div class="p-space-lg rounded-xl bg-white border border-border-subtle shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md uppercase tracking-wider text-on-surface-variant font-bold">Equipos Federados</span>
+<span class="px-2.5 py-0.5 rounded-full bg-court-blue/10 text-court-blue border border-court-blue/20 font-label-md text-label-md font-bold">Oficial FBMCV</span>
+</div>
+<div class="my-space-sm flex items-baseline gap-2">
+<span class="font-score-display text-score-display text-on-surface font-extrabold">9</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">categorías activas</span>
+</div>
+<div class="flex items-center gap-1.5 text-body-sm text-on-surface-variant border-t border-slate-100 pt-3 truncate">
+<span class="material-symbols-outlined text-court-blue text-[16px]">verified</span>
+<span>Prebenjamín hasta Veteranos</span>
+</div>
+</div>
+<!-- Card 3: Recaudación Cuotas -->
+<div class="p-space-lg rounded-xl bg-white border border-border-subtle shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md uppercase tracking-wider text-on-surface-variant font-bold">Cobro de Cuotas</span>
+<span class="px-2.5 py-0.5 rounded-full bg-court-blue/10 text-court-blue border border-court-blue/20 font-label-md text-label-md font-bold">89% Cobrado</span>
+</div>
+<div class="my-space-sm">
+<div class="flex items-baseline justify-between mb-1.5">
+<span class="font-headline-lg text-headline-lg text-on-surface font-extrabold">41.830 €</span>
+<span class="font-body-sm text-body-sm text-away-red font-semibold">5.170 € pend.</span>
+</div>
+<div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden flex border border-slate-200">
+<div class="bg-court-blue h-full rounded-full" style="width: 89%"></div>
+</div>
+</div>
+<div class="flex items-center justify-between text-body-sm text-on-surface-variant border-t border-slate-100 pt-3">
+<span>38 cuotas con aviso pendiente</span>
+<button class="text-court-blue font-label-md text-label-md font-bold hover:underline" onclick="setActiveTab('tab-cuotas')">Revisar</button>
+</div>
+</div>
+<!-- Card 4: Presupuesto & Desplazamientos -->
+<div class="p-space-lg rounded-xl bg-white border border-border-subtle shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md uppercase tracking-wider text-on-surface-variant font-bold">Tesorería Temporada</span>
+<span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 border border-slate-200 font-label-md text-label-md font-semibold">Balance</span>
+</div>
+<div class="my-space-sm flex items-baseline justify-between">
+<div>
+<span class="font-headline-lg text-headline-lg text-on-surface font-extrabold">14.620 €</span>
+<span class="block font-body-sm text-body-sm text-on-surface-variant font-medium">disponible líquido</span>
+</div>
+<div class="text-right">
+<span class="font-headline-sm text-headline-sm text-away-red font-extrabold">6.850 €</span>
+<span class="block font-body-sm text-body-sm text-on-surface-variant font-medium">gasto bus ruta</span>
+</div>
+</div>
+<div class="flex items-center gap-1.5 text-body-sm text-on-surface-variant border-t border-slate-100 pt-3">
+<span class="material-symbols-outlined text-court-blue text-[16px]">directions_bus</span>
+<span>12 desplazamientos cubiertos</span>
+</div>
+</div>
+</div>
+<!-- Navigation Tabs -->
+<div class="flex flex-col gap-space-md">
+<div class="flex items-center gap-space-xs p-1.5 bg-white border border-border-subtle rounded-xl overflow-x-auto shadow-sm">
+<button class="tab-button flex items-center gap-2 px-space-md py-space-sm rounded-lg font-label-lg text-label-lg bg-court-blue text-white shadow-sm whitespace-nowrap transition-all font-bold" id="tab-btn-cuotas" onclick="setActiveTab('tab-cuotas')">
+<span class="material-symbols-outlined text-[18px]">receipt_long</span>
+<span>Gestión de Cuotas e Inscripciones</span>
+</button>
+<button class="tab-button flex items-center gap-2 px-space-md py-space-sm rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:text-court-blue hover:bg-slate-50 whitespace-nowrap transition-all" id="tab-btn-licencias" onclick="setActiveTab('tab-licencias')">
+<span class="material-symbols-outlined text-[18px]">badge</span>
+<span>Categorías y Licencias FBMCV</span>
+</button>
+<button class="tab-button flex items-center gap-2 px-space-md py-space-sm rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:text-court-blue hover:bg-slate-50 whitespace-nowrap transition-all" id="tab-btn-noticias" onclick="setActiveTab('tab-noticias')">
+<span class="material-symbols-outlined text-[18px]">edit_note</span>
+<span>Noticias y Comunicados Oficiales</span>
+</button>
+<button class="tab-button flex items-center gap-2 px-space-md py-space-sm rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:text-court-blue hover:bg-slate-50 whitespace-nowrap transition-all" id="tab-btn-material" onclick="setActiveTab('tab-material')">
+<span class="material-symbols-outlined text-[18px]">sports_volleyball</span>
+<span>Inventario y Material Deportivo</span>
+</button>
+</div>
+<!-- TAB CONTENT 1: GESTIÓN DE CUOTAS E INSCRIPCIONES -->
+<div class="tab-pane flex flex-col gap-space-md" id="tab-cuotas">
+<!-- Filter and Search Header -->
+<div class="bg-white p-space-md rounded-xl border border-border-subtle flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-space-md shadow-sm">
+<div class="flex flex-1 items-center gap-space-sm">
+<div class="relative flex-1 max-w-lg">
+<span class="material-symbols-outlined absolute left-3 top-3 text-on-surface-variant text-[20px]">search</span>
+<input class="w-full h-11 pl-10 pr-4 bg-slate-50 border border-border-subtle rounded-lg font-body-sm text-body-sm text-on-surface placeholder:text-on-surface-variant focus:outline-none focus:ring-2 focus:ring-court-blue/30 focus:border-court-blue" id="input-search-cuotas" oninput="filterCuotas()" placeholder="Filtrar por DNI, nombre de jugador o tutor legal..." type="text"/>
+</div>
+<select class="h-11 px-4 bg-slate-50 border border-border-subtle rounded-lg font-body-sm text-body-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-court-blue/30 focus:border-court-blue" id="filter-equipo" onchange="filterCuotas()">
+<option value="ALL">Todos los Equipos</option>
+<option value="Sénior Masculino">Sénior A Masculino</option>
+<option value="Sénior Femenino">Sénior Femenino</option>
+<option value="Juvenil">Juvenil Masculino</option>
+<option value="Cadete">Cadete Mixto</option>
+<option value="Infantil">Infantil Femenino</option>
+<option value="Alevín">Alevín / Escuela</option>
+</select>
+<select class="h-11 px-4 bg-slate-50 border border-border-subtle rounded-lg font-body-sm text-body-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-court-blue/30 focus:border-court-blue" id="filter-estado" onchange="filterCuotas()">
+<option value="ALL">Cualquier Estado</option>
+<option value="Al día">Al día</option>
+<option value="Cuota 2 pendiente">Cuota 2 pendiente</option>
+<option value="Becado">Becado</option>
+</select>
+</div>
+<div class="flex items-center gap-space-sm shrink-0">
+<button class="px-space-md h-11 rounded-lg bg-court-blue/10 border border-court-blue/20 text-court-blue hover:bg-court-blue hover:text-white transition-colors font-label-lg text-label-lg font-bold flex items-center gap-2" onclick="enviarRecordatorioMasivo()">
+<span class="material-symbols-outlined text-[18px]">forward_to_inbox</span>
+<span>Recordatorio Masivo (38)</span>
+</button>
+<button class="px-space-md h-11 rounded-lg bg-white border border-border-subtle text-on-surface hover:text-court-blue hover:border-court-blue/40 transition-colors font-label-lg text-label-lg flex items-center gap-2" onclick="exportarExcel()">
+<span class="material-symbols-outlined text-[18px] text-court-blue">download</span>
+<span>Exportar XLS</span>
+</button>
+</div>
+</div>
+<!-- Interactive Cuotas Table -->
+<div class="bg-white rounded-xl border border-border-subtle overflow-hidden shadow-sm">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-slate-50 text-on-surface-variant font-label-md text-label-md uppercase tracking-wider border-b border-border-subtle">
+<th class="py-space-md px-space-md">
+<input class="w-4 h-4 rounded border-slate-300 text-court-blue focus:ring-court-blue" type="checkbox"/>
+</th>
+<th class="py-space-md px-space-md">Jugador / Tutor</th>
+<th class="py-space-md px-space-md">DNI / NIF</th>
+<th class="py-space-md px-space-md">Categoría / Equipo</th>
+<th class="py-space-md px-space-md">Modalidad</th>
+<th class="py-space-md px-space-md">Estado Cuota</th>
+<th class="py-space-md px-space-md text-right">Importe</th>
+<th class="py-space-md px-space-md text-center">Acciones</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-subtle font-body-md text-body-md text-on-surface" id="tbody-cuotas">
+<!-- Row 1 -->
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="py-space-md px-space-md">
+<input class="w-4 h-4 rounded border-slate-300 text-court-blue focus:ring-court-blue" type="checkbox"/>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-full bg-court-blue/10 border border-court-blue/20 flex items-center justify-center font-label-md font-bold text-court-blue">
+                        MB
+                      </div>
+<div>
+<span class="font-headline-sm text-headline-sm block font-bold text-on-surface">Marcos Ballester Carrascosa</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Tutor: Elena Carrascosa Sáez</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md font-mono text-body-sm text-on-surface-variant">48619284K</td>
+<td class="py-space-md px-space-md">
+<span class="px-2.5 py-1 rounded-full bg-court-blue/10 text-court-blue border border-court-blue/20 font-label-md text-label-md font-semibold">Juvenil Masculino</span>
+</td>
+<td class="py-space-md px-space-md text-body-sm text-slate-700">Fraccionada (2 plazos)</td>
+<td class="py-space-md px-space-md">
+<span class="px-3 py-1 rounded-full bg-amber-50 border border-amber-200 text-amber-800 font-label-md text-label-md font-semibold inline-flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span> Cuota 2 pendiente
+                    </span>
+</td>
+<td class="py-space-md px-space-md text-right font-headline-sm text-headline-sm font-extrabold text-on-surface">75,00 €</td>
+<td class="py-space-md px-space-md text-center">
+<div class="flex items-center justify-center gap-2">
+<button class="w-8 h-8 rounded-lg bg-slate-100 hover:bg-court-blue/10 border border-slate-200 hover:border-court-blue/30 flex items-center justify-center text-court-blue transition-colors" onclick="notificarSocio('Marcos Ballester', '48619284K')" title="Enviar aviso correo/WhatsApp">
+<span class="material-symbols-outlined text-[18px]">send</span>
+</button>
+<button class="w-8 h-8 rounded-lg bg-slate-100 hover:bg-slate-200 border border-slate-200 flex items-center justify-center text-slate-700 transition-colors" onclick="emitirRecibo('REC-2025-0142')" title="Descargar Recibo Oficial">
+<span class="material-symbols-outlined text-[18px]">print</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="py-space-md px-space-md">
+<input class="w-4 h-4 rounded border-slate-300 text-court-blue focus:ring-court-blue" type="checkbox"/>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-full bg-deep-navy/10 border border-deep-navy/20 flex items-center justify-center font-label-md font-bold text-deep-navy">
+                        LR
+                      </div>
+<div>
+<span class="font-headline-sm text-headline-sm block font-bold text-on-surface">Lucía Rehués Gómez</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Propio (Mayor de edad)</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md font-mono text-body-sm text-on-surface-variant">20948512P</td>
+<td class="py-space-md px-space-md">
+<span class="px-2.5 py-1 rounded-full bg-court-blue/10 text-court-blue border border-court-blue/20 font-label-md text-label-md font-semibold">Sénior Femenino</span>
+</td>
+<td class="py-space-md px-space-md text-body-sm text-slate-700">Pago Único Anual</td>
+<td class="py-space-md px-space-md">
+<span class="px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 font-label-md text-label-md font-semibold inline-flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Al día
+                    </span>
+</td>
+<td class="py-space-md px-space-md text-right font-headline-sm text-headline-sm font-extrabold text-on-surface">180,00 €</td>
+<td class="py-space-md px-space-md text-center">
+<div class="flex items-center justify-center gap-2">
+<button class="w-8 h-8 rounded-lg bg-slate-100 hover:bg-slate-200 border border-slate-200 flex items-center justify-center text-slate-700 transition-colors" onclick="emitirRecibo('REC-2025-0089')" title="Descargar Recibo Oficial">
+<span class="material-symbols-outlined text-[18px]">receipt</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="py-space-md px-space-md">
+<input class="w-4 h-4 rounded border-slate-300 text-court-blue focus:ring-court-blue" type="checkbox"/>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center font-label-md font-bold text-slate-700">
+                        AP
+                      </div>
+<div>
+<span class="font-headline-sm text-headline-sm block font-bold text-on-surface">Aitor Perelló Solaz</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Tutor: Vicent Perelló Tarín</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md font-mono text-body-sm text-on-surface-variant">53291044M</td>
+<td class="py-space-md px-space-md">
+<span class="px-2.5 py-1 rounded-full bg-court-blue/10 text-court-blue border border-court-blue/20 font-label-md text-label-md font-semibold">Cadete Mixto</span>
+</td>
+<td class="py-space-md px-space-md text-body-sm text-slate-700">Beca Deporte Base Municipal</td>
+<td class="py-space-md px-space-md">
+<span class="px-3 py-1 rounded-full bg-sky-50 border border-sky-200 text-sky-700 font-label-md text-label-md font-semibold inline-flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-sky-500"></span> Becado (100%)
+                    </span>
+</td>
+<td class="py-space-md px-space-md text-right font-headline-sm text-headline-sm font-bold text-on-surface-variant">0,00 €</td>
+<td class="py-space-md px-space-md text-center">
+<div class="flex items-center justify-center gap-2">
+<button class="w-8 h-8 rounded-lg bg-slate-100 hover:bg-court-blue/10 border border-slate-200 hover:border-court-blue/30 flex items-center justify-center text-court-blue transition-colors" onclick="consultarBeca('53291044M')" title="Expediente de Beca">
+<span class="material-symbols-outlined text-[18px]">folder_shared</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="py-space-md px-space-md">
+<input class="w-4 h-4 rounded border-slate-300 text-court-blue focus:ring-court-blue" type="checkbox"/>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-full bg-court-blue/10 border border-court-blue/20 flex items-center justify-center font-label-md font-bold text-court-blue">
+                        SV
+                      </div>
+<div>
+<span class="font-headline-sm text-headline-sm block font-bold text-on-surface">Sergi Villar Hernández</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Propio (Mayor de edad)</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md font-mono text-body-sm text-on-surface-variant">73599812A</td>
+<td class="py-space-md px-space-md">
+<span class="px-2.5 py-1 rounded-full bg-court-blue/10 text-court-blue border border-court-blue/20 font-label-md text-label-md font-semibold">Sénior A Masculino</span>
+</td>
+<td class="py-space-md px-space-md text-body-sm text-slate-700">Fraccionada (2 plazos)</td>
+<td class="py-space-md px-space-md">
+<span class="px-3 py-1 rounded-full bg-amber-50 border border-amber-200 text-amber-800 font-label-md text-label-md font-semibold inline-flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span> Cuota 2 pendiente
+                    </span>
+</td>
+<td class="py-space-md px-space-md text-right font-headline-sm text-headline-sm font-extrabold text-on-surface">90,00 €</td>
+<td class="py-space-md px-space-md text-center">
+<div class="flex items-center justify-center gap-2">
+<button class="w-8 h-8 rounded-lg bg-slate-100 hover:bg-court-blue/10 border border-slate-200 hover:border-court-blue/30 flex items-center justify-center text-court-blue transition-colors" onclick="notificarSocio('Sergi Villar', '73599812A')" title="Enviar aviso correo/WhatsApp">
+<span class="material-symbols-outlined text-[18px]">send</span>
+</button>
+<button class="w-8 h-8 rounded-lg bg-slate-100 hover:bg-slate-200 border border-slate-200 flex items-center justify-center text-slate-700 transition-colors" onclick="emitirRecibo('REC-2025-0103')" title="Descargar Recibo Oficial">
+<span class="material-symbols-outlined text-[18px]">print</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 5 -->
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="py-space-md px-space-md">
+<input class="w-4 h-4 rounded border-slate-300 text-court-blue focus:ring-court-blue" type="checkbox"/>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-full bg-deep-navy/10 border border-deep-navy/20 flex items-center justify-center font-label-md font-bold text-deep-navy">
+                        NE
+                      </div>
+<div>
+<span class="font-headline-sm text-headline-sm block font-bold text-on-surface">Nuria Esteve Ferrer</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Tutor: Carles Esteve Miralles</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md font-mono text-body-sm text-on-surface-variant">44892176Z</td>
+<td class="py-space-md px-space-md">
+<span class="px-2.5 py-1 rounded-full bg-court-blue/10 text-court-blue border border-court-blue/20 font-label-md text-label-md font-semibold">Infantil Femenino</span>
+</td>
+<td class="py-space-md px-space-md text-body-sm text-slate-700">Pago Único Anual</td>
+<td class="py-space-md px-space-md">
+<span class="px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 font-label-md text-label-md font-semibold inline-flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Al día
+                    </span>
+</td>
+<td class="py-space-md px-space-md text-right font-headline-sm text-headline-sm font-extrabold text-on-surface">150,00 €</td>
+<td class="py-space-md px-space-md text-center">
+<div class="flex items-center justify-center gap-2">
+<button class="w-8 h-8 rounded-lg bg-slate-100 hover:bg-slate-200 border border-slate-200 flex items-center justify-center text-slate-700 transition-colors" onclick="emitirRecibo('REC-2025-0219')" title="Descargar Recibo Oficial">
+<span class="material-symbols-outlined text-[18px]">receipt</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Table Footer Pagination -->
+<div class="bg-slate-50 px-space-lg py-space-md flex flex-col sm:flex-row items-center justify-between gap-space-sm text-on-surface-variant font-body-sm text-body-sm border-t border-border-subtle">
+<span>Mostrando 1 a 5 de 342 registros de cuotas</span>
+<div class="flex items-center gap-1">
+<button class="px-3 py-1 rounded bg-white border border-border-subtle text-on-surface-variant disabled:opacity-50" disabled="">Anterior</button>
+<button class="px-3 py-1 rounded bg-court-blue text-white font-bold">1</button>
+<button class="px-3 py-1 rounded bg-white border border-border-subtle text-on-surface hover:text-court-blue hover:border-court-blue/40">2</button>
+<button class="px-3 py-1 rounded bg-white border border-border-subtle text-on-surface hover:text-court-blue hover:border-court-blue/40">3</button>
+<span class="px-2">...</span>
+<button class="px-3 py-1 rounded bg-white border border-border-subtle text-on-surface hover:text-court-blue hover:border-court-blue/40">69</button>
+<button class="px-3 py-1 rounded bg-white border border-border-subtle text-on-surface hover:text-court-blue hover:border-court-blue/40">Siguiente</button>
+</div>
+</div>
+</div>
+</div>
+<!-- TAB CONTENT 2: CATEGORÍAS Y LICENCIAS FBMCV -->
+<div class="tab-pane hidden flex-col gap-space-md" id="tab-licencias">
+<!-- Summary Cards for Medical & Licenses -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-md">
+<div class="p-space-lg rounded-xl bg-white border border-border-subtle shadow-sm flex items-center gap-space-md">
+<div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 border border-emerald-200 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[28px]">verified_user</span>
+</div>
+<div>
+<span class="font-headline-md text-headline-md text-on-surface block font-bold">178 / 194</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Revisiones Médicas Validadas</span>
+</div>
+</div>
+<div class="p-space-lg rounded-xl bg-white border border-border-subtle shadow-sm flex items-center gap-space-md">
+<div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-700 border border-amber-200 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[28px]">pending_actions</span>
+</div>
+<div>
+<span class="font-headline-md text-headline-md text-on-surface block font-bold">12 En trámite FBMCV</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Pendientes de visado federativo</span>
+</div>
+</div>
+<div class="p-space-lg rounded-xl bg-white border border-border-subtle shadow-sm flex items-center gap-space-md">
+<div class="w-12 h-12 rounded-xl bg-rose-50 text-away-red border border-rose-200 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[28px]">medical_services</span>
+</div>
+<div>
+<span class="font-headline-md text-headline-md text-on-surface block font-bold">4 Reconocimientos caducados</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Inhabilitados temporalmente</span>
+</div>
+</div>
+</div>
+<!-- Team Breakdown Grid -->
+<div class="bg-white rounded-xl p-space-lg border border-border-subtle shadow-sm flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div>
+<span class="font-headline-md text-headline-md text-on-surface block font-bold">Censo de Plantillas por Categoría</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Validación de fichas oficiales para competición autonómica</span>
+</div>
+<button class="px-space-md h-11 rounded-lg bg-court-blue/10 border border-court-blue/20 text-court-blue hover:bg-court-blue hover:text-white transition-colors font-label-lg text-label-lg font-bold flex items-center gap-2" onclick="solicitarVisadoMasivo()">
+<span class="material-symbols-outlined text-[18px]">sync</span>
+<span>Sincronizar con Intranet FBMCV</span>
+</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-space-md">
+<!-- Category Card 1 -->
+<div class="p-space-md bg-slate-50 border border-border-subtle rounded-xl flex flex-col justify-between gap-space-sm hover:border-court-blue/40 transition-colors">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">Sénior A Masculino</span>
+<span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-label-md text-label-md font-semibold">100% OK</span>
+</div>
+<div class="flex items-center justify-between text-body-sm text-on-surface-variant">
+<span>16 Jugadores federados</span>
+<span>2 Técnicos (Nivel II)</span>
+</div>
+<div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
+<div class="bg-emerald-500 h-full" style="width: 100%"></div>
+</div>
+<div class="flex items-center justify-between pt-1 font-body-sm text-body-sm border-t border-slate-200">
+<span class="text-on-surface-variant">Revisión clínica: <strong class="text-on-surface">Completa</strong></span>
+<button class="text-court-blue hover:underline font-label-md text-label-md font-bold">Ver Fichas</button>
+</div>
+</div>
+<!-- Category Card 2 -->
+<div class="p-space-md bg-slate-50 border border-border-subtle rounded-xl flex flex-col justify-between gap-space-sm hover:border-court-blue/40 transition-colors">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">Sénior Femenino</span>
+<span class="px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 font-label-md text-label-md font-semibold">1 Pendiente</span>
+</div>
+<div class="flex items-center justify-between text-body-sm text-on-surface-variant">
+<span>15 Jugadoras</span>
+<span>1 Técnico federado</span>
+</div>
+<div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
+<div class="bg-amber-500 h-full" style="width: 93%"></div>
+</div>
+<div class="flex items-center justify-between pt-1 font-body-sm text-body-sm border-t border-slate-200">
+<span class="text-on-surface-variant">Médico pendiente: <strong class="text-amber-700">P. Gil</strong></span>
+<button class="text-court-blue hover:underline font-label-md text-label-md font-bold">Reclamar</button>
+</div>
+</div>
+<!-- Category Card 3 -->
+<div class="p-space-md bg-slate-50 border border-border-subtle rounded-xl flex flex-col justify-between gap-space-sm hover:border-court-blue/40 transition-colors">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">Juvenil Masculino</span>
+<span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-label-md text-label-md font-semibold">100% OK</span>
+</div>
+<div class="flex items-center justify-between text-body-sm text-on-surface-variant">
+<span>18 Jugadores</span>
+<span>2 Técnicos federados</span>
+</div>
+<div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
+<div class="bg-emerald-500 h-full" style="width: 100%"></div>
+</div>
+<div class="flex items-center justify-between pt-1 font-body-sm text-body-sm border-t border-slate-200">
+<span class="text-on-surface-variant">Revisión clínica: <strong class="text-on-surface">Completa</strong></span>
+<button class="text-court-blue hover:underline font-label-md text-label-md font-bold">Ver Fichas</button>
+</div>
+</div>
+<!-- Category Card 4 -->
+<div class="p-space-md bg-slate-50 border border-border-subtle rounded-xl flex flex-col justify-between gap-space-sm hover:border-court-blue/40 transition-colors">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">Cadete Mixto</span>
+<span class="px-2 py-0.5 rounded-full bg-rose-100 text-away-red font-label-md text-label-md font-semibold">2 Caducados</span>
+</div>
+<div class="flex items-center justify-between text-body-sm text-on-surface-variant">
+<span>16 Jugadores</span>
+<span>1 Entrenador Titulado</span>
+</div>
+<div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
+<div class="bg-away-red h-full" style="width: 87%"></div>
+</div>
+<div class="flex items-center justify-between pt-1 font-body-sm text-body-sm border-t border-slate-200">
+<span class="text-on-surface-variant">Cita mutua: <strong class="text-away-red">Viernes 17:30</strong></span>
+<button class="text-away-red hover:underline font-label-md text-label-md font-bold">Gestionar Citas</button>
+</div>
+</div>
+<!-- Category Card 5 -->
+<div class="p-space-md bg-slate-50 border border-border-subtle rounded-xl flex flex-col justify-between gap-space-sm hover:border-court-blue/40 transition-colors">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">Infantil Femenino</span>
+<span class="px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 font-label-md text-label-md font-semibold">1 En trámite</span>
+</div>
+<div class="flex items-center justify-between text-body-sm text-on-surface-variant">
+<span>14 Jugadoras</span>
+<span>1 Monitor FBMCV</span>
+</div>
+<div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
+<div class="bg-amber-500 h-full" style="width: 92%"></div>
+</div>
+<div class="flex items-center justify-between pt-1 font-body-sm text-body-sm border-t border-slate-200">
+<span class="text-on-surface-variant">DNI enviado a Federación</span>
+<button class="text-court-blue hover:underline font-label-md text-label-md font-bold">Consultar</button>
+</div>
+</div>
+<!-- Category Card 6 -->
+<div class="p-space-md bg-slate-50 border border-border-subtle rounded-xl flex flex-col justify-between gap-space-sm hover:border-court-blue/40 transition-colors">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">Escuela / Prebenjamín</span>
+<span class="px-2 py-0.5 rounded-full bg-court-blue/10 text-court-blue border border-court-blue/20 font-label-md text-label-md font-semibold">Jocs Esportius</span>
+</div>
+<div class="flex items-center justify-between text-body-sm text-on-surface-variant">
+<span>28 Niños y Niñas</span>
+<span>3 Monitores</span>
+</div>
+<div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
+<div class="bg-court-blue h-full" style="width: 100%"></div>
+</div>
+<div class="flex items-center justify-between pt-1 font-body-sm text-body-sm border-t border-slate-200">
+<span class="text-on-surface-variant">Seguro Escolar General</span>
+<button class="text-court-blue hover:underline font-label-md text-label-md font-bold">Listado GVA</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- TAB CONTENT 3: NOTICIAS Y COMUNICADOS -->
+<div class="tab-pane hidden flex-col gap-space-md" id="tab-noticias">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-md">
+<!-- Editor Form (7 cols) -->
+<div class="lg:col-span-7 bg-white p-space-lg rounded-xl border border-border-subtle shadow-sm flex flex-col gap-space-md">
+<div>
+<span class="font-headline-md text-headline-md text-on-surface block font-bold">Redactar Circular o Noticia Oficial</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Emite comunicaciones multicanal (Portal del Club, Notificación App a Familias y Redes)</p>
+</div>
+<div class="flex flex-col gap-space-sm">
+<label class="font-label-md text-label-md text-on-surface font-semibold">Título del Comunicado</label>
+<input class="h-11 px-4 bg-slate-50 border border-border-subtle rounded-lg font-body-md text-body-md text-on-surface placeholder:text-on-surface-variant focus:outline-none focus:ring-2 focus:ring-court-blue/30 focus:border-court-blue" id="noticia-titulo" placeholder="Ej: Acuerdo de patrocinio con Cooperativa de Buñol o Convocatoria de Autobús" type="text"/>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-md">
+<div class="flex flex-col gap-space-sm">
+<label class="font-label-md text-label-md text-on-surface font-semibold">Canal de Destino</label>
+<select class="h-11 px-4 bg-slate-50 border border-border-subtle rounded-lg font-body-sm text-body-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-court-blue/30 focus:border-court-blue" id="noticia-audiencia">
+<option>Familias y Jugadores (App Directa)</option>
+<option>Convenios / Ayuntamiento Buñol</option>
+<option>Patrocinadores y Empresas</option>
+<option>Portal Web Público</option>
+</select>
+</div>
+<div class="flex flex-col gap-space-sm">
+<label class="font-label-md text-label-md text-on-surface font-semibold">Categoría Receptora</label>
+<select class="h-11 px-4 bg-slate-50 border border-border-subtle rounded-lg font-body-sm text-body-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-court-blue/30 focus:border-court-blue">
+<option>Todo el Club (General)</option>
+<option>Solo Equipos Sénior</option>
+<option>Cantera (Infantil, Cadete, Juvenil)</option>
+<option>Escuela Deportiva Base</option>
+</select>
+</div>
+</div>
+<div class="flex flex-col gap-space-sm">
+<label class="font-label-md text-label-md text-on-surface font-semibold">Cuerpo del Mensaje / Circular</label>
+<textarea class="p-4 bg-slate-50 border border-border-subtle rounded-lg font-body-md text-body-md text-on-surface placeholder:text-on-surface-variant focus:outline-none focus:ring-2 focus:ring-court-blue/30 focus:border-court-blue resize-none" id="noticia-cuerpo" placeholder="Escribe los detalles de la circular, horarios de salida de autobús desde el Pabellón Polideportivo El Planell, indumentaria requerida..." rows="5"></textarea>
+</div>
+<div class="flex flex-wrap items-center justify-between gap-space-sm pt-2 border-t border-slate-100">
+<div class="flex items-center gap-space-sm">
+<button class="px-3 py-2 rounded-lg bg-slate-100 border border-slate-200 text-on-surface hover:text-court-blue text-body-sm flex items-center gap-1.5 transition-colors">
+<span class="material-symbols-outlined text-[18px] text-court-blue">attach_file</span>
+<span>Adjuntar PDF / Hoja de Ruta</span>
+</button>
+<label class="flex items-center gap-2 cursor-pointer">
+<input checked="" class="w-4 h-4 rounded border-slate-300 text-court-blue focus:ring-court-blue" type="checkbox"/>
+<span class="font-body-sm text-body-sm text-on-surface-variant font-medium">Enviar notificación push</span>
+</label>
+</div>
+<button class="px-space-lg h-11 rounded-lg bg-away-red text-white font-label-lg text-label-lg font-bold hover:bg-away-red/90 transition-all flex items-center gap-2 shadow-md shadow-away-red/20" onclick="publicarCircular()">
+<span class="material-symbols-outlined text-[20px]">send</span>
+<span>Publicar Comunicado</span>
+</button>
+</div>
+</div>
+<!-- Published History Feed (5 cols) -->
+<div class="lg:col-span-5 bg-white p-space-lg rounded-xl border border-border-subtle shadow-sm flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<span class="font-headline-md text-headline-md text-on-surface font-bold">Últimas Circulares</span>
+<span class="px-2.5 py-0.5 rounded-full bg-court-blue/10 text-court-blue font-label-md text-label-md font-bold">3 activas</span>
+</div>
+<div class="flex flex-col gap-space-sm">
+<!-- Item 1 -->
+<div class="p-space-md bg-slate-50 border border-border-subtle rounded-xl flex flex-col gap-1.5 hover:border-court-blue/40 transition-colors">
+<div class="flex items-center justify-between">
+<span class="px-2.5 py-0.5 rounded-full bg-court-blue/10 text-court-blue font-label-md text-label-md font-bold">Convenio Institucional</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Ayer, 18:30</span>
+</div>
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">Renovación de convenio municipal de pistas con el Ayto. de Buñol</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2">Garantizada la reserva de franjas horarias prioritarias en el Pabellón Polideportivo El Planell para entrenamientos de cantera hasta 2026.</p>
+<div class="flex items-center justify-between pt-1 border-t border-slate-200">
+<span class="font-body-sm text-body-sm text-court-blue font-semibold">98% lecturas en App</span>
+<button class="text-on-surface-variant hover:text-court-blue font-label-md text-label-md font-bold">Editar</button>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="p-space-md bg-slate-50 border border-border-subtle rounded-xl flex flex-col gap-1.5 hover:border-court-blue/40 transition-colors">
+<div class="flex items-center justify-between">
+<span class="px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 font-label-md text-label-md font-bold">Desplazamiento Ruta</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">14 Octubre</span>
+</div>
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">Autobús oficial Jornada 5 vs BM Puerto Sagunto B</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2">Salida a las 15:30h desde la explanada de la ermita. Rogamos a los familiares confirmación de plazas libres antes del jueves.</p>
+<div class="flex items-center justify-between pt-1 border-t border-slate-200">
+<span class="font-body-sm text-body-sm text-away-red font-semibold">34 Confirmados</span>
+<button class="text-on-surface-variant hover:text-court-blue font-label-md text-label-md font-bold">Editar</button>
+</div>
+</div>
+<!-- Item 3 -->
+<div class="p-space-md bg-slate-50 border border-border-subtle rounded-xl flex flex-col gap-1.5 hover:border-court-blue/40 transition-colors">
+<div class="flex items-center justify-between">
+<span class="px-2.5 py-0.5 rounded-full bg-slate-200 text-slate-800 font-label-md text-label-md font-bold">Patrocinio Oficial</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">08 Octubre</span>
+</div>
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">Presentación de la segunda equipación 'Tomatina Edition'</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2">Agradecimiento a nuestros patrocinadores locales por hacer posible el patrocinio en las camisetas de calentamiento.</p>
+<div class="flex items-center justify-between pt-1 border-t border-slate-200">
+<span class="font-body-sm text-body-sm text-court-blue font-semibold">Difundido en Instagram</span>
+<button class="text-on-surface-variant hover:text-court-blue font-label-md text-label-md font-bold">Ver Métricas</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- TAB CONTENT 4: INVENTARIO Y MATERIAL DEPORTIVO -->
+<div class="tab-pane hidden flex-col gap-space-md" id="tab-material">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-space-md">
+<!-- Item Card 1 -->
+<div class="p-space-lg bg-white border border-border-subtle rounded-xl shadow-sm flex flex-col justify-between gap-space-sm hover:shadow-md transition-shadow">
+<div class="flex items-center justify-between">
+<span class="w-10 h-10 rounded-lg bg-court-blue/10 text-court-blue flex items-center justify-center font-bold">
+<span class="material-symbols-outlined text-[22px]">sports_volleyball</span>
+</span>
+<span class="px-2.5 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 font-label-md text-label-md font-semibold">Stock Óptimo</span>
+</div>
+<div>
+<span class="font-headline-sm text-headline-sm text-on-surface block font-bold">Balones Talla 3 (Sénior Masc.)</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Select Ultimate Replica FBMCV</span>
+</div>
+<div class="flex items-baseline justify-between border-t border-slate-100 pt-2">
+<span class="font-score-display text-[32px] leading-tight font-extrabold text-court-blue">26</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">en casillero pabellón</span>
+</div>
+<button class="w-full py-2 bg-slate-100 hover:bg-court-blue hover:text-white rounded-lg font-label-md text-label-md text-on-surface font-semibold transition-colors" onclick="ajustarStock('Balones Talla 3')">Ajustar Recuento</button>
+</div>
+<!-- Item Card 2 -->
+<div class="p-space-lg bg-white border border-border-subtle rounded-xl shadow-sm flex flex-col justify-between gap-space-sm hover:shadow-md transition-shadow">
+<div class="flex items-center justify-between">
+<span class="w-10 h-10 rounded-lg bg-deep-navy/10 text-deep-navy flex items-center justify-center font-bold">
+<span class="material-symbols-outlined text-[22px]">sports_volleyball</span>
+</span>
+<span class="px-2.5 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 font-label-md text-label-md font-semibold">Stock Normal</span>
+</div>
+<div>
+<span class="font-headline-sm text-headline-sm text-on-surface block font-bold">Balones Talla 2 y 1 (Fem / Base)</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Hummel Concept y Molten d60</span>
+</div>
+<div class="flex items-baseline justify-between border-t border-slate-100 pt-2">
+<span class="font-score-display text-[32px] leading-tight font-extrabold text-court-blue">42</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">distribuidos en carros</span>
+</div>
+<button class="w-full py-2 bg-slate-100 hover:bg-court-blue hover:text-white rounded-lg font-label-md text-label-md text-on-surface font-semibold transition-colors" onclick="ajustarStock('Balones Base')">Ajustar Recuento</button>
+</div>
+<!-- Item Card 3 -->
+<div class="p-space-lg bg-white border border-border-subtle rounded-xl shadow-sm flex flex-col justify-between gap-space-sm hover:shadow-md transition-shadow">
+<div class="flex items-center justify-between">
+<span class="w-10 h-10 rounded-lg bg-rose-50 text-away-red flex items-center justify-center font-bold">
+<span class="material-symbols-outlined text-[22px]">format_paint</span>
+</span>
+<span class="px-2.5 py-1 rounded-full bg-rose-50 border border-rose-200 text-away-red font-label-md text-label-md font-semibold">Reponer Pronto</span>
+</div>
+<div>
+<span class="font-headline-sm text-headline-sm text-on-surface block font-bold">Botes de Resina / Pega Pista</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Resina homologada con limpiador</span>
+</div>
+<div class="flex items-baseline justify-between border-t border-slate-100 pt-2">
+<span class="font-score-display text-[32px] leading-tight font-extrabold text-away-red">4</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">botes de 500g</span>
+</div>
+<button class="w-full py-2 bg-away-red text-white font-bold rounded-lg font-label-md text-label-md hover:bg-away-red/90 transition-colors shadow-sm" onclick="solicitarPedido('Pega y Disolvente')">Pedir Pedido Proveedor</button>
+</div>
+<!-- Item Card 4 -->
+<div class="p-space-lg bg-white border border-border-subtle rounded-xl shadow-sm flex flex-col justify-between gap-space-sm hover:shadow-md transition-shadow">
+<div class="flex items-center justify-between">
+<span class="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold">
+<span class="material-symbols-outlined text-[22px]">medical_services</span>
+</span>
+<span class="px-2.5 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 font-label-md text-label-md font-semibold">Revisados</span>
+</div>
+<div>
+<span class="font-headline-sm text-headline-sm text-on-surface block font-bold">Botiquines de Emergencia</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Tape, frío químico y spray anestesia</span>
+</div>
+<div class="flex items-baseline justify-between border-t border-slate-100 pt-2">
+<span class="font-score-display text-[32px] leading-tight font-extrabold text-court-blue">6</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">maletines de banquillo</span>
+</div>
+<button class="w-full py-2 bg-slate-100 hover:bg-court-blue hover:text-white rounded-lg font-label-md text-label-md text-on-surface font-semibold transition-colors" onclick="ajustarStock('Botiquines')">Revisar Material Médico</button>
+</div>
+</div>
+<!-- Inventory List Table: Equipaciones & Petos -->
+<div class="bg-white rounded-xl p-space-lg border border-border-subtle shadow-sm flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div>
+<span class="font-headline-md text-headline-md text-on-surface block font-bold">Equipaciones Oficiales y Petos de Entrenamiento</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Control de tallas entregadas y reservas en almacén</span>
+</div>
+<button class="px-space-md h-10 rounded-lg bg-slate-100 border border-slate-200 text-on-surface hover:text-court-blue hover:border-court-blue/40 text-body-sm font-semibold flex items-center gap-1.5 transition-colors">
+<span class="material-symbols-outlined text-[18px] text-court-blue">add</span>
+<span>Añadir Lote</span>
+</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-md">
+<div class="p-space-md bg-slate-50 border border-border-subtle rounded-lg flex items-center justify-between">
+<div>
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">Equipación Titular (Amarillo/Azul)</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant block">180 juegos asignados</span>
+</div>
+<span class="font-headline-md text-headline-md font-extrabold text-court-blue">24 libres</span>
+</div>
+<div class="p-space-md bg-slate-50 border border-border-subtle rounded-lg flex items-center justify-between">
+<div>
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">Equipación Reserva (Blanca/Roja)</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant block">150 juegos asignados</span>
+</div>
+<span class="font-headline-md text-headline-md font-extrabold text-away-red">18 libres</span>
+</div>
+<div class="p-space-md bg-slate-50 border border-border-subtle rounded-lg flex items-center justify-between">
+<div>
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">Petos Bicolores Reversibles</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant block">8 juegos por pista</span>
+</div>
+<span class="font-headline-md text-headline-md font-extrabold text-on-surface">64 petos</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Modal: Nueva Alta de Socio -->
+<div class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-4" id="modal-alta-socio">
+<div class="bg-white p-space-xl rounded-xl max-w-2xl w-full border border-border-subtle shadow-2xl flex flex-col gap-space-md">
+<div class="flex items-center justify-between border-b border-border-subtle pb-4">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-court-blue/10 flex items-center justify-center text-court-blue">
+<span class="material-symbols-outlined text-[24px]">person_add</span>
+</div>
+<span class="font-headline-md text-headline-md text-on-surface font-bold">Formulario de Nueva Alta de Socio</span>
+</div>
+<button class="w-8 h-8 rounded-lg hover:bg-slate-100 flex items-center justify-center text-on-surface-variant hover:text-on-surface" onclick="toggleAltaModal(false)">
+<span class="material-symbols-outlined text-[24px]">close</span>
+</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md">
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface font-semibold">Nombre y Apellidos</label>
+<input class="h-11 px-4 bg-slate-50 border border-border-subtle rounded-lg font-body-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-court-blue/30 focus:border-court-blue" id="alta-nombre" placeholder="Ej: Pablo Zanón García" type="text"/>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface font-semibold">DNI / NIE Jugador</label>
+<input class="h-11 px-4 bg-slate-50 border border-border-subtle rounded-lg font-body-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-court-blue/30 focus:border-court-blue" id="alta-dni" placeholder="Ej: 48901234F" type="text"/>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface font-semibold">Categoría / Equipo</label>
+<select class="h-11 px-4 bg-slate-50 border border-border-subtle rounded-lg font-body-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-court-blue/30 focus:border-court-blue" id="alta-equipo">
+<option>Sénior A Masculino</option>
+<option>Sénior Femenino</option>
+<option>Juvenil Masculino</option>
+<option>Cadete Mixto</option>
+<option>Infantil Femenino</option>
+<option>Escuela / Prebenjamín</option>
+</select>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface font-semibold">Modalidad de Pago</label>
+<select class="h-11 px-4 bg-slate-50 border border-border-subtle rounded-lg font-body-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-court-blue/30 focus:border-court-blue" id="alta-modalidad">
+<option>Pago Único Anual (180 €)</option>
+<option>Fraccionada (2 plazos de 90 €)</option>
+<option>Solicitante de Beca Municipal</option>
+</select>
+</div>
+<div class="flex flex-col gap-1.5 md:col-span-2">
+<label class="font-label-md text-label-md text-on-surface font-semibold">Tutor Legal (si menor de edad)</label>
+<input class="h-11 px-4 bg-slate-50 border border-border-subtle rounded-lg font-body-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-court-blue/30 focus:border-court-blue" id="alta-tutor" placeholder="Nombre completo, teléfono de contacto y correo de los padres" type="text"/>
+</div>
+<div class="flex flex-col gap-1.5 md:col-span-2">
+<label class="font-label-md text-label-md text-on-surface font-semibold">IBAN para domiciliación SEPA</label>
+<input class="h-11 px-4 bg-slate-50 border border-border-subtle rounded-lg font-body-sm text-on-surface font-mono focus:outline-none focus:ring-2 focus:ring-court-blue/30 focus:border-court-blue" placeholder="ES00 0000 0000 0000 0000 0000" type="text"/>
+</div>
+</div>
+<div class="flex items-center justify-end gap-space-sm pt-4 border-t border-border-subtle">
+<button class="px-space-md h-11 rounded-lg bg-slate-100 border border-slate-200 text-on-surface hover:bg-slate-200 font-label-lg font-medium" onclick="toggleAltaModal(false)">Cancelar</button>
+<button class="px-space-lg h-11 rounded-lg bg-away-red text-white font-bold font-label-lg hover:bg-away-red/90 transition-all shadow-md shadow-away-red/20" onclick="guardarNuevoSocio()">Registrar Alta Oficial</button>
+</div>
+</div>
+</div>
+<!-- Micro-Feedback Toast Notification Container -->
+<div class="fixed bottom-6 right-6 z-50 transform translate-y-32 opacity-0 transition-all duration-300 pointer-events-none bg-white text-on-surface px-space-lg py-space-md rounded-xl shadow-xl border border-court-blue/30 flex items-center gap-space-md" id="toast-notification">
+<span class="material-symbols-outlined text-court-blue" id="toast-icon">check_circle</span>
+<span class="font-body-md text-body-md font-semibold" id="toast-text">Acción completada con éxito</span>
+</div>
+<script>
+    function setActiveTab(tabId) {
+      document.querySelectorAll('.tab-pane').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.tab-button').forEach(btn => {
+        btn.classList.remove('bg-court-blue', 'text-white', 'shadow-sm', 'font-bold');
+        btn.classList.add('text-on-surface-variant');
+      });
+
+      const selectedPane = document.getElementById(tabId);
+      if (selectedPane) {
+        selectedPane.classList.remove('hidden');
+        selectedPane.classList.add('flex');
+      }
+
+      const activeBtn = document.getElementById('tab-btn-' + tabId.replace('tab-', ''));
+      if (activeBtn) {
+        activeBtn.classList.add('bg-court-blue', 'text-white', 'shadow-sm', 'font-bold');
+        activeBtn.classList.remove('text-on-surface-variant');
+      }
+    }
+
+    function showToast(message, icon = 'check_circle') {
+      const toast = document.getElementById('toast-notification');
+      const text = document.getElementById('toast-text');
+      const ico = document.getElementById('toast-icon');
+      if (!toast || !text || !ico) return;
+
+      text.textContent = message;
+      ico.textContent = icon;
+      toast.classList.remove('translate-y-32', 'opacity-0', 'pointer-events-none');
+      toast.classList.add('translate-y-0', 'opacity-100');
+
+      setTimeout(() => {
+        toast.classList.add('translate-y-32', 'opacity-0', 'pointer-events-none');
+        toast.classList.remove('translate-y-0', 'opacity-100');
+      }, 3500);
+    }
+
+    function toggleAltaModal(show) {
+      const modal = document.getElementById('modal-alta-socio');
+      if (modal) {
+        if (show) {
+          modal.classList.remove('hidden');
+          modal.classList.add('flex');
+        } else {
+          modal.classList.add('hidden');
+          modal.classList.remove('flex');
+        }
+      }
+    }
+
+    function guardarNuevoSocio() {
+      const nombre = document.getElementById('alta-nombre').value;
+      if (!nombre) {
+        showToast('Por favor, indica al menos el nombre del jugador', 'error');
+        return;
+      }
+      toggleAltaModal(false);
+      showToast('Socio ' + nombre + ' registrado correctamente en C.B. Buñol', 'person_check');
+    }
+
+    function triggerSepaModal() {
+      showToast('Generando fichero XML ISO 20022 SEPA con 38 órdenes de cobro...', 'account_balance');
+    }
+
+    function notificarSocio(nombre, dni) {
+      showToast('Recordatorio enviado por SMS y correo a ' + nombre + ' (' + dni + ')', 'forward_to_inbox');
+    }
+
+    function emitirRecibo(reciboId) {
+      showToast('Descargando justificante oficial ' + reciboId, 'download_done');
+    }
+
+    function consultarBeca(dni) {
+      showToast('Abriendo informe social de Beca Municipal DNI ' + dni, 'folder_open');
+    }
+
+    function enviarRecordatorioMasivo() {
+      showToast('Enviados 38 requerimientos de pago a familias con cuota pendiente', 'mark_email_read');
+    }
+
+    function exportarExcel() {
+      showToast('Generando listado oficial en Excel para tesorería...', 'file_download');
+    }
+
+    function solicitarVisadoMasivo() {
+      showToast('Sincronizando expedientes médicos con la Federación Valenciana...', 'sync');
+    }
+
+    function ajustarStock(item) {
+      showToast('Recuento y auditoría guardada para ' + item, 'inventory');
+    }
+
+    function solicitarPedido(item) {
+      showToast('Solicitud de compra generada a proveedor deportivo (' + item + ')', 'local_shipping');
+    }
+
+    function publicarCircular() {
+      const titulo = document.getElementById('noticia-titulo').value;
+      if (!titulo) {
+        showToast('Debes indicar un título para el comunicado', 'warning');
+        return;
+      }
+      showToast('Circular "' + titulo.substring(0, 25) + '..." enviada a las familias', 'campaign');
+      document.getElementById('noticia-titulo').value = '';
+      document.getElementById('noticia-cuerpo').value = '';
+    }
+
+    document.getElementById('btn-comunicado-trigger')?.addEventListener('click', function() {
+      setActiveTab('tab-noticias');
+      document.getElementById('noticia-titulo')?.focus();
+    });
+
+    function filterCuotas() {
+      const query = (document.getElementById('input-search-cuotas')?.value || '').toLowerCase();
+      const equipo = document.getElementById('filter-equipo')?.value || 'ALL';
+      const estado = document.getElementById('filter-estado')?.value || 'ALL';
+      const rows = document.querySelectorAll('#tbody-cuotas tr');
+
+      rows.forEach(row => {
+        const text = row.innerText.toLowerCase();
+        const matchesQuery = !query || text.includes(query);
+        const matchesEquipo = equipo === 'ALL' || text.includes(equipo.toLowerCase());
+        const matchesEstado = estado === 'ALL' || text.includes(estado.toLowerCase());
+
+        if (matchesQuery && matchesEquipo && matchesEstado) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    }
+  </script>
+</div></main><footer class="w-full bg-white border-t border-border-subtle mt-margin shadow-sm"><div class="w-full px-gutter py-space-xl flex flex-col md:flex-row items-center justify-between gap-space-md"><div class="flex items-center gap-space-sm"><img alt="Club logo" class="h-8 w-auto object-contain rounded-md" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBx5VNT5M_rwz4dCiEIJm_nZ1lw2h_iTRLr0STbJj5FxVP91mSyprUVaxpAXYK4np4iNzOXdX6u29kg692V6pQIAuqNHBzJ4fbTJsigQyrJgrf-qX0e20ZoIyNf6pHFMTDXZQKaEcAbEYx_l-OkvzWiLEfjYJ1rMANXwa8STSlS7UtAEp7vZrd8J95-WhFMLJlFXXo-RcejVOTqeSCW5tttaaderYkB08SuZ9dPg4Q"/><span class="font-headline-sm text-headline-sm uppercase text-court-blue font-bold">Club Balonmano Buñol</span></div><p class="font-body-sm text-body-sm text-on-surface-variant">© 2024 Club Balonmano Buñol. Todos los derechos reservados. Pasión, cantera y honor.</p><div class="flex items-center gap-space-md font-label-md text-label-md text-on-surface-variant font-medium"><span class="hover:text-court-blue cursor-pointer transition-colors">Federación RFEBM</span><span class="hover:text-court-blue cursor-pointer transition-colors">FBMCV</span><span class="hover:text-court-blue cursor-pointer transition-colors">Contacto</span></div></div></footer></body></html>

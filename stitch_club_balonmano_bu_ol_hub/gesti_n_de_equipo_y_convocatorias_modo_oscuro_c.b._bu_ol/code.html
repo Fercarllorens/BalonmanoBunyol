@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Plus+Jakarta+Sans:wght@100..900&display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"secondary":"#7bd0ff","text-primary":"#f8fafc","surface-dim":"#051424","secondary-container":"#00a6e0","surface-container-low":"#0d1c2d","on-primary":"#680011","surface-container-lowest":"#010f1f","on-primary-fixed-variant":"#92001c","inverse-primary":"#bb152c","secondary-fixed":"#c4e7ff","on-tertiary":"#003352","on-secondary-fixed":"#001e2c","outline-variant":"#5b403f","text-secondary":"#94a3b8","secondary-fixed-dim":"#7bd0ff","surface-variant":"#273647","background":"#051424","surface-elevated-2":"#162433","surface-border":"#243647","on-error":"#690005","athletic-crimson-dark":"#d62828","tertiary-container":"#3f97d8","tertiary-fixed":"#cde5ff","surface-container":"#122131","primary-fixed":"#ffdad8","on-tertiary-container":"#002c48","on-tertiary-fixed":"#001d32","inverse-on-surface":"#233143","primary-fixed-dim":"#ffb3b1","on-secondary-container":"#00374d","surface-container-high":"#1c2b3c","on-primary-container":"#5b000e","primary":"#ffb3b1","surface-elevated-1":"#111c26","on-tertiary-fixed-variant":"#004b74","error":"#ffb4ab","error-container":"#93000a","on-error-container":"#ffdad6","on-surface":"#d4e4fa","inverse-surface":"#d4e4fa","surface":"#051424","surface-tint":"#ffb3b1","tertiary":"#94ccff","on-background":"#d4e4fa","on-secondary":"#00354a","outline":"#ab8987","on-surface-variant":"#e4bebc","tertiary-fixed-dim":"#94ccff","on-primary-fixed":"#410007","surface-bright":"#2c3a4c","on-secondary-fixed-variant":"#004c69","primary-container":"#ff535b","surface-base":"#0a1118","surface-container-highest":"#273647"},borderRadius:{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},spacing:{"gutter":"1.5rem","space-md":"1rem","space-xs":"0.25rem","space-sm":"0.5rem","space-xl":"2.5rem","space-lg":"1.5rem","gutter-mobile":"0.75rem","margin":"2rem","margin-mobile":"1rem"},fontFamily:{"label-lg":["Plus Jakarta Sans"],"display-hero":["Plus Jakarta Sans"],"headline-lg-mobile":["Plus Jakarta Sans"],"display-hero-mobile":["Plus Jakarta Sans"],"body-sm":["Inter"],"score-display-mobile":["Plus Jakarta Sans"],"headline-lg":["Plus Jakarta Sans"],"headline-md":["Plus Jakarta Sans"],"body-lg":["Inter"],"score-display":["Plus Jakarta Sans"],"label-md":["Plus Jakarta Sans"],"headline-sm":["Plus Jakarta Sans"],"body-md":["Inter"]},fontSize:{"label-lg":["14px",{"lineHeight":"20px","letterSpacing":"0.02em","fontWeight":"700"}],"display-hero":["56px",{"lineHeight":"64px","letterSpacing":"-0.03em","fontWeight":"800"}],"headline-lg-mobile":["24px",{"lineHeight":"32px","letterSpacing":"-0.01em","fontWeight":"700"}],"display-hero-mobile":["36px",{"lineHeight":"44px","letterSpacing":"-0.02em","fontWeight":"800"}],"body-sm":["12px",{"lineHeight":"18px","fontWeight":"400"}],"score-display-mobile":["36px",{"lineHeight":"36px","letterSpacing":"-0.01em","fontWeight":"800"}],"headline-lg":["32px",{"lineHeight":"40px","letterSpacing":"-0.02em","fontWeight":"700"}],"headline-md":["20px",{"lineHeight":"28px","fontWeight":"700"}],"body-lg":["16px",{"lineHeight":"26px","fontWeight":"400"}],"score-display":["48px",{"lineHeight":"48px","letterSpacing":"-0.01em","fontWeight":"800"}],"label-md":["12px",{"lineHeight":"16px","letterSpacing":"0.05em","fontWeight":"600"}],"headline-sm":["16px",{"lineHeight":"24px","fontWeight":"600"}],"body-md":["14px",{"lineHeight":"22px","fontWeight":"400"}]}}}}</script></head><body class="bg-surface font-body-md text-on-surface min-h-screen flex flex-col antialiased selection:bg-primary-container selection:text-text-primary"><header class="fixed top-0 w-full z-50 bg-surface-dim/95 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.4)]"><div class="h-16 w-full px-gutter flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-lg"><a class="flex items-center gap-space-sm group focus:outline-none" data-path="feed-social-y-comunidad" href="#"><div class="w-9 h-9 rounded-lg bg-surface-container-high flex items-center justify-center text-primary-container shadow-[0_0_16px_rgba(230,57,70,0.25)] group-hover:scale-105 transition-transform"><span class="material-symbols-outlined text-[24px]">sports_handball</span></div><div class="flex flex-col"><span class="font-headline-sm text-headline-sm uppercase tracking-wider text-text-primary leading-none">BM Buñol</span><span class="font-label-md text-[10px] text-secondary tracking-widest uppercase">Club Oficial</span></div></a><div class="hidden xl:flex items-center relative w-64"><span class="material-symbols-outlined absolute left-3 text-text-secondary text-[18px]">search</span><input class="w-full h-9 pl-9 pr-3 rounded-lg bg-surface-container-low text-text-primary placeholder-text-secondary text-body-sm focus:outline-none focus:ring-1 focus:ring-secondary transition-all" placeholder="Buscar jugadas, actas..." type="text"/></div></div><nav class="hidden lg:flex items-center gap-space-xs" data-active-classes="text-text-primary bg-primary-container shadow-[0_0_16px_rgba(230,57,70,0.35)]"><a class="px-space-md py-space-xs rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" data-path="feed-social-y-comunidad" href="#">Feed Social</a><a class="px-space-md py-space-xs rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" data-path="gestion-de-equipo-y-convocatorias" href="#">Gestión de Equipo</a><a class="px-space-md py-space-xs rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" data-path="panel-de-administracion-del-club" href="#">Administración</a><a class="px-space-md py-space-xs rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" data-path="partidos-y-resultados" href="#">Partidos y Resultados</a></nav><div class="flex items-center gap-space-md"><div class="hidden sm:flex flex-col text-right leading-tight"><span class="font-label-lg text-label-lg text-text-primary">Carlos Martínez</span><span class="font-label-md text-label-md text-secondary">Coord. Sénior</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-16 bg-surface min-h-[calc(100vh-4rem)] flex-1"><div class="flex flex-col w-full">
+<div class="w-full bg-surface-container-lowest px-gutter py-space-md flex flex-wrap items-center justify-between gap-space-md shadow-md">
+<div class="flex flex-wrap items-center gap-space-md">
+<div class="relative inline-flex items-center">
+<div class="bg-surface-elevated-2 px-space-md py-space-sm rounded-lg flex items-center gap-space-sm cursor-pointer shadow-sm hover:bg-surface-container-high transition-all">
+<span class="material-symbols-outlined text-primary-container text-[20px]">sports_handball</span>
+<span class="font-headline-sm text-headline-sm text-text-primary tracking-wide">Sénior Masculino Autonómica</span>
+<span class="material-symbols-outlined text-text-secondary text-[18px]">expand_more</span>
+</div>
+</div>
+<div class="bg-surface-container px-space-md py-space-sm rounded-full flex items-center gap-space-sm">
+<span class="w-2.5 h-2.5 rounded-full bg-secondary shadow-[0_0_8px_rgba(123,208,255,0.6)]"></span>
+<span class="font-label-lg text-label-lg text-secondary">Posición Liga: 2º de 14 Equipos</span>
+<span class="font-body-sm text-body-sm text-text-secondary ml-1 tracking-tight">11V / 2E / 3D • 24 Pts FBMCV</span>
+</div>
+</div>
+<div class="flex items-center gap-space-sm">
+<button class="bg-surface-elevated-2 hover:bg-surface-container-high text-secondary px-space-md py-space-sm rounded-lg font-label-lg text-label-lg flex items-center gap-space-sm transition-all shadow-sm">
+<span class="material-symbols-outlined text-secondary text-[20px]">description</span>
+<span>Exportar Acta Oficial</span>
+</button>
+<button class="bg-primary-container hover:bg-athletic-crimson-dark text-text-primary px-space-lg py-space-sm rounded-lg font-label-lg text-label-lg flex items-center gap-space-sm shadow-[0_0_18px_rgba(255,83,91,0.35)] transition-all transform hover:-translate-y-0.5 active:translate-y-0">
+<span class="material-symbols-outlined text-[20px]">send</span>
+<span>Avisar Convocatoria</span>
+</button>
+</div>
+</div>
+<div class="w-full px-gutter py-space-lg">
+<div class="relative w-full rounded-xl bg-surface-container-high overflow-hidden shadow-xl">
+<div class="absolute -right-16 -top-24 w-96 h-96 bg-primary-container/10 rounded-full blur-3xl pointer-events-none"></div>
+<div class="absolute -left-16 -bottom-24 w-96 h-96 bg-secondary/10 rounded-full blur-3xl pointer-events-none"></div>
+<div class="relative z-10 p-space-lg flex flex-col lg:flex-row lg:items-center justify-between gap-space-lg">
+<div class="flex flex-col gap-space-xs">
+<div class="flex flex-wrap items-center gap-space-sm">
+<span class="bg-primary-container text-text-primary font-label-md text-label-md px-3 py-1 rounded-full uppercase tracking-wider flex items-center gap-1.5 shadow-[0_0_12px_rgba(255,83,91,0.3)]">
+<span class="w-2 h-2 rounded-full bg-text-primary animate-pulse"></span> Jornada 17
+            </span>
+<span class="font-body-md text-body-md text-text-secondary flex items-center gap-1">
+<span class="material-symbols-outlined text-secondary text-[18px]">calendar_today</span>
+              Sábado 18:30 h
+            </span>
+<span class="font-body-md text-body-md text-text-secondary flex items-center gap-1">
+<span class="material-symbols-outlined text-secondary text-[18px]">stadium</span>
+              Pabellón Polideportivo El Planell (Buñol)
+            </span>
+</div>
+<div class="flex items-baseline gap-3 mt-1 flex-wrap">
+<span class="font-headline-lg text-headline-lg text-text-primary tracking-tight">C.B. Buñol Sénior</span>
+<span class="font-headline-sm text-headline-sm text-secondary font-black tracking-widest uppercase">vs</span>
+<span class="font-headline-lg text-headline-lg text-text-secondary tracking-tight">C.BM. Puerto Sagunto B</span>
+</div>
+</div>
+<div class="flex items-center gap-space-lg bg-surface-elevated-1/80 backdrop-blur-md px-space-lg py-space-md rounded-xl shadow-inner">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md uppercase tracking-widest text-text-secondary">Convocados Confirmados</span>
+<div class="flex items-baseline gap-2 mt-0.5">
+<span class="font-score-display text-score-display text-text-primary">14</span>
+<span class="font-headline-md text-headline-md text-text-secondary font-bold">/ 16</span>
+</div>
+</div>
+<div class="w-32 flex flex-col gap-1.5">
+<div class="w-full bg-surface-container-lowest h-3 rounded-full overflow-hidden flex">
+<div class="bg-primary-container h-full transition-all duration-500 shadow-[0_0_8px_rgba(255,83,91,0.5)]" style="width: 87.5%;"></div>
+</div>
+<span class="font-body-sm text-body-sm text-secondary text-right tracking-tight font-semibold">87.5% Quórum</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="w-full px-gutter grid grid-cols-1 lg:grid-cols-12 gap-space-lg mb-space-xl">
+<div class="lg:col-span-8 flex flex-col gap-space-md">
+<div class="flex flex-wrap items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-xs bg-surface-container-low p-1 rounded-xl shadow-inner">
+<button class="bg-primary-container text-text-primary px-space-md py-1.5 rounded-lg font-label-lg text-label-lg shadow-[0_0_12px_rgba(255,83,91,0.4)] transition-all">Todos (16)</button>
+<button class="text-text-secondary hover:text-text-primary px-space-md py-1.5 rounded-lg font-label-lg text-label-lg transition-all">Titulares (7)</button>
+<button class="text-text-secondary hover:text-text-primary px-space-md py-1.5 rounded-lg font-label-lg text-label-lg transition-all">Bajas (2)</button>
+</div>
+<div class="flex items-center gap-space-xs font-body-sm text-body-sm text-text-secondary">
+<span class="material-symbols-outlined text-[18px] text-secondary">verified_user</span>
+<span>Lista de 16 Jugadores Oficial RFEBM</span>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md">
+<div class="relative bg-surface-elevated-1 rounded-xl p-space-md shadow-md flex items-center justify-between overflow-hidden group hover:bg-surface-elevated-2 transition-all">
+<div class="flex items-center gap-space-md">
+<div class="w-14 h-14 rounded-lg bg-surface-container-high flex flex-col items-center justify-center font-display-hero text-headline-lg text-secondary leading-none shadow-inner">
+              1
+            </div>
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="font-headline-sm text-headline-sm text-text-primary">Pau Ferrer Ribera</span>
+<span class="bg-primary-container/20 text-primary-container px-1.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider">CAP</span>
+</div>
+<div class="flex items-center gap-2 mt-1">
+<span class="bg-secondary/15 text-secondary px-2 py-0.5 rounded font-label-md text-label-md">Portero</span>
+<span class="font-body-sm text-body-sm text-text-secondary">92 min • 41% Paradas</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-1.5 bg-surface-container px-2.5 py-1 rounded-full text-[#4ade80]">
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+<span class="font-label-md text-label-md">Confirmado</span>
+</div>
+</div>
+<div class="relative bg-surface-elevated-1 rounded-xl p-space-md shadow-md flex items-center justify-between overflow-hidden group hover:bg-surface-elevated-2 transition-all">
+<div class="flex items-center gap-space-md">
+<div class="w-14 h-14 rounded-lg bg-surface-container-high flex flex-col items-center justify-center font-display-hero text-headline-lg text-secondary leading-none shadow-inner">
+              12
+            </div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-text-primary">Adrián Sanz Valero</span>
+<div class="flex items-center gap-2 mt-1">
+<span class="bg-secondary/15 text-secondary px-2 py-0.5 rounded font-label-md text-label-md">Portero Suplente</span>
+<span class="font-body-sm text-body-sm text-text-secondary">28 min • 33% Paradas</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-1.5 bg-surface-container px-2.5 py-1 rounded-full text-[#4ade80]">
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+<span class="font-label-md text-label-md">Confirmado</span>
+</div>
+</div>
+<div class="relative bg-surface-elevated-1 rounded-xl p-space-md shadow-md flex items-center justify-between overflow-hidden group hover:bg-surface-elevated-2 transition-all">
+<div class="flex items-center gap-space-md">
+<div class="w-14 h-14 rounded-lg bg-surface-container-high flex flex-col items-center justify-center font-display-hero text-headline-lg text-secondary leading-none shadow-inner">
+              4
+            </div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-text-primary">Marc Gómez Morales</span>
+<div class="flex items-center gap-2 mt-1">
+<span class="bg-secondary/15 text-secondary px-2 py-0.5 rounded font-label-md text-label-md">Pivote</span>
+<span class="font-body-sm text-body-sm text-text-secondary">4 Goles • 75% Eficacia</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-1.5 bg-surface-container px-2.5 py-1 rounded-full text-[#4ade80]">
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+<span class="font-label-md text-label-md">Confirmado</span>
+</div>
+</div>
+<div class="relative bg-surface-elevated-1 rounded-xl p-space-md shadow-md flex items-center justify-between overflow-hidden group hover:bg-surface-elevated-2 transition-all">
+<div class="flex items-center gap-space-md">
+<div class="w-14 h-14 rounded-lg bg-surface-container-high flex flex-col items-center justify-center font-display-hero text-headline-lg text-secondary leading-none shadow-inner">
+              7
+            </div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-text-primary">Hugo Cervera Miró</span>
+<div class="flex items-center gap-2 mt-1">
+<span class="bg-secondary/15 text-secondary px-2 py-0.5 rounded font-label-md text-label-md">Extremo Izq.</span>
+<span class="font-body-sm text-body-sm text-text-secondary">6 Goles • 80% Eficacia</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-1.5 bg-surface-container px-2.5 py-1 rounded-full text-[#4ade80]">
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+<span class="font-label-md text-label-md">Confirmado</span>
+</div>
+</div>
+<div class="relative bg-surface-elevated-1 rounded-xl p-space-md shadow-md flex items-center justify-between overflow-hidden group hover:bg-surface-elevated-2 transition-all">
+<div class="flex items-center gap-space-md">
+<div class="w-14 h-14 rounded-lg bg-surface-container-high flex flex-col items-center justify-center font-display-hero text-headline-lg text-secondary leading-none shadow-inner">
+              10
+            </div>
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="font-headline-sm text-headline-sm text-text-primary">Vicente Pallás Gil</span>
+<span class="bg-secondary/20 text-secondary px-1.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider">TÁCTICO</span>
+</div>
+<div class="flex items-center gap-2 mt-1">
+<span class="bg-secondary/15 text-secondary px-2 py-0.5 rounded font-label-md text-label-md">Central</span>
+<span class="font-body-sm text-body-sm text-text-secondary">8 Asist. • 5 Goles</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-1.5 bg-surface-container px-2.5 py-1 rounded-full text-[#4ade80]">
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+<span class="font-label-md text-label-md">Confirmado</span>
+</div>
+</div>
+<div class="relative bg-surface-elevated-1 rounded-xl p-space-md shadow-md flex items-center justify-between overflow-hidden group hover:bg-surface-elevated-2 transition-all">
+<div class="flex items-center gap-space-md">
+<div class="w-14 h-14 rounded-lg bg-surface-container-high flex flex-col items-center justify-center font-display-hero text-headline-lg text-secondary leading-none shadow-inner">
+              14
+            </div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-text-primary">Javier Alarcón Ruiz</span>
+<div class="flex items-center gap-2 mt-1">
+<span class="bg-secondary/15 text-secondary px-2 py-0.5 rounded font-label-md text-label-md">Lateral Izq.</span>
+<span class="font-body-sm text-body-sm text-text-secondary">Turno Trabajo Tarde</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-1.5 bg-surface-container px-2.5 py-1 rounded-full text-[#fbbf24]">
+<span class="material-symbols-outlined text-[16px]">pending</span>
+<span class="font-label-md text-label-md">Pendiente</span>
+</div>
+</div>
+<div class="relative bg-surface-elevated-1 rounded-xl p-space-md shadow-md flex items-center justify-between overflow-hidden group hover:bg-surface-elevated-2 transition-all">
+<div class="flex items-center gap-space-md">
+<div class="w-14 h-14 rounded-lg bg-surface-container-high flex flex-col items-center justify-center font-display-hero text-headline-lg text-secondary leading-none shadow-inner">
+              18
+            </div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-text-primary">Raúl Carrascosa</span>
+<div class="flex items-center gap-2 mt-1">
+<span class="bg-secondary/15 text-secondary px-2 py-0.5 rounded font-label-md text-label-md">Lateral Dcho.</span>
+<span class="font-body-sm text-body-sm text-text-secondary">5 Goles • 62% Eficacia</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-1.5 bg-surface-container px-2.5 py-1 rounded-full text-[#4ade80]">
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+<span class="font-label-md text-label-md">Confirmado</span>
+</div>
+</div>
+<div class="relative bg-surface-elevated-1 rounded-xl p-space-md shadow-md flex items-center justify-between overflow-hidden group hover:bg-surface-elevated-2 transition-all">
+<div class="flex items-center gap-space-md">
+<div class="w-14 h-14 rounded-lg bg-surface-container-high flex flex-col items-center justify-center font-display-hero text-headline-lg text-secondary leading-none shadow-inner">
+              21
+            </div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-text-primary">Álvaro Lambíes Cruz</span>
+<div class="flex items-center gap-2 mt-1">
+<span class="bg-secondary/15 text-secondary px-2 py-0.5 rounded font-label-md text-label-md">Extremo Dcho.</span>
+<span class="font-body-sm text-body-sm text-text-secondary">3 Goles • 75% Eficacia</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-1.5 bg-surface-container px-2.5 py-1 rounded-full text-[#4ade80]">
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+<span class="font-label-md text-label-md">Confirmado</span>
+</div>
+</div>
+<div class="relative bg-surface-elevated-1 rounded-xl p-space-md shadow-md flex items-center justify-between overflow-hidden group hover:bg-surface-elevated-2 transition-all">
+<div class="flex items-center gap-space-md">
+<div class="w-14 h-14 rounded-lg bg-surface-container-high flex flex-col items-center justify-center font-display-hero text-headline-lg text-secondary leading-none shadow-inner">
+              23
+            </div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-text-primary">Guillermo Sierra Pons</span>
+<div class="flex items-center gap-2 mt-1">
+<span class="bg-secondary/15 text-secondary px-2 py-0.5 rounded font-label-md text-label-md">Pivote</span>
+<span class="font-body-sm text-body-sm text-text-secondary">Defensa Central</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-1.5 bg-surface-container px-2.5 py-1 rounded-full text-[#4ade80]">
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+<span class="font-label-md text-label-md">Confirmado</span>
+</div>
+</div>
+<div class="relative bg-surface-elevated-1 rounded-xl p-space-md shadow-md flex items-center justify-between overflow-hidden group hover:bg-surface-elevated-2 transition-all">
+<div class="flex items-center gap-space-md">
+<div class="w-14 h-14 rounded-lg bg-surface-container-high flex flex-col items-center justify-center font-display-hero text-headline-lg text-secondary leading-none shadow-inner">
+              2
+            </div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-text-primary">Sergi Martínez Soler</span>
+<div class="flex items-center gap-2 mt-1">
+<span class="bg-secondary/15 text-secondary px-2 py-0.5 rounded font-label-md text-label-md">Especialista Defensivo</span>
+<span class="font-body-sm text-body-sm text-text-secondary">3 Bloqueos</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-1.5 bg-surface-container px-2.5 py-1 rounded-full text-[#4ade80]">
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+<span class="font-label-md text-label-md">Confirmado</span>
+</div>
+</div>
+<div class="relative bg-surface-elevated-1/60 rounded-xl p-space-md shadow-md flex items-center justify-between overflow-hidden group bg-gradient-to-r from-error-container/20 to-surface-elevated-1">
+<div class="flex items-center gap-space-md">
+<div class="w-14 h-14 rounded-lg bg-error-container/30 flex flex-col items-center justify-center font-display-hero text-headline-lg text-error leading-none">
+              8
+            </div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-text-secondary line-through">Lucas Morell Mas</span>
+<div class="flex items-center gap-2 mt-1">
+<span class="bg-surface-container text-text-secondary px-2 py-0.5 rounded font-label-md text-label-md">Lateral Dcho.</span>
+<span class="font-body-sm text-body-sm text-error">Esguince tobillo Grado II</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-1.5 bg-error-container/40 px-2.5 py-1 rounded-full text-error">
+<span class="material-symbols-outlined text-[16px]">medical_services</span>
+<span class="font-label-md text-label-md">Baja Médica</span>
+</div>
+</div>
+<div class="relative bg-surface-elevated-1 rounded-xl p-space-md shadow-md flex items-center justify-between overflow-hidden group hover:bg-surface-elevated-2 transition-all">
+<div class="flex items-center gap-space-md">
+<div class="w-14 h-14 rounded-lg bg-surface-container-high flex flex-col items-center justify-center font-display-hero text-headline-lg text-secondary leading-none shadow-inner">
+              27
+            </div>
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="font-headline-sm text-headline-sm text-text-primary">Gonzalo Pastor Navarro</span>
+<span class="bg-secondary/20 text-secondary px-1.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider">JUVENIL</span>
+</div>
+<div class="flex items-center gap-2 mt-1">
+<span class="bg-secondary/15 text-secondary px-2 py-0.5 rounded font-label-md text-label-md">Extremo Dcho.</span>
+<span class="font-body-sm text-body-sm text-text-secondary">Debut Oficial</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-1.5 bg-surface-container px-2.5 py-1 rounded-full text-[#4ade80]">
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+<span class="font-label-md text-label-md">Confirmado</span>
+</div>
+</div>
+</div>
+</div>
+<div class="lg:col-span-4 flex flex-col gap-space-lg">
+<div class="bg-surface-elevated-1 rounded-xl p-space-md shadow-lg flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary-container text-[22px]">developer_board</span>
+<h3 class="font-headline-sm text-headline-sm text-text-primary tracking-wide">Pizarra Táctica</h3>
+</div>
+<span class="bg-surface-container text-secondary font-label-md text-label-md px-2 py-0.5 rounded">Fase 2: Repliegue</span>
+</div>
+<div class="relative w-full aspect-[4/3] bg-surface-container-lowest rounded-lg overflow-hidden flex items-center justify-center shadow-inner">
+<svg class="w-full h-full text-surface-container-high" fill="none" viewbox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<rect fill="#010f1f" height="300" width="400"></rect>
+<path d="M 0 150 L 400 150" stroke="#1c2b3c" stroke-dasharray="6 6" stroke-width="2"></path>
+<path d="M 140 300 C 140 200, 260 200, 260 300" stroke="#273647" stroke-width="3"></path>
+<path d="M 100 300 C 100 160, 300 160, 300 300" stroke="#ff535b" stroke-dasharray="8 6" stroke-width="2"></path>
+<rect fill="#ff535b" height="10" width="60" x="170" y="290"></rect>
+<path d="M 190 240 L 210 240" stroke="#7bd0ff" stroke-width="3"></path>
+<circle class="shadow-lg" cx="200" cy="275" fill="#ff535b" r="7"></circle>
+<text fill="#f8fafc" font-size="9" font-weight="bold" text-anchor="middle" x="200" y="278">1</text>
+<circle cx="130" cy="225" fill="#7bd0ff" r="6"></circle>
+<text fill="#010f1f" font-size="8" font-weight="bold" text-anchor="middle" x="130" y="228">EI</text>
+<circle cx="160" cy="205" fill="#7bd0ff" r="6"></circle>
+<text fill="#010f1f" font-size="8" font-weight="bold" text-anchor="middle" x="160" y="208">LI</text>
+<circle cx="190" cy="200" fill="#7bd0ff" r="6"></circle>
+<text fill="#010f1f" font-size="8" font-weight="bold" text-anchor="middle" x="190" y="203">C</text>
+<circle cx="210" cy="200" fill="#7bd0ff" r="6"></circle>
+<text fill="#010f1f" font-size="8" font-weight="bold" text-anchor="middle" x="210" y="203">C</text>
+<circle cx="240" cy="205" fill="#7bd0ff" r="6"></circle>
+<text fill="#010f1f" font-size="8" font-weight="bold" text-anchor="middle" x="240" y="208">LD</text>
+<circle cx="270" cy="225" fill="#7bd0ff" r="6"></circle>
+<text fill="#010f1f" font-size="8" font-weight="bold" text-anchor="middle" x="270" y="228">ED</text>
+<circle cx="200" cy="180" fill="#ff535b" r="6"></circle>
+<text fill="#f8fafc" font-size="8" font-weight="bold" text-anchor="middle" x="200" y="183">P</text>
+<circle cx="140" cy="140" fill="#ff535b" r="6"></circle>
+<circle cx="200" cy="120" fill="#ff535b" r="6"></circle>
+<circle cx="260" cy="140" fill="#ff535b" r="6"></circle>
+<path d="M 200 120 L 200 170" stroke="#ff535b" stroke-dasharray="3 3" stroke-width="1.5"></path>
+<path d="M 140 140 L 155 195" stroke="#ff535b" stroke-dasharray="3 3" stroke-width="1.5"></path>
+<path d="M 260 140 L 245 195" stroke="#ff535b" stroke-dasharray="3 3" stroke-width="1.5"></path>
+</svg>
+</div>
+<div class="flex flex-col gap-space-sm">
+<div class="bg-surface-container p-space-sm rounded-lg flex items-start gap-space-sm">
+<span class="w-2.5 h-2.5 rounded-full bg-primary-container mt-1.5 shadow-[0_0_8px_rgba(255,83,91,0.6)]"></span>
+<div class="flex flex-col">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-headline-sm text-text-primary">Defensa 6-0 presionante</span>
+<span class="bg-primary-container/20 text-primary-container font-label-md text-label-md px-1.5 py-0.5 rounded">Alta Prioridad</span>
+</div>
+<span class="font-body-sm text-body-sm text-text-secondary mt-0.5">Basculación compacta sobre laterales altos de Pto. Sagunto.</span>
+</div>
+</div>
+<div class="bg-surface-container p-space-sm rounded-lg flex items-start gap-space-sm">
+<span class="w-2.5 h-2.5 rounded-full bg-secondary mt-1.5 shadow-[0_0_8px_rgba(123,208,255,0.6)]"></span>
+<div class="flex flex-col">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-headline-sm text-text-primary">Ataque posicional vs Mixta</span>
+<span class="bg-secondary/20 text-secondary font-label-md text-label-md px-1.5 py-0.5 rounded">Plan B</span>
+</div>
+<span class="font-body-sm text-body-sm text-text-secondary mt-0.5">Desdoble con segundo pivote (Sierra + Gómez) liberando extremo.</span>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-surface-elevated-1 rounded-xl p-space-md shadow-lg flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-secondary text-[22px]">event_note</span>
+<h3 class="font-headline-sm text-headline-sm text-text-primary tracking-wide">Plan Semanal • Sem 12</h3>
+</div>
+<span class="font-body-sm text-body-sm text-text-secondary">Pabellón El Planell</span>
+</div>
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between p-space-sm bg-surface-container rounded-lg hover:bg-surface-container-high transition-all">
+<div class="flex items-center gap-space-md">
+<span class="font-headline-sm text-headline-sm text-secondary w-9 font-black">LUN</span>
+<div class="flex flex-col">
+<span class="font-body-md text-body-md text-text-primary font-bold">Fuerza & Vídeo Análisis</span>
+<span class="font-body-sm text-body-sm text-text-secondary">Gimnasio Municipal • Sala Audiovisual</span>
+</div>
+</div>
+<span class="font-label-md text-label-md text-text-secondary bg-surface-elevated-2 px-2 py-1 rounded">20:00 - 21:30</span>
+</div>
+<div class="flex items-center justify-between p-space-sm bg-surface-container rounded-lg hover:bg-surface-container-high transition-all">
+<div class="flex items-center gap-space-md">
+<span class="font-headline-sm text-headline-sm text-secondary w-9 font-black">MIÉ</span>
+<div class="flex flex-col">
+<span class="font-body-md text-body-md text-text-primary font-bold">Pista & Sistema 6-0</span>
+<span class="font-body-sm text-body-sm text-text-secondary">Pista Central Pabellón</span>
+</div>
+</div>
+<span class="font-label-md text-label-md text-text-secondary bg-surface-elevated-2 px-2 py-1 rounded">20:30 - 22:00</span>
+</div>
+<div class="flex items-center justify-between p-space-sm bg-surface-container rounded-lg hover:bg-surface-container-high transition-all">
+<div class="flex items-center gap-space-md">
+<span class="font-headline-sm text-headline-sm text-secondary w-9 font-black">VIE</span>
+<div class="flex flex-col">
+<span class="font-body-md text-body-md text-text-primary font-bold">Estrategia & Penaltis (7m)</span>
+<span class="font-body-sm text-body-sm text-text-secondary">Pista Central Pabellón</span>
+</div>
+</div>
+<span class="font-label-md text-label-md text-text-secondary bg-surface-elevated-2 px-2 py-1 rounded">21:00 - 22:30</span>
+</div>
+<div class="flex items-center justify-between p-space-md bg-gradient-to-r from-primary-container to-athletic-crimson-dark text-text-primary rounded-lg shadow-lg">
+<div class="flex items-center gap-space-md">
+<span class="font-headline-sm text-headline-sm text-text-primary w-9 font-black">SÁB</span>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-text-primary uppercase tracking-wide">PARTIDO OFICIAL FBMCV</span>
+<span class="font-body-sm text-body-sm text-primary-fixed">vs C.BM. Puerto Sagunto B • El Planell</span>
+</div>
+</div>
+<span class="font-label-lg text-label-lg bg-surface-container-lowest/40 backdrop-blur-sm px-3 py-1.5 rounded-lg text-text-primary font-black shadow-inner">18:30 h</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="w-full px-gutter pb-space-xl">
+<div class="bg-surface-elevated-1 rounded-xl p-space-lg shadow-xl flex flex-col gap-space-md">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-text-primary">Rendimiento Individual & Carga Física</h2>
+<p class="font-body-sm text-body-sm text-text-secondary mt-0.5">Control de minutos disputados, índices de fatiga acumulada y ratios oficiales FBMCV</p>
+</div>
+<div class="flex items-center gap-space-sm">
+<div class="relative w-64">
+<span class="material-symbols-outlined absolute left-3 top-2.5 text-text-secondary text-[18px]">search</span>
+<input class="w-full h-10 pl-9 pr-3 rounded-lg bg-surface-container text-text-primary placeholder-text-secondary font-body-sm text-body-sm focus:outline-none focus:ring-1 focus:ring-secondary transition-all" placeholder="Filtrar por dorsal o nombre..." type="text"/>
+</div>
+<button class="bg-surface-elevated-2 hover:bg-surface-container text-text-primary px-space-md h-10 rounded-lg font-label-lg text-label-lg flex items-center gap-1.5 transition-all">
+<span class="material-symbols-outlined text-[18px] text-secondary">tune</span>
+<span>Métricas</span>
+</button>
+</div>
+</div>
+<div class="w-full overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-elevated-2 font-label-md text-label-md text-text-secondary uppercase tracking-wider">
+<th class="py-space-sm px-space-md">Dorsal</th>
+<th class="py-space-sm px-space-md">Jugador</th>
+<th class="py-space-sm px-space-md">Posición</th>
+<th class="py-space-sm px-space-md text-center">Partidos</th>
+<th class="py-space-sm px-space-md text-center">Minutos</th>
+<th class="py-space-sm px-space-md text-center">Goles / Paradas</th>
+<th class="py-space-sm px-space-md text-center">Eficacia</th>
+<th class="py-space-sm px-space-md text-center">2 Min / Tarjetas</th>
+<th class="py-space-sm px-space-md text-center">Estado Médico</th>
+<th class="py-space-sm px-space-md">Carga Semanal</th>
+</tr>
+</thead>
+<tbody class="font-body-md text-body-md divide-y divide-surface-container">
+<tr class="bg-surface-elevated-1 hover:bg-surface-container-high transition-colors">
+<td class="py-space-md px-space-md font-headline-sm text-headline-sm text-secondary font-black">#1</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col">
+<span class="font-bold text-text-primary">Pau Ferrer Ribera</span>
+<span class="font-body-sm text-body-sm text-text-secondary">Capitán</span>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<span class="bg-secondary/15 text-secondary px-2 py-0.5 rounded font-label-md text-label-md">Portero</span>
+</td>
+<td class="py-space-md px-space-md text-center text-text-primary font-bold">16</td>
+<td class="py-space-md px-space-md text-center text-text-primary">780'</td>
+<td class="py-space-md px-space-md text-center text-secondary font-bold">148 Paradas</td>
+<td class="py-space-md px-space-md text-center">
+<span class="font-bold text-text-primary">41.2%</span>
+</td>
+<td class="py-space-md px-space-md text-center">
+<span class="font-body-sm text-body-sm text-text-secondary">0 / 0</span>
+</td>
+<td class="py-space-md px-space-md text-center">
+<span class="inline-flex items-center gap-1 bg-surface-container px-2 py-0.5 rounded-full font-label-md text-label-md text-[#4ade80]">
+<span class="w-1.5 h-1.5 rounded-full bg-[#4ade80]"></span> Apto 100%
+                </span>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-2">
+<div class="w-24 bg-surface-container-lowest h-2 rounded-full overflow-hidden">
+<div class="bg-primary-container h-full" style="width: 82%;"></div>
+</div>
+<span class="font-body-sm text-body-sm text-primary-container font-bold">82%</span>
+</div>
+</td>
+</tr>
+<tr class="bg-surface-elevated-2 hover:bg-surface-container-high transition-colors">
+<td class="py-space-md px-space-md font-headline-sm text-headline-sm text-secondary font-black">#10</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col">
+<span class="font-bold text-text-primary">Vicente Pallás Gil</span>
+<span class="font-body-sm text-body-sm text-text-secondary">Organizador</span>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<span class="bg-secondary/15 text-secondary px-2 py-0.5 rounded font-label-md text-label-md">Central</span>
+</td>
+<td class="py-space-md px-space-md text-center text-text-primary font-bold">16</td>
+<td class="py-space-md px-space-md text-center text-text-primary">820'</td>
+<td class="py-space-md px-space-md text-center text-primary-container font-bold">64 Goles</td>
+<td class="py-space-md px-space-md text-center">
+<span class="font-bold text-text-primary">76.4%</span>
+</td>
+<td class="py-space-md px-space-md text-center">
+<span class="font-body-sm text-body-sm text-[#fbbf24] font-bold">4 (2') / 1A</span>
+</td>
+<td class="py-space-md px-space-md text-center">
+<span class="inline-flex items-center gap-1 bg-surface-container px-2 py-0.5 rounded-full font-label-md text-label-md text-[#4ade80]">
+<span class="w-1.5 h-1.5 rounded-full bg-[#4ade80]"></span> Apto 100%
+                </span>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-2">
+<div class="w-24 bg-surface-container-lowest h-2 rounded-full overflow-hidden">
+<div class="bg-primary-container h-full shadow-[0_0_8px_rgba(255,83,91,0.5)]" style="width: 94%;"></div>
+</div>
+<span class="font-body-sm text-body-sm text-primary-container font-bold">94%</span>
+</div>
+</td>
+</tr>
+<tr class="bg-surface-elevated-1 hover:bg-surface-container-high transition-colors">
+<td class="py-space-md px-space-md font-headline-sm text-headline-sm text-secondary font-black">#7</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col">
+<span class="font-bold text-text-primary">Hugo Cervera Miró</span>
+<span class="font-body-sm text-body-sm text-text-secondary">Contraataque</span>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<span class="bg-secondary/15 text-secondary px-2 py-0.5 rounded font-label-md text-label-md">Extremo Izq.</span>
+</td>
+<td class="py-space-md px-space-md text-center text-text-primary font-bold">15</td>
+<td class="py-space-md px-space-md text-center text-text-primary">690'</td>
+<td class="py-space-md px-space-md text-center text-primary-container font-bold">58 Goles</td>
+<td class="py-space-md px-space-md text-center">
+<span class="font-bold text-text-primary">82.1%</span>
+</td>
+<td class="py-space-md px-space-md text-center">
+<span class="font-body-sm text-body-sm text-text-secondary">1 (2') / 0</span>
+</td>
+<td class="py-space-md px-space-md text-center">
+<span class="inline-flex items-center gap-1 bg-surface-container px-2 py-0.5 rounded-full font-label-md text-label-md text-[#4ade80]">
+<span class="w-1.5 h-1.5 rounded-full bg-[#4ade80]"></span> Apto 100%
+                </span>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-2">
+<div class="w-24 bg-surface-container-lowest h-2 rounded-full overflow-hidden">
+<div class="bg-secondary h-full shadow-[0_0_8px_rgba(123,208,255,0.5)]" style="width: 68%;"></div>
+</div>
+<span class="font-body-sm text-body-sm text-secondary font-bold">68%</span>
+</div>
+</td>
+</tr>
+<tr class="bg-surface-elevated-2 hover:bg-surface-container-high transition-colors">
+<td class="py-space-md px-space-md font-headline-sm text-headline-sm text-secondary font-black">#4</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col">
+<span class="font-bold text-text-primary">Marc Gómez Morales</span>
+<span class="font-body-sm text-body-sm text-text-secondary">Línea 6m</span>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<span class="bg-secondary/15 text-secondary px-2 py-0.5 rounded font-label-md text-label-md">Pivote</span>
+</td>
+<td class="py-space-md px-space-md text-center text-text-primary font-bold">14</td>
+<td class="py-space-md px-space-md text-center text-text-primary">540'</td>
+<td class="py-space-md px-space-md text-center text-primary-container font-bold">42 Goles</td>
+<td class="py-space-md px-space-md text-center">
+<span class="font-bold text-text-primary">74.5%</span>
+</td>
+<td class="py-space-md px-space-md text-center">
+<span class="font-body-sm text-body-sm text-[#fbbf24] font-bold">6 (2') / 2A</span>
+</td>
+<td class="py-space-md px-space-md text-center">
+<span class="inline-flex items-center gap-1 bg-surface-container px-2 py-0.5 rounded-full font-label-md text-label-md text-[#4ade80]">
+<span class="w-1.5 h-1.5 rounded-full bg-[#4ade80]"></span> Apto 100%
+                </span>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-2">
+<div class="w-24 bg-surface-container-lowest h-2 rounded-full overflow-hidden">
+<div class="bg-primary-container h-full" style="width: 86%;"></div>
+</div>
+<span class="font-body-sm text-body-sm text-primary-container font-bold">86%</span>
+</div>
+</td>
+</tr>
+<tr class="bg-surface-elevated-1/40 hover:bg-surface-container-high transition-colors">
+<td class="py-space-md px-space-md font-headline-sm text-headline-sm text-error font-black">#8</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col">
+<span class="font-bold text-text-secondary line-through">Lucas Morell Mas</span>
+<span class="font-body-sm text-body-sm text-error">En rehabilitación</span>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<span class="bg-surface-container text-text-secondary px-2 py-0.5 rounded font-label-md text-label-md">Lateral Dcho.</span>
+</td>
+<td class="py-space-md px-space-md text-center text-text-secondary">8</td>
+<td class="py-space-md px-space-md text-center text-text-secondary">310'</td>
+<td class="py-space-md px-space-md text-center text-text-secondary">22 Goles</td>
+<td class="py-space-md px-space-md text-center">
+<span class="font-bold text-text-secondary">61.0%</span>
+</td>
+<td class="py-space-md px-space-md text-center">
+<span class="font-body-sm text-body-sm text-text-secondary">2 (2') / 0</span>
+</td>
+<td class="py-space-md px-space-md text-center">
+<span class="inline-flex items-center gap-1 bg-error-container/40 px-2 py-0.5 rounded-full font-label-md text-label-md text-error">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span> Baja (Esguince II)
+                </span>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-2">
+<div class="w-24 bg-surface-container-lowest h-2 rounded-full overflow-hidden">
+<div class="bg-error h-full" style="width: 15%;"></div>
+</div>
+<span class="font-body-sm text-body-sm text-error font-bold">15%</span>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div></main><footer class="w-full bg-surface-container-lowest py-space-lg"><div class="w-full px-gutter flex flex-col md:flex-row items-center justify-between gap-space-md"><div class="flex items-center gap-space-sm"><div class="w-6 h-6 rounded bg-surface-container flex items-center justify-center text-primary-container"><span class="material-symbols-outlined text-[16px]">sports_handball</span></div><span class="font-body-sm text-body-sm text-text-secondary">© 2024 Club Balonmano Buñol. Todos los derechos reservados.</span></div><div class="flex items-center gap-space-lg"><a class="font-label-md text-label-md text-text-secondary hover:text-secondary transition-colors" href="#">RFEBM</a><a class="font-label-md text-label-md text-text-secondary hover:text-secondary transition-colors" href="#">FBMCV</a><a class="font-label-md text-label-md text-text-secondary hover:text-text-primary transition-colors" href="#">Contacto</a></div></div></footer></body></html>

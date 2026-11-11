@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+
+<html lang="es"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "surface-container-high": "#e2e7ff",
+          "on-secondary-container": "#fffbff",
+          "inverse-on-surface": "#eef0ff",
+          "card-dark-surface": "#0B192C",
+          "on-primary": "#ffffff",
+          "surface-container-highest": "#dae2fd",
+          "surface-container-lowest": "#ffffff",
+          "primary-fixed-dim": "#94ccff",
+          "error-container": "#ffdad6",
+          "tertiary-container": "#4770be",
+          "on-secondary-fixed-variant": "#93000d",
+          "surface-container": "#eaedff",
+          "on-error-container": "#93000a",
+          "surface-light": "#F8FAFC",
+          "deep-navy": "#023E8A",
+          "on-tertiary-fixed": "#001a42",
+          "court-blue": "#0077B6",
+          "secondary": "#b90c17",
+          "on-primary-fixed-variant": "#004b74",
+          "primary": "#005d90",
+          "tertiary-fixed": "#d8e2ff",
+          "primary-container": "#0077b6",
+          "surface": "#faf8ff",
+          "background": "#faf8ff",
+          "error": "#ba1a1a",
+          "surface-bright": "#faf8ff",
+          "on-tertiary-fixed-variant": "#0f4490",
+          "outline": "#707881",
+          "tertiary": "#2b57a4",
+          "inverse-surface": "#283044",
+          "surface-container-low": "#f2f3ff",
+          "on-surface-variant": "#404850",
+          "tertiary-fixed-dim": "#aec6ff",
+          "border-subtle": "#E2E8F0",
+          "card-dark-container": "#132238",
+          "inverse-primary": "#94ccff",
+          "secondary-fixed": "#ffdad6",
+          "on-primary-container": "#f3f7ff",
+          "outline-variant": "#bfc7d1",
+          "surface-tint": "#006399",
+          "surface-dim": "#d2d9f4",
+          "secondary-fixed-dim": "#ffb4ab",
+          "on-background": "#131b2e",
+          "on-secondary": "#ffffff",
+          "on-tertiary": "#ffffff",
+          "on-surface": "#131b2e",
+          "on-secondary-fixed": "#410002",
+          "secondary-container": "#de2e2c",
+          "on-primary-fixed": "#001d32",
+          "surface-pure": "#FFFFFF",
+          "on-error": "#ffffff",
+          "on-tertiary-container": "#f7f7ff",
+          "away-red": "#D62828",
+          "primary-fixed": "#cde5ff",
+          "surface-variant": "#dae2fd"
+        },
+        "borderRadius": {
+          "DEFAULT": "0.25rem",
+          "lg": "0.5rem",
+          "xl": "0.75rem",
+          "full": "9999px"
+        },
+        "spacing": {
+          "margin": "2rem",
+          "space-sm": "0.5rem",
+          "space-md": "1rem",
+          "space-xs": "0.25rem",
+          "margin-mobile": "1rem",
+          "gutter-mobile": "0.75rem",
+          "space-xl": "2.5rem",
+          "space-lg": "1.5rem",
+          "gutter": "1.5rem"
+        },
+        "fontFamily": {
+          "headline-lg-mobile": ["Plus Jakarta Sans"],
+          "label-md": ["Plus Jakarta Sans"],
+          "body-sm": ["Inter"],
+          "score-display": ["Plus Jakarta Sans"],
+          "score-display-mobile": ["Plus Jakarta Sans"],
+          "body-md": ["Inter"],
+          "headline-lg": ["Plus Jakarta Sans"],
+          "headline-md": ["Plus Jakarta Sans"],
+          "display-hero": ["Plus Jakarta Sans"],
+          "display-hero-mobile": ["Plus Jakarta Sans"],
+          "body-lg": ["Inter"],
+          "label-lg": ["Plus Jakarta Sans"],
+          "headline-sm": ["Plus Jakarta Sans"]
+        },
+        "fontSize": {
+          "headline-lg-mobile": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+          "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "600" }],
+          "body-sm": ["12px", { "lineHeight": "18px", "fontWeight": "400" }],
+          "score-display": ["48px", { "lineHeight": "48px", "letterSpacing": "-0.01em", "fontWeight": "800" }],
+          "score-display-mobile": ["36px", { "lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "800" }],
+          "body-md": ["14px", { "lineHeight": "22px", "fontWeight": "400" }],
+          "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+          "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "700" }],
+          "display-hero": ["56px", { "lineHeight": "64px", "letterSpacing": "-0.03em", "fontWeight": "800" }],
+          "display-hero-mobile": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+          "body-lg": ["16px", { "lineHeight": "26px", "fontWeight": "400" }],
+          "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "700" }],
+          "headline-sm": ["16px", { "lineHeight": "24px", "fontWeight": "600" }]
+        }
+      }
+    }
+  }
+</script></head><body class="bg-background font-body-md text-on-surface antialiased min-h-screen selection:bg-primary-container selection:text-white"><header class="fixed top-0 w-full z-50 bg-white/95 backdrop-blur-xl border-b border-border-subtle shadow-sm"><div class="h-20 w-full px-gutter flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-lg shrink-0"><div class="flex items-center gap-space-sm"><img alt="Club Balonmano Buñol" class="h-9 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBx5VNT5M_rwz4dCiEIJm_nZ1lw2h_iTRLr0STbJj5FxVP91mSyprUVaxpAXYK4np4iNzOXdX6u29kg692V6pQIAuqNHBzJ4fbTJsigQyrJgrf-qX0e20ZoIyNf6pHFMTDXZQKaEcAbEYx_l-OkvzWiLEfjYJ1rMANXwa8STSlS7UtAEp7vZrd8J95-WhFMLJlFXXo-RcejVOTqeSCW5tttaaderYkB08SuZ9dPg4Q"/><div class="flex flex-col"><span class="font-headline-sm text-headline-sm uppercase tracking-wider text-court-blue font-bold leading-none">C.B. BUÑOL</span><span class="font-label-md text-[11px] uppercase tracking-widest text-on-surface-variant font-medium">Balonmano</span></div></div><div class="hidden xl:flex items-center relative w-72"><span class="material-symbols-outlined absolute left-3 text-on-surface-variant pointer-events-none text-[20px]">search</span><input class="w-full h-11 pl-10 pr-4 bg-surface-container-low border border-border-subtle rounded-lg font-body-sm text-body-sm text-on-surface placeholder:text-on-surface-variant/70 focus:outline-none focus:ring-2 focus:ring-court-blue/40 focus:border-court-blue transition-all" placeholder="Buscar jugadores, partidos, noticias..." type="text"/></div></div><nav class="hidden lg:flex items-center gap-space-xs"><a aria-current="page" class="px-space-md py-space-sm rounded-lg transition-colors bg-court-blue text-white font-bold shadow-sm" data-path="feed-social" href="#">Feed Social</a><a class="px-space-md py-space-sm rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:text-court-blue hover:bg-surface-container-low transition-colors" data-path="gestion-de-equipo" href="#">Gestión de Equipo</a><a class="px-space-md py-space-sm rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:text-court-blue hover:bg-surface-container-low transition-colors" data-path="administracion" href="#">Administración</a><a class="px-space-md py-space-sm rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:text-court-blue hover:bg-surface-container-low transition-colors" data-path="partidos-y-resultados" href="#">Partidos y Resultados</a></nav><div class="flex items-center gap-space-md shrink-0"><div class="relative flex items-center justify-center w-10 h-10 rounded-full bg-surface-container-low border border-border-subtle hover:bg-surface-container transition-colors cursor-pointer"><span class="material-symbols-outlined text-court-blue text-[22px]">sports_handball</span><span class="absolute top-1.5 right-1.5 flex h-2.5 w-2.5"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-away-red opacity-75"></span><span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-away-red"></span></span></div><div class="flex items-center gap-space-sm pl-space-sm"><div class="hidden md:flex flex-col text-right"><span class="font-label-lg text-label-lg text-on-surface leading-tight font-bold">Carlos Martínez</span><div class="flex items-center justify-end gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-court-blue"></span><span class="font-label-md text-[11px] text-on-surface-variant">Coord. Sénior</span></div></div><img alt="Profile" class="w-9 h-9 rounded-full object-cover ring-2 ring-court-blue/20" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDeFaCpxuYMtfW_9VTOX6aX8Rf72E2D4GRwyAVTpsTUAYVJ48l6GhGCmdWuVWkiEWkrJcC7BOUvJr02j0PL6T-G6kFet5bPWFoVk1iCitJvyfUI71btB7I0lVjiyZTNKEethyxtuC1UVnjeKCxsSY6jE3UYpUpY-KQ7Q3cT2tEDWzjXZempvSxKRa8VZykKYw_PCGttVX3ktU2J19C71oheYEbcekoUZNawdr5iNA8"/></div></div></div></header><main class="w-full pt-20 bg-background"><div class="flex flex-col w-full">
+<!-- Dynamic Aura & Background Elements -->
+<div class="relative w-full overflow-hidden">
+<div class="absolute -top-40 left-1/4 w-[600px] h-[600px] bg-court-blue/5 rounded-full blur-[140px] pointer-events-none -z-10"></div>
+<div class="absolute top-1/3 right-10 w-[500px] h-[500px] bg-surface-container-high/40 rounded-full blur-[160px] pointer-events-none -z-10"></div>
+<!-- Feed Container: 12-Column High-Performance Grid -->
+<div class="w-full px-gutter-mobile md:px-gutter py-space-lg max-w-[1720px] mx-auto">
+<!-- Top Flash Ticker: Instant Club Updates -->
+<div class="w-full bg-white border border-border-subtle rounded-xl p-space-md mb-space-lg flex flex-wrap items-center justify-between gap-space-md shadow-sm">
+<div class="flex items-center gap-space-md min-w-0">
+<span class="inline-flex items-center gap-1.5 px-space-sm py-0.5 rounded-full bg-away-red text-white font-label-md text-label-md uppercase tracking-wider shrink-0 font-bold shadow-sm">
+<span class="w-2 h-2 rounded-full bg-white animate-pulse"></span>
+            Aviso Club
+          </span>
+<p class="font-body-md text-body-md text-on-surface truncate">
+<span class="text-away-red font-semibold">Autobús de animación:</span> Plazas abiertas para el desplazamiento del Sénior Femenino a Gandía. Salida sábado 15:30h desde La Jarra.
+          </p>
+</div>
+<div class="flex items-center gap-space-sm shrink-0">
+<button class="px-space-md py-1.5 rounded-lg bg-surface-container-low hover:bg-court-blue hover:text-white border border-border-subtle text-court-blue font-label-md text-label-md font-bold transition-all flex items-center gap-1 shadow-sm">
+<span>Inscribirme (3€)</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- 3-Column Ergonomic Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-start">
+<!-- ========================================== -->
+<!-- COLUMNA IZQUIERDA: Perfil y Club Hub (3 cols) -->
+<!-- ========================================== -->
+<aside class="lg:col-span-3 flex flex-col gap-space-lg">
+<!-- Tarjeta Usuario Logueado: Atleta & Rol -->
+<div class="bg-white border border-border-subtle rounded-xl overflow-hidden shadow-sm flex flex-col relative group">
+<div class="h-24 w-full bg-gradient-to-r from-deep-navy via-court-blue to-primary-fixed-dim relative">
+<div class="absolute inset-0 opacity-15 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:16px_16px]"></div>
+<span class="absolute top-2 right-3 font-score-display text-score-display text-white/30 leading-none select-none">#07</span>
+</div>
+<div class="px-space-md pb-space-md flex flex-col -mt-10 relative">
+<div class="flex items-end justify-between mb-space-sm">
+<div class="relative">
+<img alt="Carlos Martínez" class="w-16 h-16 rounded-xl object-cover ring-4 ring-white shadow-md" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDeFaCpxuYMtfW_9VTOX6aX8Rf72E2D4GRwyAVTpsTUAYVJ48l6GhGCmdWuVWkiEWkrJcC7BOUvJr02j0PL6T-G6kFet5bPWFoVk1iCitJvyfUI71btB7I0lVjiyZTNKEethyxtuC1UVnjeKCxsSY6jE3UYpUpY-KQ7Q3cT2tEDWzjXZempvSxKRa8VZykKYw_PCGttVX3ktU2J19C71oheYEbcekoUZNawdr5iNA8"/>
+<span class="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-court-blue ring-2 ring-white flex items-center justify-center" title="Capitán / Titular">
+<span class="material-symbols-outlined text-[10px] text-white font-bold">check</span>
+</span>
+</div>
+<span class="px-space-sm py-1 rounded-full bg-court-blue/10 text-court-blue font-label-md text-label-md font-bold">
+                  Primera Autonómica
+                </span>
+</div>
+<h2 class="font-headline-md text-headline-md text-on-surface leading-tight font-bold">Carlos Martínez Soler</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-1.5 mt-0.5">
+<span class="material-symbols-outlined text-[16px] text-court-blue">sports_handball</span>
+                Extremo Izquierdo • Dorsal #7
+              </p>
+<!-- Métricas Rápidas de Ficha -->
+<div class="grid grid-cols-3 gap-space-xs mt-space-md p-space-sm rounded-lg bg-surface-container-low border border-border-subtle/80 text-center">
+<div>
+<span class="block font-headline-sm text-headline-sm text-court-blue font-black">58</span>
+<span class="block font-label-md text-[10px] uppercase text-on-surface-variant font-bold">Goles Liga</span>
+</div>
+<div>
+<span class="block font-headline-sm text-headline-sm text-deep-navy font-black">14</span>
+<span class="block font-label-md text-[10px] uppercase text-on-surface-variant font-bold">Partidos</span>
+</div>
+<div>
+<span class="block font-headline-sm text-headline-sm text-on-surface font-black">89%</span>
+<span class="block font-label-md text-[10px] uppercase text-on-surface-variant font-bold">Eficacia 6m</span>
+</div>
+</div>
+<!-- Estado Físico -->
+<div class="mt-space-md flex items-center justify-between p-space-sm bg-surface-light border border-border-subtle rounded-lg">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+<span class="font-label-md text-label-md text-on-surface font-semibold">Apto para competición</span>
+</div>
+<span class="font-body-sm text-body-sm text-emerald-700 font-bold">100% Fit</span>
+</div>
+</div>
+</div>
+<!-- Próximo Entrenamiento del Atleta -->
+<div class="bg-white border border-border-subtle rounded-xl p-space-md shadow-sm relative overflow-hidden">
+<div class="flex items-center justify-between mb-space-sm">
+<span class="font-label-md text-label-md uppercase tracking-wider text-court-blue font-bold flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px]">event_available</span>
+                Mi Próxima Sesión
+              </span>
+<span class="px-2 py-0.5 rounded bg-surface-container-low border border-border-subtle text-on-surface-variant text-[11px] font-mono">Pabellón Principal</span>
+</div>
+<div class="mt-space-xs flex flex-col gap-1">
+<p class="font-headline-sm text-headline-sm text-on-surface font-bold">Martes, 20:30h - 22:00h</p>
+<p class="font-body-md text-body-md text-on-surface-variant flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-court-blue">location_on</span>
+                Polideportivo Municipal El Planell (Buñol)
+              </p>
+<div class="mt-space-sm flex items-center justify-between pt-space-sm border-t border-border-subtle">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Enfoque: Repliegue y 7 contra 6</span>
+<span class="inline-flex items-center text-court-blue font-label-md text-label-md font-bold cursor-pointer hover:underline">
+                  Ver plan <span class="material-symbols-outlined text-[14px]">chevron_right</span>
+</span>
+</div>
+</div>
+</div>
+<!-- Accesos Rápidos del Club -->
+<div class="bg-white border border-border-subtle rounded-xl p-space-md shadow-sm">
+<h3 class="font-label-lg text-label-lg text-on-surface uppercase tracking-wider font-bold mb-space-sm">Club Directo</h3>
+<div class="flex flex-col gap-space-xs">
+<a class="flex items-center justify-between p-space-sm rounded-lg hover:bg-surface-container-low text-on-surface-variant hover:text-court-blue transition-colors group" href="#">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-surface-container-low text-court-blue flex items-center justify-center group-hover:bg-court-blue group-hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[20px]">photo_library</span>
+</div>
+<span class="font-label-lg text-label-lg font-semibold">Galería Oficial de Partidos</span>
+</div>
+<span class="font-label-md text-label-md text-court-blue font-bold">1.2k fotos</span>
+</a>
+<a class="flex items-center justify-between p-space-sm rounded-lg hover:bg-surface-container-low text-on-surface-variant hover:text-court-blue transition-colors group" href="#">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-surface-container-low text-court-blue flex items-center justify-center group-hover:bg-court-blue group-hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[20px]">shopping_bag</span>
+</div>
+<span class="font-label-lg text-label-lg font-semibold">Tienda &amp; Equipaciones</span>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-court-blue/10 text-court-blue font-label-md text-[11px] font-bold">Novedades</span>
+</a>
+<a class="flex items-center justify-between p-space-sm rounded-lg hover:bg-surface-container-low text-on-surface-variant hover:text-court-blue transition-colors group" href="#">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-surface-container-low text-court-blue flex items-center justify-center group-hover:bg-court-blue group-hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[20px]">gavel</span>
+</div>
+<span class="font-label-lg text-label-lg font-semibold">Normativa y Estatutos</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant text-[18px]">open_in_new</span>
+</a>
+<a class="flex items-center justify-between p-space-sm rounded-lg hover:bg-red-50 text-away-red transition-colors group" href="#">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-red-100 text-away-red flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">campaign</span>
+</div>
+<span class="font-label-lg text-label-lg font-semibold">Canal de Avisos Urgentes</span>
+</div>
+<span class="w-2 h-2 rounded-full bg-away-red"></span>
+</a>
+</div>
+</div>
+<!-- Banner Patrocinio Local Buñol -->
+<div class="rounded-xl p-space-md bg-gradient-to-br from-court-blue to-deep-navy text-white flex flex-col gap-space-sm relative overflow-hidden shadow-sm">
+<span class="font-label-md text-label-md uppercase tracking-wider text-primary-fixed-dim font-bold">Patrocinador Oficial</span>
+<p class="font-headline-sm text-headline-sm font-bold leading-snug">Cooperativa Agrícola &amp; Tomatina Buñol</p>
+<p class="font-body-sm text-body-sm text-white/80">Impulsando el deporte base y el balonmano de nuestra comarca desde 1978.</p>
+<div class="mt-space-xs flex items-center gap-2">
+<span class="px-2.5 py-1 rounded bg-white/20 text-white font-label-md text-[11px] font-bold">#OrgulloBuñol</span>
+</div>
+</div>
+</aside>
+<!-- ========================================== -->
+<!-- COLUMNA CENTRAL: Muro Social y Feed (6 cols) -->
+<!-- ========================================== -->
+<main class="lg:col-span-6 flex flex-col gap-space-lg min-w-0">
+<!-- Crear Publicación Comunitario -->
+<div class="bg-white border border-border-subtle rounded-xl p-space-md shadow-sm flex flex-col gap-space-md">
+<div class="flex items-start gap-space-sm">
+<img alt="Carlos Martínez" class="w-10 h-10 rounded-full object-cover shrink-0 ring-2 ring-court-blue/20" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDeFaCpxuYMtfW_9VTOX6aX8Rf72E2D4GRwyAVTpsTUAYVJ48l6GhGCmdWuVWkiEWkrJcC7BOUvJr02j0PL6T-G6kFet5bPWFoVk1iCitJvyfUI71btB7I0lVjiyZTNKEethyxtuC1UVnjeKCxsSY6jE3UYpUpY-KQ7Q3cT2tEDWzjXZempvSxKRa8VZykKYw_PCGttVX3ktU2J19C71oheYEbcekoUZNawdr5iNA8"/>
+<div class="w-full">
+<textarea class="w-full bg-surface-container-low border border-border-subtle rounded-lg p-space-sm font-body-md text-body-md text-on-surface placeholder:text-on-surface-variant/70 focus:outline-none focus:ring-2 focus:ring-court-blue/30 focus:border-court-blue resize-none transition-all" placeholder="¿Qué quieres compartir con la familia del C.B. Buñol?" rows="2"></textarea>
+</div>
+</div>
+<div class="flex flex-wrap items-center justify-between gap-space-sm pt-space-xs border-t border-border-subtle">
+<div class="flex items-center gap-space-xs">
+<button class="px-3 py-1.5 rounded-lg hover:bg-surface-container-low text-on-surface-variant hover:text-court-blue font-label-md text-label-md flex items-center gap-1.5 transition-colors font-semibold">
+<span class="material-symbols-outlined text-[20px] text-court-blue">add_photo_alternate</span>
+<span>Foto Partido</span>
+</button>
+<button class="px-3 py-1.5 rounded-lg hover:bg-surface-container-low text-on-surface-variant hover:text-court-blue font-label-md text-label-md flex items-center gap-1.5 transition-colors font-semibold">
+<span class="material-symbols-outlined text-[20px] text-deep-navy">videocam</span>
+<span>Vídeo Jugada</span>
+</button>
+<button class="px-3 py-1.5 rounded-lg hover:bg-surface-container-low text-on-surface-variant hover:text-court-blue font-label-md text-label-md flex items-center gap-1.5 transition-colors font-semibold">
+<span class="material-symbols-outlined text-[20px] text-on-surface-variant">poll</span>
+<span>Votación</span>
+</button>
+</div>
+<button class="px-space-lg h-9 rounded-lg bg-court-blue hover:bg-deep-navy text-white font-label-lg text-label-lg font-bold shadow-sm transition-all flex items-center gap-1.5">
+<span>Publicar</span>
+<span class="material-symbols-outlined text-[18px]">send</span>
+</button>
+</div>
+</div>
+<!-- Publicación 1 (DESTACADA): Victoria Épica en el Derbi -->
+<article class="bg-white border border-border-subtle rounded-xl overflow-hidden shadow-sm flex flex-col group">
+<!-- Encabezado Post -->
+<div class="p-space-md flex items-center justify-between border-b border-border-subtle/50">
+<div class="flex items-center gap-space-sm">
+<div class="relative">
+<div class="w-11 h-11 rounded-full bg-surface-container-low border border-border-subtle p-0.5 flex items-center justify-center">
+<img alt="Escudo Oficial CB Buñol" class="w-9 h-9 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBx5VNT5M_rwz4dCiEIJm_nZ1lw2h_iTRLr0STbJj5FxVP91mSyprUVaxpAXYK4np4iNzOXdX6u29kg692V6pQIAuqNHBzJ4fbTJsigQyrJgrf-qX0e20ZoIyNf6pHFMTDXZQKaEcAbEYx_l-OkvzWiLEfjYJ1rMANXwa8STSlS7UtAEp7vZrd8J95-WhFMLJlFXXo-RcejVOTqeSCW5tttaaderYkB08SuZ9dPg4Q"/>
+</div>
+<span class="absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full bg-court-blue ring-2 ring-white flex items-center justify-center">
+<span class="material-symbols-outlined text-[10px] text-white font-bold">verified</span>
+</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">Club Balonmano Buñol</span>
+<span class="px-2 py-0.5 rounded bg-court-blue/10 text-court-blue font-label-md text-[10px] uppercase font-bold tracking-wider">Oficial</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Ayer a las 21:15h • Jornada 14 • 1ª Autonómica Masculina</span>
+</div>
+</div>
+<button class="text-on-surface-variant hover:text-on-surface p-1 rounded-lg hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined">more_horiz</span>
+</button>
+</div>
+<!-- Titular & Crónica -->
+<div class="px-space-md pt-space-md pb-space-sm">
+<h3 class="font-headline-lg text-headline-lg text-on-surface font-extrabold mb-space-xs leading-tight">
+                ¡VICTORIA ÉPICA EN EL DERBI COMARCAL! 🔥
+              </h3>
+<p class="font-body-lg text-body-lg text-on-surface-variant leading-relaxed">
+                El Sénior Masculino A se impone tras una remontada de casta en un Polideportivo El Planell abarrotado que rugió hasta el último segundo. Un parcial de 4-0 en los últimos 5 minutos decanta la balanza frente al Torrent.
+              </p>
+</div>
+<!-- Scoreboard Pill Integrado -->
+<div class="mx-space-md mb-space-md bg-surface-container-low border border-border-subtle rounded-xl p-space-md flex items-center justify-around shadow-inner">
+<div class="flex items-center gap-space-sm">
+<span class="font-headline-md text-headline-md font-bold text-court-blue">C.B. BUÑOL</span>
+<span class="px-2 py-1 rounded bg-court-blue text-white font-label-md text-label-md font-bold">LOCAL</span>
+</div>
+<div class="flex items-center gap-space-md">
+<span class="font-score-display text-score-display text-on-surface font-black">28</span>
+<span class="font-headline-lg text-headline-lg text-on-surface-variant font-light">:</span>
+<span class="font-score-display text-score-display text-on-surface-variant font-black">26</span>
+</div>
+<div class="flex items-center gap-space-sm">
+<span class="px-2 py-1 rounded bg-surface-container-high text-on-surface font-label-md text-label-md font-bold">VISITANTE</span>
+<span class="font-headline-md text-headline-md font-bold text-on-surface-variant">C.BM. TORRENT</span>
+</div>
+</div>
+<!-- Imagen Gran Impacto: Celebración del Equipo en el 40x20 -->
+<div class="relative w-full aspect-[16/9] bg-surface-container-low overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Dynamic wide-angle indoor sports photo of a Spanish handball team dressed in vibrant yellow and navy jerseys celebrating an intense last-second victory on an indoor court at dusk. Intense arena lighting, hardwood court reflection, resin handball on the ground, energetic teammates hugging and roaring with excitement in front of full cheering stands." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7K8uxbJO9z1camvmPWgsQHvPpznKFuYA-UXHTXW829epZfw5X30LpX3TfcstCt2NIw3Ng3y7ZhDq4Zj_roGPd7NY75MQUTeWpCd1juahEvG-O6WJPz476vupMILuyP7MQ_poBb1LPhdO1paqQGKq6wpHWd0YDHVBceahgXjVsgTlom5L45PT-CuE7TdwGjkiOi9Wurbak4cwdBZHsEgxOasBKA00NMQ5v0j6ZMps"/>
+<!-- MVP Overlay Badge -->
+<div class="absolute bottom-4 left-4 bg-white/95 backdrop-blur-md px-space-md py-space-sm rounded-lg flex items-center gap-space-sm shadow-md border border-border-subtle">
+<div class="w-8 h-8 rounded-full bg-court-blue text-white flex items-center justify-center font-bold shadow-sm">
+<span class="material-symbols-outlined text-[20px]">military_tech</span>
+</div>
+<div>
+<span class="block font-label-md text-[10px] uppercase text-court-blue font-bold">MVP de la Jornada</span>
+<span class="block font-headline-sm text-headline-sm text-on-surface font-bold">Javier Carrión (#11) • 9 goles</span>
+</div>
+</div>
+</div>
+<!-- Barra de Interacciones y Reacciones Deportivas -->
+<div class="p-space-md flex flex-col gap-space-sm">
+<div class="flex items-center justify-between text-body-sm text-on-surface-variant border-b border-border-subtle pb-space-sm">
+<div class="flex items-center gap-1.5">
+<span class="w-5 h-5 rounded-full bg-court-blue text-white flex items-center justify-center text-[10px] font-bold">🤾</span>
+<span class="w-5 h-5 rounded-full bg-away-red text-white flex items-center justify-center text-[10px] font-bold">👏</span>
+<span class="font-label-md text-label-md text-on-surface ml-1 font-semibold">142 miembros reaccionaron</span>
+</div>
+<span>46 comentarios • 18 compartidos</span>
+</div>
+<div class="flex items-center justify-between pt-space-xs">
+<!-- Reacción Balonmano Custom -->
+<button class="flex items-center gap-2 px-space-md py-1.5 rounded-lg hover:bg-surface-container-low text-court-blue transition-colors font-label-lg text-label-lg font-bold">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">sports_handball</span>
+<span>¡Grande Buñol!</span>
+</button>
+<button class="flex items-center gap-2 px-space-md py-1.5 rounded-lg hover:bg-surface-container-low text-on-surface-variant hover:text-on-surface transition-colors font-label-lg text-label-lg font-semibold">
+<span class="material-symbols-outlined text-[20px]">chat_bubble</span>
+<span>Comentar</span>
+</button>
+<button class="flex items-center gap-2 px-space-md py-1.5 rounded-lg hover:bg-surface-container-low text-on-surface-variant hover:text-on-surface transition-colors font-label-lg text-label-lg font-semibold">
+<span class="material-symbols-outlined text-[20px]">share</span>
+<span>Difundir</span>
+</button>
+</div>
+<!-- Hilo de Comentarios Destacados de Socios / Entrenadores -->
+<div class="mt-space-sm flex flex-col gap-space-sm pt-space-sm border-t border-border-subtle">
+<div class="flex items-start gap-space-sm">
+<img alt="Vicente Garrido" class="w-8 h-8 rounded-full object-cover shrink-0 ring-1 ring-border-subtle" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBx5VNT5M_rwz4dCiEIJm_nZ1lw2h_iTRLr0STbJj5FxVP91mSyprUVaxpAXYK4np4iNzOXdX6u29kg692V6pQIAuqNHBzJ4fbTJsigQyrJgrf-qX0e20ZoIyNf6pHFMTDXZQKaEcAbEYx_l-OkvzWiLEfjYJ1rMANXwa8STSlS7UtAEp7vZrd8J95-WhFMLJlFXXo-RcejVOTqeSCW5tttaaderYkB08SuZ9dPg4Q"/>
+<div class="flex-1 bg-surface-container-low border border-border-subtle/70 rounded-xl p-space-sm">
+<div class="flex items-center justify-between">
+<span class="font-label-lg text-label-lg text-on-surface font-bold">Vicente Garrido (Entrenador Cadete)</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Hace 3h</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface mt-1">
+                      ¡Qué defensa en 5:1 los últimos minutos! El trabajo táctico de toda la semana ha salido impecable. ¡A seguir soñando con la fase de ascenso! 🟡🔵
+                    </p>
+</div>
+</div>
+<div class="flex items-start gap-space-sm">
+<img class="w-8 h-8 rounded-full object-cover shrink-0 ring-1 ring-border-subtle" data-alt="Portrait of a middle aged Spanish club member and father smiling, wearing casual sporting clothes, warm friendly expression outdoors in Buñol." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZ8Q3tsGWkR8Wi8l_bc0lsQ4b4aG7M49IlU6Ynsz8X26eDtYI-JGRGdicn0FdqkLB_ITmoIUfmNYPpfZt0ye9RXPvL3A7vJFMtMQXtrqnTHlWf8amu1KWt80NKN1huIXjCUZM2zyflxBlXPjKnuvGrheI4gamAIH5QR2AHFgfntgB6qshisgIb-z7fAaHiULzeaNsONx-6NCh1FxQXcRj6B0Oh6PY3KYITSnx3Zf0"/>
+<div class="flex-1 bg-surface-container-low border border-border-subtle/70 rounded-xl p-space-sm">
+<div class="flex items-center justify-between">
+<span class="font-label-lg text-label-lg text-on-surface font-bold">Rosa María Zanón (Socia #214)</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Hace 1h</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface mt-1">
+                      El ambiente en El Planell fue de otra galaxia. Los chavales de la cantera estaban dejándose la garganta en la grada. ¡Enhorabuena guerreros!
+                    </p>
+</div>
+</div>
+</div>
+</div>
+</article>
+<!-- Publicación 2: Cadete Femenino & Motivación de Cantera -->
+<article class="bg-white border border-border-subtle rounded-xl overflow-hidden shadow-sm flex flex-col">
+<div class="p-space-md flex items-center justify-between border-b border-border-subtle/50">
+<div class="flex items-center gap-space-sm">
+<img class="w-10 h-10 rounded-full object-cover ring-1 ring-border-subtle" data-alt="Headshot of a passionate young Spanish female handball coach in her late 20s, wearing athletic coaching polo with club crest, confident and encouraging expression." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVgEMiu7VFFCCnmLPkni1aNhe6IpGQQTe_fUpc-5Lnb0SJT_7C7bGKH4sxvClTgR9P_UkOGk8jD_Vmy9_Dd_8m8-5jkBERZdCK6yNwafeCW_-qXEXOfDOvuvdgTWxIPrMyr2yEICCBBFeIhj_yMb-vKNv-QMgsTKoqcbGdzd0iJzq5SN3nEZsFYWMM0r33HDrWVs5yCj-aWPjjz8sNza6UJ7IpkjlGRnxT8Umqv8k"/>
+<div>
+<div class="flex items-center gap-2">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">Laura Galarza</span>
+<span class="px-2 py-0.5 rounded-full bg-court-blue/10 text-court-blue font-label-md text-[10px] font-bold">1ª Entrenadora Cadete Fem</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Hoy a las 11:20h • Cantera Buñol</span>
+</div>
+</div>
+<button class="text-on-surface-variant hover:text-on-surface p-1 rounded-lg hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined">more_horiz</span>
+</button>
+</div>
+<div class="px-space-md pt-space-md pb-space-sm">
+<p class="font-body-lg text-body-lg text-on-surface leading-relaxed">
+                Orgullosísima de la intensidad del entreno de hoy de nuestras cadetes. Preparando el choque crucial del sábado frente al BM Morvedre. ¡La actitud no se negocia! 💪🤾‍♀️
+              </p>
+</div>
+<!-- Foto de Entrenamiento -->
+<div class="w-full aspect-[16/9] bg-surface-container-low overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="An energetic sports photography capture of a teen girls handball squad doing defensive footwork drills inside a sunlit indoor arena in Spain. Dynamic movement, sticky resin ball, high spirits, coach observing with clipboard, sports banners on walls." src="https://lh3.googleusercontent.com/aida-public/AB6AXuANadSGDyIxBvLQLzmtIIMdkp6XR8XfARNg9-pDiDEnIk6mgo5vSOFOYU-H-uEUovjrWVfWBS59qUJ1ccZE2aa8hYdywnXI5jbAOQLGjRXJ534mmGFD8Hmy8CTSh_Sm_4PJBf1rurR4aKYKavkKnXoLme_0DCao1L0gFcyT03pxiewgAn9H1mh2X65tr6UfCENf4Pwp-KBkLTBqZpfylkE9tBL4GMavNNI3OhStdfc"/>
+</div>
+<div class="p-space-md flex items-center justify-between border-t border-border-subtle/60">
+<div class="flex items-center gap-space-md text-on-surface-variant font-label-md text-label-md">
+<span class="flex items-center gap-1.5 text-away-red font-semibold"><span class="material-symbols-outlined text-[18px]">favorite</span> 78 apoyos</span>
+<span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[18px]">chat_bubble_outline</span> 12 comentarios</span>
+</div>
+<button class="text-court-blue hover:underline font-label-md text-label-md font-bold">Ver convocatoria completa</button>
+</div>
+</article>
+<!-- Publicación 3: Encuesta Interactiva de la Jornada -->
+<article class="bg-white border border-border-subtle rounded-xl p-space-md shadow-sm flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-lg bg-court-blue/10 text-court-blue flex items-center justify-center font-bold">
+<span class="material-symbols-outlined text-[22px]">how_to_vote</span>
+</div>
+<div>
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">Votación Oficial de la Afición</span>
+<span class="block font-body-sm text-body-sm text-on-surface-variant">Encuesta abierta • Termina en 24h</span>
+</div>
+</div>
+<span class="px-2.5 py-1 rounded-full bg-court-blue text-white font-label-md text-label-md font-bold shadow-sm">Jornada 14</span>
+</div>
+<h4 class="font-headline-md text-headline-md text-on-surface font-bold">
+              ¿Cuál fue el mejor gol de este fin de semana?
+            </h4>
+<!-- Opciones Interactivas -->
+<div class="flex flex-col gap-space-sm" id="poll-container">
+<!-- Opción A -->
+<div class="p-space-sm rounded-lg bg-surface-container-low hover:bg-surface-container border border-border-subtle cursor-pointer transition-colors relative overflow-hidden group">
+<div class="absolute inset-y-0 left-0 bg-court-blue/15 w-[58%] rounded-l-lg transition-all duration-500"></div>
+<div class="relative flex items-center justify-between z-10 px-2">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-court-blue text-[20px]">play_circle</span>
+<span class="font-label-lg text-label-lg text-on-surface font-semibold">Vaselina al contraataque de Carlos Martínez (#7)</span>
+</div>
+<span class="font-headline-sm text-headline-sm text-court-blue font-black">58% (128 votos)</span>
+</div>
+</div>
+<!-- Opción B -->
+<div class="p-space-sm rounded-lg bg-surface-container-low hover:bg-surface-container border border-border-subtle cursor-pointer transition-colors relative overflow-hidden group">
+<div class="absolute inset-y-0 left-0 bg-surface-container-high/60 w-[27%] rounded-l-lg transition-all duration-500"></div>
+<div class="relative flex items-center justify-between z-10 px-2">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]">play_circle</span>
+<span class="font-label-lg text-label-lg text-on-surface font-medium">Rosca desde el extremo de Marc Tarín</span>
+</div>
+<span class="font-headline-sm text-headline-sm text-on-surface-variant font-bold">27% (59 votos)</span>
+</div>
+</div>
+<!-- Opción C -->
+<div class="p-space-sm rounded-lg bg-surface-container-low hover:bg-surface-container border border-border-subtle cursor-pointer transition-colors relative overflow-hidden group">
+<div class="absolute inset-y-0 left-0 bg-surface-container-high/60 w-[15%] rounded-l-lg transition-all duration-500"></div>
+<div class="relative flex items-center justify-between z-10 px-2">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]">play_circle</span>
+<span class="font-label-lg text-label-lg text-on-surface font-medium">Golpe franco directo con tiempo cumplido (J. Carrión)</span>
+</div>
+<span class="font-headline-sm text-headline-sm text-on-surface-variant font-bold">15% (33 votos)</span>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between pt-space-xs text-body-sm text-on-surface-variant">
+<span>Total: 220 votos registrados</span>
+<button class="text-court-blue font-label-md text-label-md font-bold hover:underline">Ver repetición en vídeo</button>
+</div>
+</article>
+</main>
+<!-- ========================================== -->
+<!-- COLUMNA DERECHA: Competición y Agenda (3 cols) -->
+<!-- ========================================== -->
+<aside class="lg:col-span-3 flex flex-col gap-space-lg">
+<!-- Tarjeta Próximo Partido & Cuenta Atrás -->
+<div class="bg-white border border-border-subtle rounded-xl overflow-hidden shadow-sm flex flex-col relative">
+<div class="p-space-md bg-surface-light border-b border-border-subtle flex items-center justify-between">
+<span class="font-label-md text-label-md uppercase tracking-wider text-away-red font-bold flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-full bg-away-red animate-ping"></span>
+                Próxima Jornada 15
+              </span>
+<span class="px-2 py-0.5 rounded bg-court-blue/10 text-court-blue font-label-md text-[11px] font-bold">En 3 Días</span>
+</div>
+<div class="p-space-md flex flex-col items-center gap-space-md text-center">
+<div class="grid grid-cols-3 items-center w-full">
+<!-- Buñol -->
+<div class="flex flex-col items-center">
+<img alt="CB Buñol" class="w-12 h-12 object-contain mb-1" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBx5VNT5M_rwz4dCiEIJm_nZ1lw2h_iTRLr0STbJj5FxVP91mSyprUVaxpAXYK4np4iNzOXdX6u29kg692V6pQIAuqNHBzJ4fbTJsigQyrJgrf-qX0e20ZoIyNf6pHFMTDXZQKaEcAbEYx_l-OkvzWiLEfjYJ1rMANXwa8STSlS7UtAEp7vZrd8J95-WhFMLJlFXXo-RcejVOTqeSCW5tttaaderYkB08SuZ9dPg4Q"/>
+<span class="font-headline-sm text-headline-sm text-court-blue font-bold">C.B. BUÑOL</span>
+<span class="font-body-sm text-[11px] text-court-blue font-semibold">2º Clasificado</span>
+</div>
+<!-- VS -->
+<div class="flex flex-col items-center">
+<span class="font-score-display text-[26px] text-on-surface-variant font-extrabold leading-none">VS</span>
+<span class="font-label-md text-[10px] uppercase text-on-surface-variant mt-1 font-semibold">Sábado 18:30h</span>
+</div>
+<!-- Mislata -->
+<div class="flex flex-col items-center">
+<div class="w-12 h-12 rounded-full bg-surface-container-low border border-border-subtle flex items-center justify-center mb-1 text-on-surface-variant font-bold text-sm">
+                    MIS
+                  </div>
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">BM. MISLATA</span>
+<span class="font-body-sm text-[11px] text-on-surface-variant font-semibold">3º Clasificado</span>
+</div>
+</div>
+<!-- Sede y Mapa de Ubicación Dinámico -->
+<div class="w-full flex flex-col gap-1 text-left">
+<div class="flex items-center gap-1.5 text-on-surface font-label-md text-label-md font-semibold">
+<span class="material-symbols-outlined text-[16px] text-court-blue">stadium</span>
+                  Pabellón Municipal Pablo Neruda, Buñol
+                </div>
+<div class="w-full h-28 rounded-lg bg-cover bg-center overflow-hidden relative shadow-inner border border-border-subtle" data-location="Pabellón Municipal Pablo Neruda, Buñol, Valencia, Spain" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDZV_84IdhAKjtWEPxG30vLGc0vr6AJPxFNiHzx-Lb5NevTkfvrHtQW4kzk-xn_pB0M6xoQVrGlea4JO_lnETcEdd853HI2-nq5IHVljIeLmMTiERbIQbFut8fkeioSW3PK2d8I7y__7mN5LA_VoeaRj3bGuzTXBQsr5dVD-6bTK-mFbZru2Bwq-WqJKkIpj5P7-ZxdRDZMMqKful9pz8NyPeLxeV_VY20JTu6aJeg')">
+<div class="absolute inset-0 bg-gradient-to-t from-deep-navy/80 to-transparent flex items-end p-2">
+<span class="text-[11px] font-label-md text-white font-semibold flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-primary-fixed-dim">near_me</span>
+                      Cómo llegar en bus o coche
+                    </span>
+</div>
+</div>
+</div>
+<!-- CTA Entrada y Streaming -->
+<div class="w-full flex items-center gap-space-xs">
+<button class="flex-1 h-10 rounded-lg bg-court-blue hover:bg-deep-navy text-white font-label-lg text-label-lg font-bold flex items-center justify-center gap-1 shadow-sm transition-all">
+<span class="material-symbols-outlined text-[18px]">confirmation_number</span>
+                  Entrada Libre
+                </button>
+<button class="h-10 px-3 rounded-lg bg-surface-container-low hover:bg-surface-container border border-border-subtle text-court-blue flex items-center justify-center transition-colors" title="Ver en Canal YouTube FBMCV">
+<span class="material-symbols-outlined text-[20px]">live_tv</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Mini-Clasificación: Primera Autonómica FBMCV -->
+<div class="bg-white border border-border-subtle rounded-xl p-space-md shadow-sm flex flex-col gap-space-sm">
+<div class="flex items-center justify-between pb-space-xs border-b border-border-subtle">
+<div>
+<h3 class="font-label-lg text-label-lg text-on-surface uppercase tracking-wider font-bold">Clasificación</h3>
+<span class="font-body-sm text-body-sm text-on-surface-variant">1ª Autonómica Masc. Grupo Centro</span>
+</div>
+<span class="px-2 py-0.5 rounded bg-court-blue/10 text-court-blue font-label-md text-[10px] font-bold">Jor. 14</span>
+</div>
+<!-- Tabla de Puestos -->
+<div class="flex flex-col gap-1 text-body-sm">
+<!-- 1º Quart de Poblet -->
+<div class="flex items-center justify-between p-2 rounded-lg bg-surface-container-low border border-border-subtle/50 text-on-surface-variant">
+<div class="flex items-center gap-2.5">
+<span class="font-mono font-bold text-on-surface w-4">1</span>
+<span class="font-label-md text-label-md text-on-surface font-semibold truncate">BM Quart de Poblet</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="font-mono text-[11px] text-on-surface-variant">14 PJ</span>
+<span class="font-mono font-bold text-on-surface">26 pt</span>
+</div>
+</div>
+<!-- 2º C.B. BUÑOL (Destacado en Zona de Fase de Ascenso) -->
+<div class="flex items-center justify-between p-2 rounded-lg bg-court-blue/10 border border-court-blue/30 text-on-surface relative shadow-sm">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-court-blue rounded-l"></div>
+<div class="flex items-center gap-2.5 pl-1.5">
+<span class="font-mono font-bold text-court-blue w-4">2</span>
+<div class="flex items-center gap-1.5">
+<span class="font-label-md text-label-md text-court-blue font-bold truncate">C.B. BUÑOL</span>
+<span class="w-1.5 h-1.5 rounded-full bg-court-blue"></span>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<span class="font-mono text-[11px] text-court-blue font-semibold">14 PJ</span>
+<span class="font-mono font-extrabold text-court-blue">24 pt</span>
+</div>
+</div>
+<!-- 3º BM Mislata -->
+<div class="flex items-center justify-between p-2 rounded-lg bg-surface-container-low border border-border-subtle/50 text-on-surface-variant">
+<div class="flex items-center gap-2.5">
+<span class="font-mono font-bold text-on-surface w-4">3</span>
+<span class="font-label-md text-label-md text-on-surface truncate">BM Mislata B</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="font-mono text-[11px] text-on-surface-variant">14 PJ</span>
+<span class="font-mono font-bold text-on-surface">22 pt</span>
+</div>
+</div>
+<!-- 4º Torrent -->
+<div class="flex items-center justify-between p-2 rounded-lg bg-surface-container-low border border-border-subtle/50 text-on-surface-variant">
+<div class="flex items-center gap-2.5">
+<span class="font-mono font-bold text-on-surface w-4">4</span>
+<span class="font-label-md text-label-md text-on-surface truncate">C.BM. Torrent</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="font-mono text-[11px] text-on-surface-variant">14 PJ</span>
+<span class="font-mono font-bold text-on-surface">20 pt</span>
+</div>
+</div>
+<!-- 5º Florida -->
+<div class="flex items-center justify-between p-2 rounded-lg bg-surface-container-low border border-border-subtle/50 text-on-surface-variant">
+<div class="flex items-center gap-2.5">
+<span class="font-mono font-bold text-on-surface w-4">5</span>
+<span class="font-label-md text-label-md text-on-surface truncate">Florida Universitària</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="font-mono text-[11px] text-on-surface-variant">14 PJ</span>
+<span class="font-mono font-bold text-on-surface">18 pt</span>
+</div>
+</div>
+</div>
+<!-- Indicador de Fase -->
+<div class="flex items-center justify-between pt-space-xs text-[11px] text-on-surface-variant border-t border-border-subtle">
+<span class="flex items-center gap-1.5 font-medium">
+<span class="w-2 h-2 rounded bg-court-blue"></span>
+                Puestos 1º y 2º: Fase de Ascenso
+              </span>
+<a class="text-court-blue hover:underline font-bold" href="#">Ver tabla completa</a>
+</div>
+</div>
+<!-- Tabla de Goleadores (Pichichi del Club) -->
+<div class="bg-white border border-border-subtle rounded-xl p-space-md shadow-sm flex flex-col gap-space-sm">
+<div class="flex items-center justify-between pb-space-xs border-b border-border-subtle">
+<h3 class="font-label-lg text-label-lg text-on-surface uppercase tracking-wider font-bold">Máximos Goleadores</h3>
+<span class="material-symbols-outlined text-court-blue text-[20px]">sports_score</span>
+</div>
+<div class="flex flex-col gap-space-sm">
+<!-- Goleador 1 -->
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="font-mono text-court-blue font-black text-sm">#11</span>
+<div>
+<span class="block font-label-lg text-label-lg text-on-surface font-semibold">Javier Carrión</span>
+<span class="block font-body-sm text-[11px] text-on-surface-variant">Lateral Derecho</span>
+</div>
+</div>
+<div class="text-right">
+<span class="block font-headline-sm text-headline-sm text-court-blue font-black">64</span>
+<span class="block text-[10px] text-on-surface-variant uppercase font-semibold">tantos</span>
+</div>
+</div>
+<!-- Goleador 2 (Carlos Martínez) -->
+<div class="flex items-center justify-between bg-court-blue/5 border border-court-blue/20 p-1.5 rounded-lg">
+<div class="flex items-center gap-space-sm">
+<span class="font-mono text-court-blue font-black text-sm">#07</span>
+<div>
+<span class="block font-label-lg text-label-lg text-on-surface font-bold">Carlos Martínez (Tú)</span>
+<span class="block font-body-sm text-[11px] text-on-surface-variant">Extremo Izquierdo</span>
+</div>
+</div>
+<div class="text-right">
+<span class="block font-headline-sm text-headline-sm text-court-blue font-black">58</span>
+<span class="block text-[10px] text-on-surface-variant uppercase font-semibold">tantos</span>
+</div>
+</div>
+<!-- Goleador 3 -->
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="font-mono text-on-surface-variant font-black text-sm">#14</span>
+<div>
+<span class="block font-label-lg text-label-lg text-on-surface">Pablo Hernández</span>
+<span class="block font-body-sm text-[11px] text-on-surface-variant">Pivote</span>
+</div>
+</div>
+<div class="text-right">
+<span class="block font-headline-sm text-headline-sm text-on-surface font-bold">49</span>
+<span class="block text-[10px] text-on-surface-variant uppercase font-semibold">tantos</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Agenda de Fin de Semana (Todas las categorías) -->
+<div class="bg-white border border-border-subtle rounded-xl p-space-md shadow-sm flex flex-col gap-space-sm">
+<h3 class="font-label-lg text-label-lg text-on-surface uppercase tracking-wider font-bold mb-1">
+              Partidos Cantera &amp; Sénior
+            </h3>
+<div class="flex flex-col gap-space-xs text-body-sm">
+<div class="p-space-xs rounded bg-surface-container-low border border-border-subtle/50 flex items-center justify-between">
+<div>
+<span class="font-label-md text-label-md text-away-red font-bold block">Sénior Fem</span>
+<span class="text-on-surface-variant text-[11px]">vs BM Gandía (Fuera)</span>
+</div>
+<span class="font-mono text-[11px] text-on-surface font-semibold">Sáb 18:00h</span>
+</div>
+<div class="p-space-xs rounded bg-surface-container-low border border-border-subtle/50 flex items-center justify-between">
+<div>
+<span class="font-label-md text-label-md text-court-blue font-bold block">Juvenil Masc</span>
+<span class="text-on-surface-variant text-[11px]">vs CH Alcàsser (Casa)</span>
+</div>
+<span class="font-mono text-[11px] text-on-surface font-semibold">Dom 10:30h</span>
+</div>
+<div class="p-space-xs rounded bg-surface-container-low border border-border-subtle/50 flex items-center justify-between">
+<div>
+<span class="font-label-md text-label-md text-on-surface-variant font-bold block">Cadete Fem</span>
+<span class="text-on-surface-variant text-[11px]">vs BM Morvedre (Casa)</span>
+</div>
+<span class="font-mono text-[11px] text-on-surface font-semibold">Dom 12:15h</span>
+</div>
+</div>
+</div>
+</aside>
+</div>
+</div>
+</div>
+</div>
+<script>
+  // Micro-interaction for social poll clicks
+  document.addEventListener('DOMContentLoaded', () => {
+    const pollContainer = document.getElementById('poll-container');
+    if (pollContainer) {
+      const options = pollContainer.children;
+      Array.from(options).forEach(opt => {
+        opt.addEventListener('click', () => {
+          Array.from(options).forEach(o => o.classList.remove('ring-2', 'ring-court-blue'));
+          opt.classList.add('ring-2', 'ring-court-blue');
+        });
+      });
+    }
+  });
+</script></main><footer class="w-full bg-white border-t border-border-subtle mt-margin shadow-sm"><div class="w-full px-gutter py-space-xl flex flex-col md:flex-row items-center justify-between gap-space-md"><div class="flex items-center gap-space-sm"><img alt="Club Balonmano Buñol" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBx5VNT5M_rwz4dCiEIJm_nZ1lw2h_iTRLr0STbJj5FxVP91mSyprUVaxpAXYK4np4iNzOXdX6u29kg692V6pQIAuqNHBzJ4fbTJsigQyrJgrf-qX0e20ZoIyNf6pHFMTDXZQKaEcAbEYx_l-OkvzWiLEfjYJ1rMANXwa8STSlS7UtAEp7vZrd8J95-WhFMLJlFXXo-RcejVOTqeSCW5tttaaderYkB08SuZ9dPg4Q"/><span class="font-headline-sm text-headline-sm uppercase text-court-blue font-bold">Club Balonmano Buñol</span></div><p class="font-body-sm text-body-sm text-on-surface-variant">© 2024 Club Balonmano Buñol. Todos los derechos reservados. Pasión, cantera y honor.</p><div class="flex items-center gap-space-md font-label-md text-label-md text-on-surface-variant"><span class="hover:text-court-blue cursor-pointer transition-colors font-semibold">Federación RFEBM</span><span class="hover:text-court-blue cursor-pointer transition-colors font-semibold">FBMCV</span><span class="hover:text-court-blue cursor-pointer transition-colors font-semibold">Contacto</span></div></div></footer></body></html>

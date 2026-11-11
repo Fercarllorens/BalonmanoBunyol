@@ -1,0 +1,14 @@
+{
+  "name": "club-balonmano-bunol",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "db:up": "docker compose up -d postgres",
+    "db:down": "docker compose down",
+    "db:logs": "docker compose logs -f postgres",
+    "api": "powershell -NoProfile -ExecutionPolicy Bypass -File ./scripts/start-api.ps1",
+    "web": "npm --prefix frontend run dev",
+    "web:build": "npm --prefix frontend run build",
+    "web:lint": "npm --prefix frontend run lint"
+  }
+}

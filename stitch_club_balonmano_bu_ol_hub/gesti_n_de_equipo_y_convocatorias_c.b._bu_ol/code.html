@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "surface-container-high": "#e2e7ff",
+          "on-secondary-container": "#fffbff",
+          "inverse-on-surface": "#eef0ff",
+          "card-dark-surface": "#0B192C",
+          "on-primary": "#ffffff",
+          "surface-container-highest": "#dae2fd",
+          "surface-container-lowest": "#ffffff",
+          "primary-fixed-dim": "#94ccff",
+          "error-container": "#ffdad6",
+          "tertiary-container": "#4770be",
+          "on-secondary-fixed-variant": "#93000d",
+          "surface-container": "#eaedff",
+          "on-error-container": "#93000a",
+          "surface-light": "#F8FAFC",
+          "deep-navy": "#023E8A",
+          "on-tertiary-fixed": "#001a42",
+          "court-blue": "#0077B6",
+          "secondary": "#d62828",
+          "on-primary-fixed-variant": "#004b74",
+          "primary": "#0077b6",
+          "tertiary-fixed": "#d8e2ff",
+          "primary-container": "#0077b6",
+          "surface": "#faf8ff",
+          "background": "#faf8ff",
+          "error": "#ba1a1a",
+          "surface-bright": "#faf8ff",
+          "on-tertiary-fixed-variant": "#0f4490",
+          "outline": "#707881",
+          "tertiary": "#0077b6",
+          "inverse-surface": "#283044",
+          "surface-container-low": "#ffffff",
+          "on-surface-variant": "#404850",
+          "tertiary-fixed-dim": "#aec6ff",
+          "border-subtle": "#E2E8F0",
+          "card-dark-container": "#132238",
+          "inverse-primary": "#94ccff",
+          "secondary-fixed": "#ffdad6",
+          "on-primary-container": "#f3f7ff",
+          "outline-variant": "#bfc7d1",
+          "surface-tint": "#0077b6",
+          "surface-dim": "#d2d9f4",
+          "secondary-fixed-dim": "#ffb4ab",
+          "on-background": "#131b2e",
+          "on-secondary": "#ffffff",
+          "on-tertiary": "#ffffff",
+          "on-surface": "#131b2e",
+          "on-secondary-fixed": "#410002",
+          "secondary-container": "#de2e2c",
+          "on-primary-fixed": "#001d32",
+          "surface-pure": "#FFFFFF",
+          "on-error": "#ffffff",
+          "on-tertiary-container": "#f7f7ff",
+          "away-red": "#D62828",
+          "primary-fixed": "#cde5ff",
+          "surface-variant": "#e2e8f0"
+        },
+        "borderRadius": {
+          "DEFAULT": "0.25rem",
+          "lg": "0.5rem",
+          "xl": "0.75rem",
+          "full": "9999px"
+        },
+        "spacing": {
+          "margin": "2rem",
+          "space-sm": "0.5rem",
+          "space-md": "1rem",
+          "space-xs": "0.25rem",
+          "margin-mobile": "1rem",
+          "gutter-mobile": "0.75rem",
+          "space-xl": "2.5rem",
+          "space-lg": "1.5rem",
+          "gutter": "1.5rem"
+        },
+        "fontFamily": {
+          "headline-lg-mobile": [
+            "Plus Jakarta Sans"
+          ],
+          "label-md": [
+            "Plus Jakarta Sans"
+          ],
+          "body-sm": [
+            "Inter"
+          ],
+          "score-display": [
+            "Plus Jakarta Sans"
+          ],
+          "score-display-mobile": [
+            "Plus Jakarta Sans"
+          ],
+          "body-md": [
+            "Inter"
+          ],
+          "headline-lg": [
+            "Plus Jakarta Sans"
+          ],
+          "headline-md": [
+            "Plus Jakarta Sans"
+          ],
+          "display-hero": [
+            "Plus Jakarta Sans"
+          ],
+          "display-hero-mobile": [
+            "Plus Jakarta Sans"
+          ],
+          "body-lg": [
+            "Inter"
+          ],
+          "label-lg": [
+            "Plus Jakarta Sans"
+          ],
+          "headline-sm": [
+            "Plus Jakarta Sans"
+          ]
+        },
+        "fontSize": {
+          "headline-lg-mobile": [
+            "24px",
+            {
+              "lineHeight": "32px",
+              "letterSpacing": "-0.01em",
+              "fontWeight": "700"
+            }
+          ],
+          "label-md": [
+            "12px",
+            {
+              "lineHeight": "16px",
+              "letterSpacing": "0.04em",
+              "fontWeight": "600"
+            }
+          ],
+          "body-sm": [
+            "12px",
+            {
+              "lineHeight": "18px",
+              "fontWeight": "400"
+            }
+          ],
+          "score-display": [
+            "48px",
+            {
+              "lineHeight": "48px",
+              "letterSpacing": "-0.01em",
+              "fontWeight": "800"
+            }
+          ],
+          "score-display-mobile": [
+            "36px",
+            {
+              "lineHeight": "36px",
+              "letterSpacing": "-0.01em",
+              "fontWeight": "800"
+            }
+          ],
+          "body-md": [
+            "14px",
+            {
+              "lineHeight": "22px",
+              "fontWeight": "400"
+            }
+          ],
+          "headline-lg": [
+            "32px",
+            {
+              "lineHeight": "40px",
+              "letterSpacing": "-0.02em",
+              "fontWeight": "700"
+            }
+          ],
+          "headline-md": [
+            "20px",
+            {
+              "lineHeight": "28px",
+              "fontWeight": "700"
+            }
+          ],
+          "display-hero": [
+            "56px",
+            {
+              "lineHeight": "64px",
+              "letterSpacing": "-0.03em",
+              "fontWeight": "800"
+            }
+          ],
+          "display-hero-mobile": [
+            "36px",
+            {
+              "lineHeight": "44px",
+              "letterSpacing": "-0.02em",
+              "fontWeight": "800"
+            }
+          ],
+          "body-lg": [
+            "16px",
+            {
+              "lineHeight": "26px",
+              "fontWeight": "400"
+            }
+          ],
+          "label-lg": [
+            "14px",
+            {
+              "lineHeight": "20px",
+              "letterSpacing": "0.02em",
+              "fontWeight": "700"
+            }
+          ],
+          "headline-sm": [
+            "16px",
+            {
+              "lineHeight": "24px",
+              "fontWeight": "600"
+            }
+          ]
+        }
+      },
+    },
+  }
+</script></head><body class="bg-background font-body-md text-on-surface antialiased min-h-screen selection:bg-court-blue/20 selection:text-court-blue"><header class="fixed top-0 w-full z-50 bg-white/95 backdrop-blur-xl border-b border-border-subtle shadow-[0_1px_4px_rgba(0,0,0,0.06)]"><div class="h-20 w-full px-gutter flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-lg shrink-0"><div class="flex items-center gap-space-sm"><img alt="Professional headshot of a friendly Spanish sports club coordinator in his early 30s wearing a dark navy athletic polo shirt with a subtle club badge, warm smile, clean studio background with soft lighting." class="h-9 w-auto object-contain rounded-md" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBx5VNT5M_rwz4dCiEIJm_nZ1lw2h_iTRLr0STbJj5FxVP91mSyprUVaxpAXYK4np4iNzOXdX6u29kg692V6pQIAuqNHBzJ4fbTJsigQyrJgrf-qX0e20ZoIyNf6pHFMTDXZQKaEcAbEYx_l-OkvzWiLEfjYJ1rMANXwa8STSlS7UtAEp7vZrd8J95-WhFMLJlFXXo-RcejVOTqeSCW5tttaaderYkB08SuZ9dPg4Q"/><div class="flex flex-col"><span class="font-headline-sm text-headline-sm uppercase tracking-wider text-court-blue font-bold leading-none">C.B. BUÑOL</span><span class="font-label-md text-label-md uppercase tracking-widest text-on-surface-variant font-medium">Balonmano</span></div></div><div class="hidden xl:flex items-center relative w-72"><span class="material-symbols-outlined absolute left-3 text-on-surface-variant pointer-events-none text-[20px]">search</span><input class="w-full h-11 pl-10 pr-4 bg-surface-container-high/40 border border-border-subtle rounded-lg font-body-sm text-body-sm text-on-surface placeholder:text-on-surface-variant focus:outline-none focus:ring-2 focus:ring-court-blue/40 transition-all" placeholder="Buscar jugadores, partidos, noticias..." type="text"/></div></div><nav class="hidden lg:flex items-center gap-space-xs" data-active-classes="bg-court-blue/10 text-court-blue font-bold"><a class="px-space-md py-space-sm rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:text-court-blue hover:bg-surface-container-high/50 transition-colors" data-path="feed-social" href="#">Feed Social</a><a class="px-space-md py-space-sm rounded-lg font-label-lg text-label-lg bg-court-blue/10 text-court-blue font-bold transition-colors" data-path="gestion-de-equipo" href="#">Gestión de Equipo</a><a class="px-space-md py-space-sm rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:text-court-blue hover:bg-surface-container-high/50 transition-colors" data-path="administracion" href="#">Administración</a><a class="px-space-md py-space-sm rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:text-court-blue hover:bg-surface-container-high/50 transition-colors" data-path="partidos-y-resultados" href="#">Partidos y Resultados</a></nav><div class="flex items-center gap-space-md shrink-0"><div class="relative flex items-center justify-center w-10 h-10 rounded-full bg-surface-container-high/40 hover:bg-surface-container-high transition-colors cursor-pointer border border-border-subtle"><span class="material-symbols-outlined text-court-blue text-[22px]">sports_handball</span><span class="absolute top-1.5 right-1.5 flex h-2.5 w-2.5"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-away-red opacity-75"></span><span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-away-red"></span></span></div><div class="flex items-center gap-space-sm pl-space-sm"><div class="hidden md:flex flex-col text-right"><span class="font-label-lg text-label-lg text-on-surface leading-tight font-semibold">Carlos Martínez</span><div class="flex items-center justify-end gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-court-blue"></span><span class="font-label-md text-label-md text-on-surface-variant">Coord. Sénior</span></div></div><img alt="Profile" class="w-9 h-9 rounded-full object-cover ring-2 ring-court-blue/20" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDeFaCpxuYMtfW_9VTOX6aX8Rf72E2D4GRwyAVTpsTUAYVJ48l6GhGCmdWuVWkiEWkrJcC7BOUvJr02j0PL6T-G6kFet5bPWFoVk1iCitJvyfUI71btB7I0lVjiyZTNKEethyxtuC1UVnjeKCxsSY6jE3UYpUpY-KQ7Q3cT2tEDWzjXZempvSxKRa8VZykKYw_PCGttVX3ktU2J19C71oheYEbcekoUZNawdr5iNA8"/></div></div></div></header><main class="w-full pt-20 bg-background"><div class="flex flex-col w-full">
+<!-- Team Overview & Status Banner -->
+<section class="w-full px-margin py-space-lg flex flex-col gap-space-lg">
+<!-- Active Roster Category & Quick Metrics -->
+<div class="w-full flex flex-col lg:flex-row items-start lg:items-center justify-between gap-space-md bg-surface-pure p-space-lg rounded-xl border border-border-subtle shadow-sm">
+<div class="flex flex-wrap items-center gap-space-md">
+<div class="flex items-center gap-space-sm bg-surface-container-high/50 border border-border-subtle px-space-md py-space-sm rounded-lg">
+<span class="material-symbols-outlined text-court-blue text-[22px]">sports_handball</span>
+<div class="relative">
+<select class="bg-transparent font-headline-sm text-headline-sm text-on-surface font-bold cursor-pointer focus:outline-none pr-space-md appearance-none" id="teamSelector">
+<option class="bg-surface-pure text-on-surface" selected="" value="sen-masc">Sénior Masculino Autonómica</option>
+<option class="bg-surface-pure text-on-surface" value="juv-fem">Juvenil Femenino Preferente</option>
+<option class="bg-surface-pure text-on-surface" value="cad-masc">Cadete Masculino Promoción</option>
+<option class="bg-surface-pure text-on-surface" value="sen-fem">Sénior Femenino 1ª Nacional</option>
+</select>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant pointer-events-none text-[18px]">expand_more</span>
+</div>
+<div class="h-6 w-px bg-border-subtle hidden md:block"></div>
+<div class="flex items-center gap-space-sm">
+<span class="font-label-md text-label-md uppercase tracking-wider text-on-surface-variant font-medium">Posición Liga:</span>
+<span class="px-space-sm py-0.5 rounded-full bg-court-blue/10 border border-court-blue/20 font-label-lg text-label-lg text-court-blue font-semibold">2º de 14 Equipos</span>
+</div>
+<div class="flex items-center gap-space-xs font-body-md text-body-md text-on-surface">
+<span class="font-label-md text-label-md text-court-blue font-bold">11V</span>
+<span class="text-on-surface-variant">/</span>
+<span class="font-label-md text-label-md text-on-surface font-bold">2E</span>
+<span class="text-on-surface-variant">/</span>
+<span class="font-label-md text-label-md text-away-red font-bold">3D</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant ml-1">(24 Pts FBMCV)</span>
+</div>
+</div>
+<!-- Action Cluster -->
+<div class="flex items-center gap-space-sm w-full sm:w-auto">
+<button class="flex-1 sm:flex-initial h-11 px-space-md flex items-center justify-center gap-space-xs rounded-lg bg-surface-container-high/40 hover:bg-surface-container-high text-on-surface border border-border-subtle transition-colors font-label-lg text-label-lg shadow-sm" id="btnExportAct">
+<span class="material-symbols-outlined text-court-blue text-[18px]">description</span>
+<span>Exportar Acta Oficial</span>
+</button>
+<button class="flex-1 sm:flex-initial h-11 px-space-md flex items-center justify-center gap-space-xs rounded-lg bg-away-red text-white font-label-lg text-label-lg hover:bg-red-700 shadow-sm transition-all" id="btnPushNotify">
+<span class="material-symbols-outlined text-[18px]">send</span>
+<span>Avisar Convocatoria</span>
+</button>
+</div>
+</div>
+<!-- Match Card Alert -->
+<div class="w-full bg-gradient-to-r from-blue-50/70 via-surface-pure to-blue-50/70 border border-court-blue/20 p-space-md rounded-xl shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-md">
+<div class="w-12 h-12 rounded-xl bg-court-blue/10 border border-court-blue/20 flex items-center justify-center text-court-blue shrink-0 shadow-sm">
+<span class="material-symbols-outlined text-[28px]">event_upcoming</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="px-space-xs py-0.5 rounded bg-court-blue/15 text-court-blue font-label-md text-label-md font-bold">Jornada 17</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Sábado 18:30 h • Pabellón Polideportivo El Planell (Buñol)</span>
+</div>
+<p class="font-headline-sm text-headline-sm text-on-surface mt-0.5 font-bold">
+            C.B. Buñol Sénior <span class="text-away-red font-bold">vs</span> C.BM. Puerto Sagunto B
+          </p>
+</div>
+</div>
+<div class="flex items-center gap-space-lg self-end md:self-center shrink-0">
+<div class="text-right">
+<span class="font-label-md text-label-md uppercase tracking-wider text-on-surface-variant block font-medium">Convocados</span>
+<span class="font-headline-md text-headline-md text-court-blue font-extrabold" id="confirmedCount">14 / 16 Confirmados</span>
+</div>
+<div class="w-10 h-10 rounded-full bg-court-blue/10 flex items-center justify-center text-court-blue border border-court-blue/20">
+<span class="material-symbols-outlined text-[22px]">how_to_reg</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Interactive Hub: Convocatoria & Weekly Tactical Block -->
+<section class="w-full px-margin pb-space-lg grid grid-cols-1 xl:grid-cols-12 gap-space-lg">
+<!-- LEFT PANEL: Match Day Call-up Squad (16 roster slots) -->
+<div class="xl:col-span-7 flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-2.5 h-6 bg-court-blue rounded-full"></div>
+<h2 class="font-headline-md text-headline-md text-on-surface font-bold">Convocatoria Oficial (16 Jugadores)</h2>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="font-label-md text-label-md text-on-surface-variant">Filtro:</span>
+<button class="px-space-sm py-1 rounded bg-court-blue text-white font-label-md text-label-md shadow-sm">Todos</button>
+<button class="px-space-sm py-1 rounded bg-surface-pure border border-border-subtle text-on-surface-variant hover:text-on-surface font-label-md text-label-md">Titulares</button>
+</div>
+</div>
+<!-- Call-up Player Grid / List -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-sm">
+<!-- Player 1 -->
+<div class="bg-surface-pure hover:border-court-blue/50 border border-border-subtle transition-all p-space-md rounded-xl flex items-center justify-between shadow-sm">
+<div class="flex items-center gap-space-sm">
+<div class="relative w-11 h-11 rounded-lg overflow-hidden shrink-0 bg-surface-container-high">
+<img class="w-full h-full object-cover" data-alt="Athletic Spanish handball goalkeeper standing in dark navy club kit looking concentrated with focused determined gaze in an indoor arena" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCT2ZKL4XweZX4Wr3IXCtAHukUw-_pSVg5j3WES_Zwpyk-r6lMsEHMybGfCt6-Jr8zX_EAibw2-W0RZy_fwWxA-qdFIJc3iooAw0mqClpQQ6l1nQRzxjEZ9ndVMeBHY6x8NfYnUfjpllASsQYNRYvU16RxMKyDr0x9SrM_Pg7-_HjSIBAJU2-cDx1GCLCfO9Nj3aM_qYCLSa_91q1Qwf_irlI_5pjxTbWMCXzjTmEI"/>
+<span class="absolute bottom-0 right-0 bg-court-blue text-white font-label-md text-label-md px-1 rounded-tl font-bold">1</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-on-surface font-semibold">Pau Ferrer Ribera</span>
+<div class="flex items-center gap-1.5">
+<span class="px-1.5 py-0.5 rounded bg-court-blue/10 text-court-blue font-label-md text-label-md font-medium">Portero</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Capitán</span>
+</div>
+</div>
+</div>
+<span class="px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 font-label-md text-label-md flex items-center gap-1 font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Confirmado
+          </span>
+</div>
+<!-- Player 2 -->
+<div class="bg-surface-pure hover:border-court-blue/50 border border-border-subtle transition-all p-space-md rounded-xl flex items-center justify-between shadow-sm">
+<div class="flex items-center gap-space-sm">
+<div class="relative w-11 h-11 rounded-lg overflow-hidden shrink-0 bg-surface-container-high">
+<img class="w-full h-full object-cover" data-alt="Handball player with intense look wearing dark training shirt ready for defensive stance on indoor court" src="https://lh3.googleusercontent.com/aida-public/AB6AXuACgOZ8UfWrzAmZaAacih1JRlGZNvuQAdfDgyDJl5ZkfPgPheV-OkEESCbtPGjG27MfNHX2UHmN7RObuWlQnVu7MalNTJ8SxlRYyvPR5rdfG7EcHCPRIcbvBo_eIOtnOAsykCGL1R7u5iGYB2ffqpXtFwHNwYIvW3rw2NilKPoZuvRNhxkUBo7o8L4-oxIqcsca7LsIG-c0FGeHnWFDUEZ_dY_WI4NJH1K_nfz1VoQ"/>
+<span class="absolute bottom-0 right-0 bg-court-blue text-white font-label-md text-label-md px-1 rounded-tl font-bold">12</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-on-surface font-semibold">Adrián Sanz Valero</span>
+<div class="flex items-center gap-1.5">
+<span class="px-1.5 py-0.5 rounded bg-court-blue/10 text-court-blue font-label-md text-label-md font-medium">Portero</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Suplente</span>
+</div>
+</div>
+</div>
+<span class="px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 font-label-md text-label-md flex items-center gap-1 font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Confirmado
+          </span>
+</div>
+<!-- Player 3 -->
+<div class="bg-surface-pure hover:border-court-blue/50 border border-border-subtle transition-all p-space-md rounded-xl flex items-center justify-between shadow-sm">
+<div class="flex items-center gap-space-sm">
+<div class="relative w-11 h-11 rounded-lg overflow-hidden shrink-0 bg-surface-container-high">
+<img class="w-full h-full object-cover" data-alt="Muscular pivot handball player wearing number 4 dark jersey posing in athletic gymnasium" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHG47cgKDuw0lB1Wtbo6YT2NrsmZktXejskoK35b8p3JFU3A-XAa26i-btPF-4Smj5-nyUGhEpFlyDlwQRQQhIdl3tfsM2K1Ohg0A0_0rGZ-utCetTqxPnrNOyFCCGFoYxkb22U2T2UIM7UNLMwksFAM4bgrCjWH7Od2c4EEyQ8ImO4asq8NbYr0MyJBbkLrF-4EcJDvAqx4R7qzpaEnR27vELr3Wpj3V2hWFGZNk"/>
+<span class="absolute bottom-0 right-0 bg-court-blue text-white font-label-md text-label-md px-1 rounded-tl font-bold">4</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-on-surface font-semibold">Marc Gómez Morales</span>
+<div class="flex items-center gap-1.5">
+<span class="px-1.5 py-0.5 rounded bg-court-blue/10 text-court-blue font-label-md text-label-md font-medium">Pivote</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">6-0 Titular</span>
+</div>
+</div>
+</div>
+<span class="px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 font-label-md text-label-md flex items-center gap-1 font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Confirmado
+          </span>
+</div>
+<!-- Player 4 -->
+<div class="bg-surface-pure hover:border-court-blue/50 border border-border-subtle transition-all p-space-md rounded-xl flex items-center justify-between shadow-sm">
+<div class="flex items-center gap-space-sm">
+<div class="relative w-11 h-11 rounded-lg overflow-hidden shrink-0 bg-surface-container-high">
+<img class="w-full h-full object-cover" data-alt="Young agile handball wing player smiling during training camp with team gear" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAeglJVUE-uarstP8qsxPw7hWAq6gmKJUXOEMR86p0gILLYjZoXEjVZNzagihPwB0gHXgGa6ajhZRvzO93pqDVZ-Vw84zOZajDBJBG5iIhn9gyUmuLKv_mx7c3HrutqEOIZf2RsL4FJMDktfURdI00DMcXAjnd4y-PPy45n6WWwr_h4u9zTXMqrSCPLXF038uER9vcHIhGVbATJiUm9DYhBAOhDcrF824gu5wng5HQ"/>
+<span class="absolute bottom-0 right-0 bg-court-blue text-white font-label-md text-label-md px-1 rounded-tl font-bold">7</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-on-surface font-semibold">Hugo Cervera Miró</span>
+<div class="flex items-center gap-1.5">
+<span class="px-1.5 py-0.5 rounded bg-court-blue/10 text-court-blue font-label-md text-label-md font-medium">Extremo Izq.</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Contragolpe</span>
+</div>
+</div>
+</div>
+<span class="px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 font-label-md text-label-md flex items-center gap-1 font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Confirmado
+          </span>
+</div>
+<!-- Player 5 -->
+<div class="bg-surface-pure hover:border-court-blue/50 border border-border-subtle transition-all p-space-md rounded-xl flex items-center justify-between shadow-sm">
+<div class="flex items-center gap-space-sm">
+<div class="relative w-11 h-11 rounded-lg overflow-hidden shrink-0 bg-surface-container-high">
+<img class="w-full h-full object-cover" data-alt="Handball playmaker central back player holding ball with resin under athletic floodlights" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXqgAm1-rAD_cBVgRWoNK7r6WdUaU281YTzOELM1Zj4WQFXlaxbB3fvxXLwb_oh4hG0iNmMCQT4PZdXy26RrkTCi0SkO1VD9au75tm3pXKLX4fhFRj7bXW8jdZiLPpqaUW648z2BkNaTgdxJWI8BVa08gSF77ry99n-EuARAXMQU45SPM7wS55iLK0SIlae73X9Xy-Y8x7l3FmtGlisNAUOvsJLLxwMHSsoBo1QJk"/>
+<span class="absolute bottom-0 right-0 bg-court-blue text-white font-label-md text-label-md px-1 rounded-tl font-bold">10</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-on-surface font-semibold">Vicente Pallás Gil</span>
+<div class="flex items-center gap-1.5">
+<span class="px-1.5 py-0.5 rounded bg-court-blue/10 text-court-blue font-label-md text-label-md font-medium">Central</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Director Táctico</span>
+</div>
+</div>
+</div>
+<span class="px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 font-label-md text-label-md flex items-center gap-1 font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Confirmado
+          </span>
+</div>
+<!-- Player 6 -->
+<div class="bg-surface-pure hover:border-court-blue/50 border border-border-subtle transition-all p-space-md rounded-xl flex items-center justify-between shadow-sm">
+<div class="flex items-center gap-space-sm">
+<div class="relative w-11 h-11 rounded-lg overflow-hidden shrink-0 bg-surface-container-high">
+<img class="w-full h-full object-cover" data-alt="Tall powerful left back handball player with muscular arms during warm-up in club facility" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDAunXsKB_59uYABFky_swSw5iYOz5oFpTyHVtHrk6m1D-lx12EYjnnX_NR9goho36CXlRRjrNI12RIRmF3ZghtCS2_Sxbktx9ZIqTIeKGWU_CouFOwuknALuRj4U8uSGH6V8Bm63uRSNnoQUuZo4NZ-UjAXiwHgUzCnV0O5kgwmRvVguqSg_CfkPbz96N625myEIkEme44LK721S17Edo28baezE-5S3bjTpHYogg"/>
+<span class="absolute bottom-0 right-0 bg-court-blue text-white font-label-md text-label-md px-1 rounded-tl font-bold">14</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-on-surface font-semibold">Javier Alarcón Ruiz</span>
+<div class="flex items-center gap-1.5">
+<span class="px-1.5 py-0.5 rounded bg-court-blue/10 text-court-blue font-label-md text-label-md font-medium">Lateral Izq.</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Lanzador 9m</span>
+</div>
+</div>
+</div>
+<span class="px-2.5 py-1 rounded-full bg-amber-50 text-amber-800 border border-amber-200 font-label-md text-label-md flex items-center gap-1 font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> Pendiente (Trabajo)
+          </span>
+</div>
+<!-- Player 7 -->
+<div class="bg-surface-pure hover:border-court-blue/50 border border-border-subtle transition-all p-space-md rounded-xl flex items-center justify-between shadow-sm">
+<div class="flex items-center gap-space-sm">
+<div class="relative w-11 h-11 rounded-lg overflow-hidden shrink-0 bg-surface-container-high">
+<img class="w-full h-full object-cover" data-alt="Left-handed right back handball player stretching shoulder on gym floor" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHPvZvgrdecsoTNWAEHDJ1pjMQbrY-CzyW_siwRDjZjWzfjQ5U5DotjokCix6e92czFJhR19tlQSnOUQJHB5zQFNDrfv7AzaAoRfWEPhVf9S-t8aOJxJPs14zideVzbKGVzbMBZM8UMcZygEI0pUAnllHPSxCOrSVene13jRhwrlKHZAoUK6xE-7gRMWcxmC7_E7t81OfvEKO_EiLYVOBv-IqTx2SHIHGntRgwJ80"/>
+<span class="absolute bottom-0 right-0 bg-court-blue text-white font-label-md text-label-md px-1 rounded-tl font-bold">18</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-on-surface font-semibold">Raúl Carrascosa</span>
+<div class="flex items-center gap-1.5">
+<span class="px-1.5 py-0.5 rounded bg-court-blue/10 text-court-blue font-label-md text-label-md font-medium">Lateral Dcho.</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Zurdo</span>
+</div>
+</div>
+</div>
+<span class="px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 font-label-md text-label-md flex items-center gap-1 font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Confirmado
+          </span>
+</div>
+<!-- Player 8 -->
+<div class="bg-surface-pure hover:border-court-blue/50 border border-border-subtle transition-all p-space-md rounded-xl flex items-center justify-between shadow-sm">
+<div class="flex items-center gap-space-sm">
+<div class="relative w-11 h-11 rounded-lg overflow-hidden shrink-0 bg-surface-container-high">
+<img class="w-full h-full object-cover" data-alt="Right wing handball player tied hair ready on the court line looking sharp" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9RiljXRQcC4m_hJLvqljC8V-LbmmcMpB5ZKQpzLW0GO_kjlmSpCObqLllYQE7PurW98Kpj_ctoFn3gKtGfwFzMvIC5-bMyf8GWXpJIgBJOpxQPcAKn6X3Hdra7NNTFjkjBbTcRa8-S3RYKzsIQH9QdVaJTdv-oG3bmRV_VlZ32dLPHkTPTabLaAmiX8Evp_9Hq08I6ymFuINms_KM2qQm3ZWWgWSekb9coRFrsPs"/>
+<span class="absolute bottom-0 right-0 bg-court-blue text-white font-label-md text-label-md px-1 rounded-tl font-bold">21</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-on-surface font-semibold">Álvaro Lambíes Cruz</span>
+<div class="flex items-center gap-1.5">
+<span class="px-1.5 py-0.5 rounded bg-court-blue/10 text-court-blue font-label-md text-label-md font-medium">Extremo Dcho.</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Especialista Penalti</span>
+</div>
+</div>
+</div>
+<span class="px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 font-label-md text-label-md flex items-center gap-1 font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Confirmado
+          </span>
+</div>
+<!-- Player 9 -->
+<div class="bg-surface-pure hover:border-court-blue/50 border border-border-subtle transition-all p-space-md rounded-xl flex items-center justify-between shadow-sm">
+<div class="flex items-center gap-space-sm">
+<div class="relative w-11 h-11 rounded-lg overflow-hidden shrink-0 bg-surface-container-high">
+<img class="w-full h-full object-cover" data-alt="Handball player with knee tape during tactical briefing in modern team dugout" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC6XE2gwrC05qSnhCtZNlzdwz0fFQiV27oWoa_ZyVpnHlVclJ0e80X69qQtsM8iDEsfCIoz51S-3CaelMnAeoa56pWPVFOQN7NcVnPXVqXhtZkinPGJcvrjG9QHOE-wYEoa9oTUEwVyBohOKsbOi9paAMzIJIZteJj5BavAzy_u2yUrGHIh4WmKN36CbZzLgEMwx_ABDLdjQqU6hsNJyF_90SHuhjS0S7sx__vPIYQ"/>
+<span class="absolute bottom-0 right-0 bg-court-blue text-white font-label-md text-label-md px-1 rounded-tl font-bold">23</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-on-surface font-semibold">Guillermo Sierra Pons</span>
+<div class="flex items-center gap-1.5">
+<span class="px-1.5 py-0.5 rounded bg-court-blue/10 text-court-blue font-label-md text-label-md font-medium">Pivote</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Rotación</span>
+</div>
+</div>
+</div>
+<span class="px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 font-label-md text-label-md flex items-center gap-1 font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Confirmado
+          </span>
+</div>
+<!-- Player 10 -->
+<div class="bg-surface-pure hover:border-court-blue/50 border border-border-subtle transition-all p-space-md rounded-xl flex items-center justify-between shadow-sm">
+<div class="flex items-center gap-space-sm">
+<div class="relative w-11 h-11 rounded-lg overflow-hidden shrink-0 bg-surface-container-high">
+<img class="w-full h-full object-cover" data-alt="Athletic handball specialist wearing athletic polo shirt sitting in team meeting room" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAw15zcsBp6CT2aue5JViTaHgt-t6yoTiYdvEzjbKjDzocM-_1uQYDhdNpz1UL11QgA-RD7tBTToR_tLhd3sZPjN5xkLTsNW1b79kG-3hpXCcrkyqi_3rl7gEJMndmP0AStK9-0t9uCNIKD-YXmR-vkLzTqk8H1vFTXV8S817qcVR4ZpyzwCtdhPmNO0Bw_mtnGIHqeydzCFwkBi09X_Vba1Htg0ItVSQy3vgBh3-s"/>
+<span class="absolute bottom-0 right-0 bg-court-blue text-white font-label-md text-label-md px-1 rounded-tl font-bold">2</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-on-surface font-semibold">Sergi Martínez Soler</span>
+<div class="flex items-center gap-1.5">
+<span class="px-1.5 py-0.5 rounded bg-court-blue/10 text-court-blue font-label-md text-label-md font-medium">Defensor</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Especialista Central</span>
+</div>
+</div>
+</div>
+<span class="px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 font-label-md text-label-md flex items-center gap-1 font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Confirmado
+          </span>
+</div>
+<!-- Player 11 -->
+<div class="bg-surface-pure hover:border-court-blue/50 border border-border-subtle transition-all p-space-md rounded-xl flex items-center justify-between shadow-sm">
+<div class="flex items-center gap-space-sm">
+<div class="relative w-11 h-11 rounded-lg overflow-hidden shrink-0 bg-surface-container-high">
+<img class="w-full h-full object-cover" data-alt="Spanish young handball player smiling confidently inside sports arena" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCM3LTw5JNFyw1oT920qYMxa22Rb_snURcPb2bPbsT0I72VJ3N0JHrxn2wlPnBOYzgjNyupdwhTKdf-xkecL5yvoPrW9UgrJnDiYj_qhbT_WjPYjnoprHX_a1k5rkR0hLWTKbUWn1f8QuV8fDKAmvEDhCp7eTnaX12siR29jskM0dhy0HEbniV_5NlOlZmYZtMYIY8MR9x9-jd9zPQ9CNWlBetoIQTKByg6hhggLak"/>
+<span class="absolute bottom-0 right-0 bg-court-blue text-white font-label-md text-label-md px-1 rounded-tl font-bold">9</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-on-surface font-semibold">Dani Fuentes Orts</span>
+<div class="flex items-center gap-1.5">
+<span class="px-1.5 py-0.5 rounded bg-court-blue/10 text-court-blue font-label-md text-label-md font-medium">Central</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Canterano</span>
+</div>
+</div>
+</div>
+<span class="px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 font-label-md text-label-md flex items-center gap-1 font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Confirmado
+          </span>
+</div>
+<!-- Player 12 -->
+<div class="bg-surface-pure hover:border-court-blue/50 border border-border-subtle transition-all p-space-md rounded-xl flex items-center justify-between shadow-sm">
+<div class="flex items-center gap-space-sm">
+<div class="relative w-11 h-11 rounded-lg overflow-hidden shrink-0 bg-surface-container-high">
+<img class="w-full h-full object-cover" data-alt="Fast handball winger in dynamic training stance on wooden court" src="https://lh3.googleusercontent.com/aida-public/AB6AXuChVId1HdBXxxBBC75dodi7loX0ffbOrrAfCoNWE3gF54Q6jef8-2ZQytKY9QaovQSbeMb4f6mJzv-z_NgEsaZ7S6epim0PEBZnKGQLYn1rXoBb1ngWAAiGQM0huZsHXNwT2VdzbcTI4O_iRwq-0lQnn3uxVgoBH-FmuRkbRPSnHPRTCRgmNbe-dwsYKXATtVlnzaOC92GaM6mE7s3Uh36xKtS412Itw5MRpYcBEjM"/>
+<span class="absolute bottom-0 right-0 bg-court-blue text-white font-label-md text-label-md px-1 rounded-tl font-bold">11</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-on-surface font-semibold">Mateo Ibáñez Calvo</span>
+<div class="flex items-center gap-1.5">
+<span class="px-1.5 py-0.5 rounded bg-court-blue/10 text-court-blue font-label-md text-label-md font-medium">Extremo Izq.</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Rotación</span>
+</div>
+</div>
+</div>
+<span class="px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 font-label-md text-label-md flex items-center gap-1 font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Confirmado
+          </span>
+</div>
+<!-- Player 13 -->
+<div class="bg-surface-pure hover:border-court-blue/50 border border-border-subtle transition-all p-space-md rounded-xl flex items-center justify-between shadow-sm">
+<div class="flex items-center gap-space-sm">
+<div class="relative w-11 h-11 rounded-lg overflow-hidden shrink-0 bg-surface-container-high">
+<img class="w-full h-full object-cover" data-alt="Handball player with protective wrist band looking up at the scoreboard" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDLwWzjycBJ-5GCPRpqNWql6flYWzIEeUD6UEBl6ir_HyeJUAY4-2Os64tW1jqkNli4nJfRwNbhKI4myxf20fqlZdnVXSplE8UBcgtZq8KxquXGyE8IZCv-l7n5iQbm9E6Y015qj4t-WNdVgcgNeDkaFt9BMJsnVaCKCozZcszU4ek0roEyRTlxUdnsTTqfH777Li6Wldjon_JGpDXNFnGw_herr0ypaN5vrg8kbQc"/>
+<span class="absolute bottom-0 right-0 bg-court-blue text-white font-label-md text-label-md px-1 rounded-tl font-bold">15</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-on-surface font-semibold">Carles Tarín Benlloch</span>
+<div class="flex items-center gap-1.5">
+<span class="px-1.5 py-0.5 rounded bg-court-blue/10 text-court-blue font-label-md text-label-md font-medium">Lateral Izq.</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Segunda Línea</span>
+</div>
+</div>
+</div>
+<span class="px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 font-label-md text-label-md flex items-center gap-1 font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Confirmado
+          </span>
+</div>
+<!-- Player 14 -->
+<div class="bg-surface-pure hover:border-court-blue/50 border border-border-subtle transition-all p-space-md rounded-xl flex items-center justify-between shadow-sm">
+<div class="flex items-center gap-space-sm">
+<div class="relative w-11 h-11 rounded-lg overflow-hidden shrink-0 bg-surface-container-high">
+<img class="w-full h-full object-cover" data-alt="Right wing handball player smiling during squad warm up session" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDnM7ha_mmDAwNAB8rgHp6Eft2QfFuG9D0i29KcpT7ZlJTyECXb2hC0kOniz79I34S9qpOpfeSg4YN6asXhuXjOffnAw_PF-c57q54OjEsATLA2wCIW8VdRz9Rkr_7dSfp8QX1axnGE2CKo18PgtCh-UtFBdl7cNzbNeEikKy8XWkiyB2ChMCHpzj8I9H3M6YX1v1Adqoc9Q2XaLnjBgPQXOmivKQ8rVVBwdpJ_tVo"/>
+<span class="absolute bottom-0 right-0 bg-court-blue text-white font-label-md text-label-md px-1 rounded-tl font-bold">27</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-on-surface font-semibold">Gonzalo Pastor Navarro</span>
+<div class="flex items-center gap-1.5">
+<span class="px-1.5 py-0.5 rounded bg-court-blue/10 text-court-blue font-label-md text-label-md font-medium">Extremo Dcho.</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Juvenil Promovido</span>
+</div>
+</div>
+</div>
+<span class="px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 font-label-md text-label-md flex items-center gap-1 font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Confirmado
+          </span>
+</div>
+<!-- Player 15 (Injury status) -->
+<div class="bg-surface-pure/90 hover:border-away-red border border-border-subtle transition-all p-space-md rounded-xl flex items-center justify-between shadow-sm border-l-4 border-l-away-red">
+<div class="flex items-center gap-space-sm">
+<div class="relative w-11 h-11 rounded-lg overflow-hidden shrink-0 bg-surface-container-high opacity-70">
+<img class="w-full h-full object-cover" data-alt="Handball player with thoughtful expression sitting on bench with ankle brace in gym" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFyTTX_mmqEGn1E77WU2Fc1KcyE2s1LWEnzS3SdJdI4YyoCNNy5TS4OQoIA6xGCensrRbDhL0KxabUJ-TL77-Ex8YX2rhF4cg0ONboAEGCpWA6Qd94aAqvhWvhBzg0tVQIcwXTklaqkYTq647vBkPETqclhCZmnrJiBav3j1Vp9Dcyaube_8XAfnP1yNcbHdblwKujZkOwHYuxY-iEHIkSsgQ7b59q2ZE6exX4DLU"/>
+<span class="absolute bottom-0 right-0 bg-away-red text-white font-label-md text-label-md px-1 rounded-tl font-bold">8</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-on-surface-variant line-through font-medium">Lucas Morell Mas</span>
+<div class="flex items-center gap-1.5">
+<span class="px-1.5 py-0.5 rounded bg-surface-container-high text-on-surface-variant font-label-md text-label-md">Lateral Dcho.</span>
+<span class="font-body-sm text-body-sm text-away-red font-medium">Esguince tobillo Grado II</span>
+</div>
+</div>
+</div>
+<span class="px-2.5 py-1 rounded-full bg-red-50 text-away-red border border-red-200 font-label-md text-label-md flex items-center gap-1 font-semibold">
+<span class="material-symbols-outlined text-[14px]">medical_services</span> Baja Médica
+          </span>
+</div>
+<!-- Player 16 (Available reserve) -->
+<div class="bg-surface-pure hover:border-court-blue/50 border border-border-subtle transition-all p-space-md rounded-xl flex items-center justify-between shadow-sm">
+<div class="flex items-center gap-space-sm">
+<div class="relative w-11 h-11 rounded-lg overflow-hidden shrink-0 bg-surface-container-high">
+<img class="w-full h-full object-cover" data-alt="Third handball goalkeeper preparing gloves and shoes before regional game" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC8Vjpp6HwOAm1ORV2E1D6L0ks9e1BuYjguRH6Azz_IA5PPKDAyN8bItyQzvdAHdaL8D7wjpeqqwD5xKURLgExkocP-WwVBI9KqoT0P95N0rVM9thUYdKcVWJ0fgXQXYSCrXv33ngdmOBgpwZ_qQNh7jr-09gsANh-urUOIXrhfr0i4giI1mpmE7oW8qmAqxbQnHHpdtbS8OXDKAZPO3nZ46fUYGEOXK1zL3Y8nWo4"/>
+<span class="absolute bottom-0 right-0 bg-court-blue text-white font-label-md text-label-md px-1 rounded-tl font-bold">16</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-on-surface font-semibold">Víctor Zanón Gallego</span>
+<div class="flex items-center gap-1.5">
+<span class="px-1.5 py-0.5 rounded bg-court-blue/10 text-court-blue font-label-md text-label-md font-medium">Portero</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Convocatoria Extra</span>
+</div>
+</div>
+</div>
+<span class="px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 font-label-md text-label-md flex items-center gap-1 font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Confirmado
+          </span>
+</div>
+</div>
+</div>
+<!-- RIGHT PANEL: Tactical Whiteboard & Weekly Plan -->
+<div class="xl:col-span-5 flex flex-col gap-space-md">
+<!-- Interactive Tactical Board Section -->
+<div class="bg-surface-pure border border-border-subtle p-space-md rounded-xl shadow-sm flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-court-blue text-[22px]">draw</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">Pizarra Táctica de Partido</h3>
+</div>
+<span class="px-space-sm py-0.5 rounded bg-court-blue/10 text-court-blue font-label-md text-label-md font-semibold">Fase 2: Repliegue 6-0</span>
+</div>
+<!-- Court Representation (SVG Court Graphic) -->
+<div class="relative w-full h-56 rounded-lg bg-[#0c1f38] overflow-hidden flex items-center justify-center p-2 shadow-inner border border-slate-700">
+<svg class="w-full h-full opacity-95 select-none" viewbox="0 0 600 320">
+<!-- Floor pattern -->
+<rect fill="#0b1b30" height="320" rx="6" width="600"></rect>
+<!-- Outer Boundary Lines -->
+<rect fill="none" height="280" stroke="#334e68" stroke-width="2" width="560" x="20" y="20"></rect>
+<line stroke="#334e68" stroke-dasharray="4" stroke-width="2" x1="300" x2="300" y1="20" y2="300"></line>
+<!-- Left 6m & 9m Handball Zones -->
+<path d="M 20,80 A 60,60 0 0,1 80,140 L 80,180 A 60,60 0 0,1 20,240" fill="none" stroke="#0077b6" stroke-width="2.5"></path>
+<path d="M 20,50 A 90,90 0 0,1 110,140 L 110,180 A 90,90 0 0,1 20,270" fill="none" stroke="#d8e2ff" stroke-dasharray="6,4" stroke-width="1.5"></path>
+<rect fill="#d62828" height="60" width="8" x="14" y="130"></rect> <!-- Goal -->
+<!-- Right 6m & 9m Handball Zones -->
+<path d="M 580,80 A 60,60 0 0,0 520,140 L 520,180 A 60,60 0 0,0 580,240" fill="none" stroke="#0077b6" stroke-width="2.5"></path>
+<path d="M 580,50 A 90,90 0 0,0 490,140 L 490,180 A 90,90 0 0,0 580,270" fill="none" stroke="#d8e2ff" stroke-dasharray="6,4" stroke-width="1.5"></path>
+<rect fill="#d62828" height="60" width="8" x="578" y="130"></rect> <!-- Goal -->
+<!-- Tactical Player Dots & Movement Vectors -->
+<!-- GK -->
+<circle cx="50" cy="160" fill="#0077b6" r="10"></circle>
+<text fill="#ffffff" font-size="10" font-weight="bold" text-anchor="middle" x="50" y="164">1</text>
+<!-- Defense 6-0 Line (Buñol) -->
+<circle cx="95" cy="95" fill="#0077b6" r="9"></circle>
+<text fill="#ffffff" font-size="9" font-weight="bold" text-anchor="middle" x="95" y="99">7</text>
+<circle cx="102" cy="125" fill="#0077b6" r="9"></circle>
+<text fill="#ffffff" font-size="9" font-weight="bold" text-anchor="middle" x="102" y="129">14</text>
+<circle cx="105" cy="150" fill="#0077b6" r="9"></circle>
+<text fill="#ffffff" font-size="9" font-weight="bold" text-anchor="middle" x="105" y="154">4</text>
+<circle cx="105" cy="170" fill="#0077b6" r="9"></circle>
+<text fill="#ffffff" font-size="9" font-weight="bold" text-anchor="middle" x="105" y="174">2</text>
+<circle cx="102" cy="195" fill="#0077b6" r="9"></circle>
+<text fill="#ffffff" font-size="9" font-weight="bold" text-anchor="middle" x="102" y="199">18</text>
+<circle cx="95" cy="225" fill="#0077b6" r="9"></circle>
+<text fill="#ffffff" font-size="9" font-weight="bold" text-anchor="middle" x="95" y="229">21</text>
+<!-- Tactical Arrows (Fast break) -->
+<line marker-end="url(#arrow)" stroke="#94ccff" stroke-dasharray="3,3" stroke-width="2" x1="95" x2="220" y1="95" y2="60"></line>
+<line marker-end="url(#arrow)" stroke="#94ccff" stroke-dasharray="3,3" stroke-width="2" x1="95" x2="220" y1="225" y2="260"></line>
+<!-- Opponent Attackers -->
+<circle cx="140" cy="115" fill="#d62828" r="8"></circle>
+<circle cx="160" cy="160" fill="#d62828" r="8"></circle>
+<circle cx="140" cy="205" fill="#d62828" r="8"></circle>
+</svg>
+</div>
+<!-- Tactical Drills Scheduled -->
+<div class="flex flex-col gap-space-xs">
+<div class="p-space-sm rounded-lg bg-surface-container-high/40 border border-border-subtle flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-court-blue text-[20px]">shield</span>
+<div>
+<span class="font-label-lg text-label-lg text-on-surface block font-semibold">Defensa 6-0 presionante y repliegue</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Minutos 0-20 • Basculación rápida a zona de balón</span>
+</div>
+</div>
+<span class="text-court-blue font-label-md text-label-md font-bold">Prioridad Alta</span>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container-high/40 border border-border-subtle flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-away-red text-[20px]">bolt</span>
+<div>
+<span class="font-label-lg text-label-lg text-on-surface block font-semibold">Ataque posicional vs Mixta</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Desbloqueo de lateral izquierdo con 2 pivotes</span>
+</div>
+</div>
+<span class="text-away-red font-label-md text-label-md font-bold">Plan B</span>
+</div>
+</div>
+</div>
+<!-- Weekly Schedule Strip -->
+<div class="bg-surface-pure border border-border-subtle p-space-md rounded-xl shadow-sm flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-court-blue text-[20px]">date_range</span>
+            Plan Semanal: Pabellón El Planell
+          </h3>
+<span class="font-body-sm text-body-sm text-on-surface-variant font-medium">Semana 12</span>
+</div>
+<div class="flex flex-col gap-2">
+<!-- Mon -->
+<div class="flex items-center justify-between p-2.5 rounded-lg bg-surface-container-high/30 border border-border-subtle text-body-sm">
+<div class="flex items-center gap-2">
+<span class="w-8 font-label-md text-label-md text-on-surface-variant font-bold">LUN</span>
+<span class="font-label-lg text-label-lg text-on-surface font-medium">Fuerza &amp; Vídeo</span>
+</div>
+<span class="text-on-surface-variant font-body-sm">20:00 - 21:30 | Gimnasio Municipal</span>
+</div>
+<!-- Wed -->
+<div class="flex items-center justify-between p-2.5 rounded-lg bg-blue-50/50 border border-court-blue/20 text-body-sm">
+<div class="flex items-center gap-2">
+<span class="w-8 font-label-md text-label-md text-court-blue font-bold">MIÉ</span>
+<span class="font-label-lg text-label-lg text-on-surface font-medium">Pista &amp; Sistema 6-0</span>
+</div>
+<span class="text-court-blue font-label-md font-medium">20:30 - 22:00 | Pista Central</span>
+</div>
+<!-- Fri -->
+<div class="flex items-center justify-between p-2.5 rounded-lg bg-blue-50/50 border border-court-blue/20 text-body-sm">
+<div class="flex items-center gap-2">
+<span class="w-8 font-label-md text-label-md text-court-blue font-bold">VIE</span>
+<span class="font-label-lg text-label-lg text-on-surface font-medium">Estrategia &amp; 7m</span>
+</div>
+<span class="text-court-blue font-label-md font-medium">21:00 - 22:30 | Pista Central</span>
+</div>
+<!-- Sat (Game) -->
+<div class="flex items-center justify-between p-2.5 rounded-lg bg-red-50 border border-away-red/30 text-body-sm">
+<div class="flex items-center gap-2">
+<span class="w-8 font-label-lg text-label-lg text-away-red font-bold">SÁB</span>
+<span class="font-label-lg text-label-lg text-away-red font-bold">PARTIDO LIGA FBMCV</span>
+</div>
+<span class="font-label-lg text-label-lg text-on-surface font-bold">18:30 h | El Planell</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Player Statistics & Medical / Workload Matrix -->
+<section class="w-full px-margin pb-space-xl flex flex-col gap-space-md">
+<div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<div class="w-2.5 h-6 bg-court-blue rounded-full"></div>
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface font-bold">Rendimiento Individual &amp; Carga Física</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Estadísticas acumuladas de la temporada 2023/24 y control del preparador físico</p>
+</div>
+</div>
+<!-- Quick Search & Position Filter -->
+<div class="flex items-center gap-space-sm w-full md:w-auto">
+<div class="relative w-full md:w-64">
+<span class="material-symbols-outlined absolute left-3 top-2.5 text-on-surface-variant text-[18px]">search</span>
+<input class="w-full h-10 pl-9 pr-3 bg-surface-pure border border-border-subtle rounded-lg font-body-sm text-body-sm text-on-surface placeholder:text-on-surface-variant focus:outline-none focus:ring-2 focus:ring-court-blue/40 transition-all" id="playerTableSearch" placeholder="Buscar dorsal o nombre..." type="text"/>
+</div>
+<button class="h-10 px-space-md rounded-lg bg-surface-pure border border-border-subtle text-on-surface hover:bg-surface-container-high/40 flex items-center gap-1 font-label-md text-label-md shrink-0 transition-colors">
+<span class="material-symbols-outlined text-[16px] text-court-blue">tune</span>
+          Filtros
+        </button>
+</div>
+</div>
+<!-- Data Table Container -->
+<div class="w-full overflow-x-auto rounded-xl bg-surface-pure border border-border-subtle shadow-sm">
+<table class="w-full text-left border-collapse" id="statsTable">
+<thead>
+<tr class="bg-surface-container-high/40 text-on-surface-variant font-label-md text-label-md tracking-wider uppercase border-b border-border-subtle">
+<th class="py-3.5 px-4 font-bold">Dorsal</th>
+<th class="py-3.5 px-4 font-bold">Jugador</th>
+<th class="py-3.5 px-4 font-bold">Posición</th>
+<th class="py-3.5 px-4 text-center font-bold">Partidos</th>
+<th class="py-3.5 px-4 text-center font-bold">Minutos</th>
+<th class="py-3.5 px-4 text-center font-bold">Goles / Paradas</th>
+<th class="py-3.5 px-4 text-center font-bold">Eficacia</th>
+<th class="py-3.5 px-4 text-center font-bold">2 Min / Tarjetas</th>
+<th class="py-3.5 px-4 font-bold">Estado Médico</th>
+<th class="py-3.5 px-4 text-right font-bold">Carga Semanal</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-subtle font-body-sm text-body-sm">
+<!-- Row 1 -->
+<tr class="hover:bg-blue-50/40 transition-colors">
+<td class="py-3.5 px-4 font-headline-sm text-headline-sm text-court-blue font-extrabold">#1</td>
+<td class="py-3.5 px-4">
+<div class="font-label-lg text-label-lg text-on-surface font-semibold">Pau Ferrer</div>
+<span class="text-on-surface-variant text-[11px]">Capitán</span>
+</td>
+<td class="py-3.5 px-4"><span class="px-2 py-0.5 rounded bg-court-blue/10 text-court-blue font-label-md text-label-md font-medium">Portero</span></td>
+<td class="py-3.5 px-4 text-center font-label-md">16</td>
+<td class="py-3.5 px-4 text-center text-on-surface-variant">720'</td>
+<td class="py-3.5 px-4 text-center font-label-md text-court-blue font-bold">182 paradas</td>
+<td class="py-3.5 px-4 text-center text-court-blue font-label-md font-bold">38.4%</td>
+<td class="py-3.5 px-4 text-center text-on-surface-variant">0 / 0A-0R</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 font-label-md text-label-md font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> 100% Apto
+              </span>
+</td>
+<td class="py-3.5 px-4 text-right">
+<div class="w-24 ml-auto bg-surface-container-high rounded-full h-2 overflow-hidden">
+<div class="bg-court-blue h-2 rounded-full" style="width: 78%"></div>
+</div>
+<span class="text-[10px] text-on-surface-variant block mt-0.5 font-medium">Óptima (78%)</span>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-blue-50/40 transition-colors">
+<td class="py-3.5 px-4 font-headline-sm text-headline-sm text-court-blue font-extrabold">#4</td>
+<td class="py-3.5 px-4">
+<div class="font-label-lg text-label-lg text-on-surface font-semibold">Marc Gómez</div>
+<span class="text-on-surface-variant text-[11px]">Primer Equipo</span>
+</td>
+<td class="py-3.5 px-4"><span class="px-2 py-0.5 rounded bg-court-blue/10 text-court-blue font-label-md text-label-md font-medium">Pivote</span></td>
+<td class="py-3.5 px-4 text-center font-label-md">15</td>
+<td class="py-3.5 px-4 text-center text-on-surface-variant">610'</td>
+<td class="py-3.5 px-4 text-center font-label-md text-court-blue font-bold">58 goles</td>
+<td class="py-3.5 px-4 text-center text-court-blue font-label-md font-bold">76.2%</td>
+<td class="py-3.5 px-4 text-center text-away-red font-label-md font-bold">9 (2') / 3A-0R</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 font-label-md text-label-md font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> 100% Apto
+              </span>
+</td>
+<td class="py-3.5 px-4 text-right">
+<div class="w-24 ml-auto bg-surface-container-high rounded-full h-2 overflow-hidden">
+<div class="bg-away-red h-2 rounded-full" style="width: 92%"></div>
+</div>
+<span class="text-[10px] text-away-red block mt-0.5 font-semibold">Sobrecarga (92%)</span>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-blue-50/40 transition-colors">
+<td class="py-3.5 px-4 font-headline-sm text-headline-sm text-court-blue font-extrabold">#10</td>
+<td class="py-3.5 px-4">
+<div class="font-label-lg text-label-lg text-on-surface font-semibold">Vicente Pallás</div>
+<span class="text-on-surface-variant text-[11px]">Subcapitán</span>
+</td>
+<td class="py-3.5 px-4"><span class="px-2 py-0.5 rounded bg-court-blue/10 text-court-blue font-label-md text-label-md font-medium">Central</span></td>
+<td class="py-3.5 px-4 text-center font-label-md">16</td>
+<td class="py-3.5 px-4 text-center text-on-surface-variant">740'</td>
+<td class="py-3.5 px-4 text-center font-label-md text-court-blue font-bold">74 goles</td>
+<td class="py-3.5 px-4 text-center text-court-blue font-label-md font-bold">68.0%</td>
+<td class="py-3.5 px-4 text-center text-on-surface-variant">4 (2') / 1A-0R</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 font-label-md text-label-md font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> 100% Apto
+              </span>
+</td>
+<td class="py-3.5 px-4 text-right">
+<div class="w-24 ml-auto bg-surface-container-high rounded-full h-2 overflow-hidden">
+<div class="bg-court-blue h-2 rounded-full" style="width: 82%"></div>
+</div>
+<span class="text-[10px] text-on-surface-variant block mt-0.5 font-medium">Equilibrada (82%)</span>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-blue-50/40 transition-colors">
+<td class="py-3.5 px-4 font-headline-sm text-headline-sm text-court-blue font-extrabold">#14</td>
+<td class="py-3.5 px-4">
+<div class="font-label-lg text-label-lg text-on-surface font-semibold">Javier Alarcón</div>
+<span class="text-on-surface-variant text-[11px]">Primer Equipo</span>
+</td>
+<td class="py-3.5 px-4"><span class="px-2 py-0.5 rounded bg-court-blue/10 text-court-blue font-label-md text-label-md font-medium">Lateral Izq.</span></td>
+<td class="py-3.5 px-4 text-center font-label-md">14</td>
+<td class="py-3.5 px-4 text-center text-on-surface-variant">590'</td>
+<td class="py-3.5 px-4 text-center font-label-md text-court-blue font-bold">89 goles</td>
+<td class="py-3.5 px-4 text-center text-court-blue font-label-md font-bold">61.5%</td>
+<td class="py-3.5 px-4 text-center text-on-surface-variant">6 (2') / 2A-0R</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-200 font-label-md text-label-md font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> Molestias Hombro
+              </span>
+</td>
+<td class="py-3.5 px-4 text-right">
+<div class="w-24 ml-auto bg-surface-container-high rounded-full h-2 overflow-hidden">
+<div class="bg-court-blue h-2 rounded-full" style="width: 65%"></div>
+</div>
+<span class="text-[10px] text-on-surface-variant block mt-0.5 font-medium">Controlada (65%)</span>
+</td>
+</tr>
+<!-- Row 5 (Injured) -->
+<tr class="hover:bg-red-50/30 transition-colors bg-red-50/10">
+<td class="py-3.5 px-4 font-headline-sm text-headline-sm text-away-red font-extrabold">#8</td>
+<td class="py-3.5 px-4">
+<div class="font-label-lg text-label-lg text-on-surface font-semibold">Lucas Morell</div>
+<span class="text-away-red text-[11px] font-medium">En Fisioterapia</span>
+</td>
+<td class="py-3.5 px-4"><span class="px-2 py-0.5 rounded bg-court-blue/10 text-court-blue font-label-md text-label-md font-medium">Lateral Dcho.</span></td>
+<td class="py-3.5 px-4 text-center font-label-md">8</td>
+<td class="py-3.5 px-4 text-center text-on-surface-variant">290'</td>
+<td class="py-3.5 px-4 text-center font-label-md text-court-blue font-bold">31 goles</td>
+<td class="py-3.5 px-4 text-center text-court-blue font-label-md font-bold">59.8%</td>
+<td class="py-3.5 px-4 text-center text-on-surface-variant">1 (2') / 0A-0R</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-red-50 text-away-red border border-red-200 font-label-md text-label-md font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-away-red"></span> Baja (Fisio Club)
+              </span>
+</td>
+<td class="py-3.5 px-4 text-right">
+<div class="w-24 ml-auto bg-surface-container-high rounded-full h-2 overflow-hidden">
+<div class="bg-away-red h-2 rounded-full" style="width: 15%"></div>
+</div>
+<span class="text-[10px] text-away-red block mt-0.5 font-semibold">Rehabilitación (15%)</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- Interactive Script for quick search & toast notifications -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Search in stats table
+      const searchInput = document.getElementById('playerTableSearch');
+      if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+          const query = e.target.value.toLowerCase();
+          const rows = document.querySelectorAll('#statsTable tbody tr');
+          rows.forEach(row => {
+            const text = row.innerText.toLowerCase();
+            row.style.display = text.includes(query) ? '' : 'none';
+          });
+        });
+      }
+
+      // Action: Send Push Notification
+      const pushBtn = document.getElementById('btnPushNotify');
+      if (pushBtn) {
+        pushBtn.addEventListener('click', () => {
+          const originalText = pushBtn.innerHTML;
+          pushBtn.innerHTML = '<span class="material-symbols-outlined animate-spin text-[18px]">progress_activity</span><span>Enviando...</span>';
+          setTimeout(() => {
+            pushBtn.innerHTML = '<span class="material-symbols-outlined text-[18px]">done_all</span><span>¡Convocatoria Enviada!</span>';
+            pushBtn.classList.replace('bg-away-red', 'bg-emerald-600');
+            setTimeout(() => {
+              pushBtn.innerHTML = originalText;
+              pushBtn.classList.replace('bg-emerald-600', 'bg-away-red');
+            }, 3000);
+          }, 800);
+        });
+      }
+
+      // Action: Export Acta
+      const exportBtn = document.getElementById('btnExportAct');
+      if (exportBtn) {
+        exportBtn.addEventListener('click', () => {
+          const original = exportBtn.innerHTML;
+          exportBtn.innerHTML = '<span class="material-symbols-outlined text-[18px]">download_done</span><span>Generando PDF...</span>';
+          setTimeout(() => {
+            exportBtn.innerHTML = original;
+          }, 2000);
+        });
+      }
+    });
+  </script>
+</div></main><footer class="w-full bg-white border-t border-border-subtle mt-margin shadow-sm"><div class="w-full px-gutter py-space-xl flex flex-col md:flex-row items-center justify-between gap-space-md"><div class="flex items-center gap-space-sm"><img alt="Professional headshot of a friendly Spanish sports club coordinator in his early 30s wearing a dark navy athletic polo shirt with a subtle club badge, warm smile, clean studio background with soft lighting." class="h-8 w-auto object-contain rounded-md" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBx5VNT5M_rwz4dCiEIJm_nZ1lw2h_iTRLr0STbJj5FxVP91mSyprUVaxpAXYK4np4iNzOXdX6u29kg692V6pQIAuqNHBzJ4fbTJsigQyrJgrf-qX0e20ZoIyNf6pHFMTDXZQKaEcAbEYx_l-OkvzWiLEfjYJ1rMANXwa8STSlS7UtAEp7vZrd8J95-WhFMLJlFXXo-RcejVOTqeSCW5tttaaderYkB08SuZ9dPg4Q"/><span class="font-headline-sm text-headline-sm uppercase text-court-blue font-bold">Club Balonmano Buñol</span></div><p class="font-body-sm text-body-sm text-on-surface-variant">© 2024 Club Balonmano Buñol. Todos los derechos reservados. Pasión, cantera y honor.</p><div class="flex items-center gap-space-md font-label-md text-label-md text-on-surface-variant"><span class="hover:text-court-blue cursor-pointer transition-colors font-medium">Federación RFEBM</span><span class="hover:text-court-blue cursor-pointer transition-colors font-medium">FBMCV</span><span class="hover:text-court-blue cursor-pointer transition-colors font-medium">Contacto</span></div></div></footer></body></html>

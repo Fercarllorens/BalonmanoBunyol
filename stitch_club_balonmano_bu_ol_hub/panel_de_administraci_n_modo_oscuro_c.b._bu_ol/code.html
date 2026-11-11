@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Plus+Jakarta+Sans:wght@100..900&display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"secondary":"#7bd0ff","text-primary":"#f8fafc","surface-dim":"#051424","secondary-container":"#00a6e0","surface-container-low":"#0d1c2d","on-primary":"#680011","surface-container-lowest":"#010f1f","on-primary-fixed-variant":"#92001c","inverse-primary":"#bb152c","secondary-fixed":"#c4e7ff","on-tertiary":"#003352","on-secondary-fixed":"#001e2c","outline-variant":"#5b403f","text-secondary":"#94a3b8","secondary-fixed-dim":"#7bd0ff","surface-variant":"#273647","background":"#051424","surface-elevated-2":"#162433","surface-border":"#243647","on-error":"#690005","athletic-crimson-dark":"#d62828","tertiary-container":"#3f97d8","tertiary-fixed":"#cde5ff","surface-container":"#122131","primary-fixed":"#ffdad8","on-tertiary-container":"#002c48","on-tertiary-fixed":"#001d32","inverse-on-surface":"#233143","primary-fixed-dim":"#ffb3b1","on-secondary-container":"#00374d","surface-container-high":"#1c2b3c","on-primary-container":"#5b000e","primary":"#ffb3b1","surface-elevated-1":"#111c26","on-tertiary-fixed-variant":"#004b74","error":"#ffb4ab","error-container":"#93000a","on-error-container":"#ffdad6","on-surface":"#d4e4fa","inverse-surface":"#d4e4fa","surface":"#051424","surface-tint":"#ffb3b1","tertiary":"#94ccff","on-background":"#d4e4fa","on-secondary":"#00354a","outline":"#ab8987","on-surface-variant":"#e4bebc","tertiary-fixed-dim":"#94ccff","on-primary-fixed":"#410007","surface-bright":"#2c3a4c","on-secondary-fixed-variant":"#004c69","primary-container":"#ff535b","surface-base":"#0a1118","surface-container-highest":"#273647"},borderRadius:{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},spacing:{"gutter":"1.5rem","space-md":"1rem","space-xs":"0.25rem","space-sm":"0.5rem","space-xl":"2.5rem","space-lg":"1.5rem","gutter-mobile":"0.75rem","margin":"2rem","margin-mobile":"1rem"},fontFamily:{"label-lg":["Plus Jakarta Sans"],"display-hero":["Plus Jakarta Sans"],"headline-lg-mobile":["Plus Jakarta Sans"],"display-hero-mobile":["Plus Jakarta Sans"],"body-sm":["Inter"],"score-display-mobile":["Plus Jakarta Sans"],"headline-lg":["Plus Jakarta Sans"],"headline-md":["Plus Jakarta Sans"],"body-lg":["Inter"],"score-display":["Plus Jakarta Sans"],"label-md":["Plus Jakarta Sans"],"headline-sm":["Plus Jakarta Sans"],"body-md":["Inter"]},fontSize:{"label-lg":["14px",{"lineHeight":"20px","letterSpacing":"0.02em","fontWeight":"700"}],"display-hero":["56px",{"lineHeight":"64px","letterSpacing":"-0.03em","fontWeight":"800"}],"headline-lg-mobile":["24px",{"lineHeight":"32px","letterSpacing":"-0.01em","fontWeight":"700"}],"display-hero-mobile":["36px",{"lineHeight":"44px","letterSpacing":"-0.02em","fontWeight":"800"}],"body-sm":["12px",{"lineHeight":"18px","fontWeight":"400"}],"score-display-mobile":["36px",{"lineHeight":"36px","letterSpacing":"-0.01em","fontWeight":"800"}],"headline-lg":["32px",{"lineHeight":"40px","letterSpacing":"-0.02em","fontWeight":"700"}],"headline-md":["20px",{"lineHeight":"28px","fontWeight":"700"}],"body-lg":["16px",{"lineHeight":"26px","fontWeight":"400"}],"score-display":["48px",{"lineHeight":"48px","letterSpacing":"-0.01em","fontWeight":"800"}],"label-md":["12px",{"lineHeight":"16px","letterSpacing":"0.05em","fontWeight":"600"}],"headline-sm":["16px",{"lineHeight":"24px","fontWeight":"600"}],"body-md":["14px",{"lineHeight":"22px","fontWeight":"400"}]}}}}</script></head><body class="bg-surface font-body-md text-on-surface min-h-screen flex flex-col antialiased selection:bg-primary-container selection:text-text-primary"><header class="fixed top-0 w-full z-50 bg-surface-dim/95 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.4)]"><div class="h-16 w-full px-gutter flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-lg"><a class="flex items-center gap-space-sm group focus:outline-none" data-path="feed-social-y-comunidad" href="#"><div class="w-9 h-9 rounded-lg bg-surface-container-high flex items-center justify-center text-primary-container shadow-[0_0_16px_rgba(230,57,70,0.25)] group-hover:scale-105 transition-transform"><span class="material-symbols-outlined text-[24px]">sports_handball</span></div><div class="flex flex-col"><span class="font-headline-sm text-headline-sm uppercase tracking-wider text-text-primary leading-none">BM Buñol</span><span class="font-label-md text-[10px] text-secondary tracking-widest uppercase">Club Oficial</span></div></a><div class="hidden xl:flex items-center relative w-64"><span class="material-symbols-outlined absolute left-3 text-text-secondary text-[18px]">search</span><input class="w-full h-9 pl-9 pr-3 rounded-lg bg-surface-container-low text-text-primary placeholder-text-secondary text-body-sm focus:outline-none focus:ring-1 focus:ring-secondary transition-all" placeholder="Buscar jugadas, actas..." type="text"/></div></div><nav class="hidden lg:flex items-center gap-space-xs" data-active-classes="text-text-primary bg-primary-container shadow-[0_0_16px_rgba(230,57,70,0.35)]"><a class="px-space-md py-space-xs rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" data-path="feed-social-y-comunidad" href="#">Feed Social</a><a class="px-space-md py-space-xs rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" data-path="gestion-de-equipo-y-convocatorias" href="#">Gestión de Equipo</a><a class="px-space-md py-space-xs rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" data-path="panel-de-administracion-del-club" href="#">Administración</a><a class="px-space-md py-space-xs rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" data-path="partidos-y-resultados" href="#">Partidos y Resultados</a></nav><div class="flex items-center gap-space-md"><div class="hidden sm:flex flex-col text-right leading-tight"><span class="font-label-lg text-label-lg text-text-primary">Carlos Martínez</span><span class="font-label-md text-label-md text-secondary">Coord. Sénior</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-16 bg-surface min-h-[calc(100vh-4rem)] flex-1"><div class="flex flex-col w-full">
+<div class="w-full px-gutter py-space-lg flex flex-col gap-space-lg">
+<!-- Top Action & Title Header -->
+<div class="flex flex-col lg:flex-row lg:items-end justify-between gap-space-md">
+<div class="flex flex-col gap-space-xs max-w-3xl">
+<div class="inline-flex items-center gap-space-xs px-2.5 py-1 rounded-full bg-surface-container-high w-fit shadow-inner">
+<span class="w-2 h-2 rounded-full bg-primary-container animate-pulse"></span>
+<span class="font-label-md text-label-md text-secondary tracking-widest uppercase">TEMPORADA 2024 / 2025 • FBMCV • C.B. Buñol</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-text-primary tracking-tight">Panel de Gestión y Directiva</h1>
+<p class="font-body-md text-body-md text-text-secondary">Control unificado de socios, licencias federativas, tesorería e intendencia de pista</p>
+</div>
+<!-- Quick Actions Group -->
+<div class="flex flex-wrap items-center gap-space-sm pt-space-xs lg:pt-0">
+<button class="px-space-md py-space-sm rounded-lg bg-surface-elevated-2 hover:bg-surface-variant text-text-primary font-label-lg text-label-lg flex items-center gap-space-xs transition-all shadow-sm">
+<span class="material-symbols-outlined text-[18px] text-text-secondary">campaign</span>
+<span>Programar Comunicado</span>
+</button>
+<button class="px-space-md py-space-sm rounded-lg bg-surface-elevated-2 hover:bg-surface-variant text-text-primary font-label-lg text-label-lg flex items-center gap-space-xs transition-all shadow-sm">
+<span class="material-symbols-outlined text-[18px] text-secondary">account_balance</span>
+<span>Generar Remesa SEPA</span>
+</button>
+<button class="px-space-lg py-space-sm rounded-lg bg-primary-container hover:bg-athletic-crimson-dark text-text-primary font-label-lg text-label-lg flex items-center gap-space-xs transition-all shadow-[0_0_20px_rgba(230,57,70,0.35)] active:scale-[0.98]">
+<span class="material-symbols-outlined text-[20px]">person_add</span>
+<span>Nueva Alta de Socio</span>
+</button>
+</div>
+</div>
+<!-- KPI Metric Cards Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-space-md">
+<!-- Card 1: Socios Activos -->
+<div class="bg-surface-elevated-1 rounded-xl p-space-md flex flex-col justify-between shadow-md relative overflow-hidden group">
+<div class="absolute -right-6 -bottom-6 w-24 h-24 bg-primary-container/10 rounded-full blur-xl group-hover:bg-primary-container/20 transition-all pointer-events-none"></div>
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md uppercase tracking-wider text-text-secondary">SOCIOS ACTIVOS</span>
+<span class="flex items-center gap-0.5 px-2 py-0.5 rounded-full bg-surface-container-high text-secondary text-label-md font-label-md">
+<span class="material-symbols-outlined text-[14px]">trending_up</span>
+            +18%
+          </span>
+</div>
+<div class="my-space-sm flex items-baseline gap-space-xs">
+<span class="font-score-display text-score-display text-text-primary">342</span>
+<span class="font-label-md text-label-md text-text-secondary uppercase">censados</span>
+</div>
+<div class="flex items-center gap-1.5 pt-space-xs text-secondary-container">
+<span class="material-symbols-outlined text-[16px] text-secondary">verified</span>
+<span class="font-body-sm text-body-sm text-text-secondary">Altas nuevas este mes: <strong class="text-text-primary font-label-md">+24 abonados</strong></span>
+</div>
+</div>
+<!-- Card 2: Equipos Federados -->
+<div class="bg-surface-elevated-1 rounded-xl p-space-md flex flex-col justify-between shadow-md relative overflow-hidden group">
+<div class="absolute -right-6 -bottom-6 w-24 h-24 bg-secondary/10 rounded-full blur-xl group-hover:bg-secondary/20 transition-all pointer-events-none"></div>
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md uppercase tracking-wider text-text-secondary">EQUIPOS FEDERADOS</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-high text-secondary text-label-md font-label-md uppercase tracking-wider">
+            Oficial FBMCV
+          </span>
+</div>
+<div class="my-space-sm flex items-baseline gap-space-xs">
+<span class="font-score-display text-score-display text-text-primary">9</span>
+<span class="font-label-md text-label-md text-text-secondary uppercase">categorías activas</span>
+</div>
+<div class="flex items-center gap-1.5 pt-space-xs text-text-secondary">
+<span class="material-symbols-outlined text-[16px] text-secondary">diversity_3</span>
+<span class="font-body-sm text-body-sm">Prebenjamín hasta Veteranos</span>
+</div>
+</div>
+<!-- Card 3: Cobro de Cuotas -->
+<div class="bg-surface-elevated-1 rounded-xl p-space-md flex flex-col justify-between shadow-md relative overflow-hidden">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md uppercase tracking-wider text-text-secondary">COBRO DE CUOTAS</span>
+<span class="px-2 py-0.5 rounded-full bg-primary-container/20 text-primary-fixed text-label-md font-label-md">
+            89% Cobrado
+          </span>
+</div>
+<div class="my-space-sm flex flex-col gap-1.5">
+<div class="flex items-baseline justify-between">
+<span class="font-score-display text-score-display text-text-primary leading-none">41.830 €</span>
+<span class="font-body-sm text-body-sm text-primary-fixed-dim">5.170 € pendiente</span>
+</div>
+<!-- Progress bar -->
+<div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden">
+<div class="bg-primary-container h-full rounded-full shadow-[0_0_8px_rgba(255,83,91,0.5)]" style="width: 89%;"></div>
+</div>
+</div>
+<div class="flex items-center justify-between pt-space-xs">
+<span class="font-body-sm text-body-sm text-text-secondary flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-primary-container"></span>
+            38 cuotas con aviso pendiente
+          </span>
+<a class="font-label-md text-label-md text-primary-container hover:underline" href="#tabla-cuotas">Revisar</a>
+</div>
+</div>
+<!-- Card 4: Tesorería Temporada -->
+<div class="bg-surface-elevated-1 rounded-xl p-space-md flex flex-col justify-between shadow-md relative overflow-hidden">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md uppercase tracking-wider text-text-secondary">TESORERÍA TEMPORADA</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-high text-secondary text-label-md font-label-md flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">sync_alt</span>
+            Balance
+          </span>
+</div>
+<div class="my-space-sm flex items-baseline gap-space-xs">
+<span class="font-score-display text-score-display text-text-primary">14.620 €</span>
+<span class="font-label-md text-label-md text-text-secondary uppercase">líquido</span>
+</div>
+<div class="flex items-center justify-between pt-space-xs text-text-secondary">
+<span class="font-body-sm text-body-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-secondary">directions_bus</span>
+            6.850 € gasto ruta
+          </span>
+<span class="font-label-md text-label-md text-text-primary">12 viajes</span>
+</div>
+</div>
+</div>
+<!-- Administration Tabs Bar -->
+<div class="flex items-center gap-space-xs overflow-x-auto pb-1 scrollbar-none bg-surface-container-low p-1.5 rounded-xl shadow-inner">
+<button class="px-space-md py-space-sm rounded-lg font-label-lg text-label-lg bg-primary-container text-text-primary flex items-center gap-space-xs whitespace-nowrap shadow-[0_0_16px_rgba(230,57,70,0.35)] transition-all">
+<span class="material-symbols-outlined text-[20px]">credit_card</span>
+<span>Gestión de Cuotas e Inscripciones</span>
+<span class="ml-1 px-1.5 py-0.2 rounded-full bg-surface-dim/40 text-text-primary text-[11px] font-bold">342</span>
+</button>
+<button class="px-space-md py-space-sm rounded-lg font-label-lg text-label-lg text-text-secondary hover:text-text-primary hover:bg-surface-elevated-1 flex items-center gap-space-xs whitespace-nowrap transition-all">
+<span class="material-symbols-outlined text-[20px] text-secondary">badge</span>
+<span>Categorías y Licencias FBMCV</span>
+</button>
+<button class="px-space-md py-space-sm rounded-lg font-label-lg text-label-lg text-text-secondary hover:text-text-primary hover:bg-surface-elevated-1 flex items-center gap-space-xs whitespace-nowrap transition-all">
+<span class="material-symbols-outlined text-[20px]">feed</span>
+<span>Noticias y Comunicados Oficiales</span>
+</button>
+<button class="px-space-md py-space-sm rounded-lg font-label-lg text-label-lg text-text-secondary hover:text-text-primary hover:bg-surface-elevated-1 flex items-center gap-space-xs whitespace-nowrap transition-all">
+<span class="material-symbols-outlined text-[20px]">sports_volleyball</span>
+<span>Inventario y Material Deportivo</span>
+</button>
+</div>
+<!-- Filter & Operations Toolbar -->
+<div class="bg-surface-elevated-1 rounded-xl p-space-md flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-space-md shadow-md">
+<!-- Search & Selects -->
+<div class="flex flex-1 flex-col sm:flex-row items-stretch sm:items-center gap-space-sm">
+<div class="relative flex-1">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary text-[20px]">search</span>
+<input class="w-full h-11 pl-10 pr-4 rounded-lg bg-surface-container-low text-text-primary placeholder:text-text-secondary font-body-md text-body-md focus:outline-none focus:ring-1 focus:ring-secondary transition-all" placeholder="Filtrar por DNI, nombre de jugador o tutor legal..." type="text"/>
+</div>
+<div class="relative min-w-[190px]">
+<select class="w-full h-11 px-3.5 pr-8 rounded-lg bg-surface-container-low text-text-primary font-body-md text-body-md appearance-none focus:outline-none focus:ring-1 focus:ring-secondary cursor-pointer">
+<option>Todos los Equipos</option>
+<option>Sénior A Masculino</option>
+<option>Sénior Femenino</option>
+<option>Juvenil Masculino</option>
+<option>Cadete Mixto</option>
+<option>Infantil Femenino</option>
+<option>Alevín Mixto</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-text-secondary pointer-events-none text-[20px]">expand_more</span>
+</div>
+<div class="relative min-w-[170px]">
+<select class="w-full h-11 px-3.5 pr-8 rounded-lg bg-surface-container-low text-text-primary font-body-md text-body-md appearance-none focus:outline-none focus:ring-1 focus:ring-secondary cursor-pointer">
+<option>Cualquier Estado</option>
+<option>Al día (Completado)</option>
+<option>Cuota pendiente</option>
+<option>Becado / Exento</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-text-secondary pointer-events-none text-[20px]">filter_list</span>
+</div>
+</div>
+<!-- Action Tools -->
+<div class="flex items-center gap-space-sm self-end lg:self-auto">
+<button class="h-11 px-space-md rounded-lg bg-surface-container-high hover:bg-surface-variant text-secondary font-label-lg text-label-lg flex items-center gap-space-xs transition-all shadow-sm">
+<span class="material-symbols-outlined text-[18px]">outgoing_mail</span>
+<span>Recordatorio Masivo (38)</span>
+</button>
+<button class="h-11 px-space-md rounded-lg bg-surface-container-low hover:bg-surface-elevated-2 text-text-secondary hover:text-text-primary font-label-lg text-label-lg flex items-center gap-space-xs transition-all">
+<span class="material-symbols-outlined text-[18px]">table_view</span>
+<span>Exportar XLS</span>
+</button>
+</div>
+</div>
+<!-- Data Table Container -->
+<div class="bg-surface-elevated-1 rounded-xl shadow-xl overflow-hidden flex flex-col" id="tabla-cuotas">
+<div class="overflow-x-auto w-full">
+<table class="w-full text-left border-collapse min-w-[960px]">
+<thead>
+<tr class="bg-surface-elevated-2 text-text-secondary font-label-md text-label-md uppercase tracking-wider h-12">
+<th class="w-12 px-space-md text-center">
+<input class="w-4 h-4 rounded bg-surface-elevated-1 accent-primary-container cursor-pointer" type="checkbox"/>
+</th>
+<th class="px-space-md py-3 font-semibold">Jugador / Tutor Legal</th>
+<th class="px-space-md py-3 font-semibold">DNI / NIF</th>
+<th class="px-space-md py-3 font-semibold">Categoría / Equipo</th>
+<th class="px-space-md py-3 font-semibold">Modalidad</th>
+<th class="px-space-md py-3 font-semibold">Estado Cuota</th>
+<th class="px-space-md py-3 font-semibold text-right">Importe</th>
+<th class="px-space-md py-3 font-semibold text-center">Acciones</th>
+</tr>
+</thead>
+<tbody class="divide-none">
+<!-- Row 1: Cuota 2 pendiente (Amber/Red highlight indicator) -->
+<tr class="bg-surface-base hover:bg-surface-container-high/60 transition-colors group">
+<td class="w-12 px-space-md text-center py-3.5">
+<input class="w-4 h-4 rounded bg-surface-elevated-1 accent-primary-container cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-space-md py-3.5">
+<div class="flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-full bg-surface-container flex items-center justify-center text-text-primary font-label-lg text-label-lg shadow-sm">
+                    MB
+                  </div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-headline-sm text-text-primary truncate">Marcos Ballester Carrascosa</span>
+<span class="font-body-sm text-body-sm text-text-secondary truncate">Tutor: Elena Carrascosa Sáez</span>
+</div>
+</div>
+</td>
+<td class="px-space-md py-3.5 font-body-md text-body-md text-text-secondary">48619284K</td>
+<td class="px-space-md py-3.5">
+<span class="inline-flex items-center px-2.5 py-1 rounded-full bg-secondary/15 text-secondary font-label-md text-label-md">
+                  Juvenil Masculino
+                </span>
+</td>
+<td class="px-space-md py-3.5 font-body-md text-body-md text-text-primary">Fraccionada (2 plazos)</td>
+<td class="px-space-md py-3.5">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary-container/20 text-primary font-label-md text-label-md">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container animate-pulse"></span>
+                  Cuota 2 pendiente
+                </span>
+</td>
+<td class="px-space-md py-3.5 text-right font-headline-sm text-headline-sm text-text-primary">75,00 €</td>
+<td class="px-space-md py-3.5 text-center">
+<div class="flex items-center justify-center gap-1">
+<button class="w-8 h-8 rounded-lg bg-surface-elevated-2 hover:bg-primary-container hover:text-text-primary text-primary-container flex items-center justify-center transition-all" title="Enviar aviso de pago">
+<span class="material-symbols-outlined text-[18px]">notification_important</span>
+</button>
+<button class="w-8 h-8 rounded-lg bg-surface-elevated-2 hover:bg-surface-variant text-text-secondary hover:text-text-primary flex items-center justify-center transition-all" title="Descargar Recibo PDF">
+<span class="material-symbols-outlined text-[18px]">receipt_long</span>
+</button>
+<button class="w-8 h-8 rounded-lg hover:bg-surface-variant text-text-secondary flex items-center justify-center transition-all" title="Más opciones">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2: Al Día (Sénior Femenino) -->
+<tr class="bg-surface-elevated-1 hover:bg-surface-container-high/60 transition-colors group">
+<td class="w-12 px-space-md text-center py-3.5">
+<input class="w-4 h-4 rounded bg-surface-elevated-1 accent-primary-container cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-space-md py-3.5">
+<div class="flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-full bg-surface-container flex items-center justify-center text-text-primary font-label-lg text-label-lg shadow-sm">
+                    LR
+                  </div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-headline-sm text-text-primary truncate">Lucía Rehués Gómez</span>
+<span class="font-body-sm text-body-sm text-text-secondary">Jugadora mayor de edad</span>
+</div>
+</div>
+</td>
+<td class="px-space-md py-3.5 font-body-md text-body-md text-text-secondary">20948512P</td>
+<td class="px-space-md py-3.5">
+<span class="inline-flex items-center px-2.5 py-1 rounded-full bg-secondary/15 text-secondary font-label-md text-label-md">
+                  Sénior Femenino
+                </span>
+</td>
+<td class="px-space-md py-3.5 font-body-md text-body-md text-text-primary">Pago Único Anual</td>
+<td class="px-space-md py-3.5">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-high text-secondary font-label-md text-label-md">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>
+                  Al día
+                </span>
+</td>
+<td class="px-space-md py-3.5 text-right font-headline-sm text-headline-sm text-text-primary">180,00 €</td>
+<td class="px-space-md py-3.5 text-center">
+<div class="flex items-center justify-center gap-1">
+<button class="w-8 h-8 rounded-lg bg-surface-elevated-2 hover:bg-surface-variant text-text-secondary hover:text-text-primary flex items-center justify-center transition-all" title="Descargar Recibo PDF">
+<span class="material-symbols-outlined text-[18px]">receipt_long</span>
+</button>
+<button class="w-8 h-8 rounded-lg bg-surface-elevated-2 hover:bg-surface-variant text-text-secondary hover:text-text-primary flex items-center justify-center transition-all" title="Ficha de Jugadora">
+<span class="material-symbols-outlined text-[18px]">id_card</span>
+</button>
+<button class="w-8 h-8 rounded-lg hover:bg-surface-variant text-text-secondary flex items-center justify-center transition-all" title="Más opciones">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3: Becado (Cadete Mixto) -->
+<tr class="bg-surface-base hover:bg-surface-container-high/60 transition-colors group">
+<td class="w-12 px-space-md text-center py-3.5">
+<input class="w-4 h-4 rounded bg-surface-elevated-1 accent-primary-container cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-space-md py-3.5">
+<div class="flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-full bg-surface-container flex items-center justify-center text-text-primary font-label-lg text-label-lg shadow-sm">
+                    AP
+                  </div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-headline-sm text-text-primary truncate">Aitor Perelló Solaz</span>
+<span class="font-body-sm text-body-sm text-text-secondary truncate">Tutor: Vicente Perelló Bosch</span>
+</div>
+</div>
+</td>
+<td class="px-space-md py-3.5 font-body-md text-body-md text-text-secondary">53291044M</td>
+<td class="px-space-md py-3.5">
+<span class="inline-flex items-center px-2.5 py-1 rounded-full bg-secondary/15 text-secondary font-label-md text-label-md">
+                  Cadete Mixto
+                </span>
+</td>
+<td class="px-space-md py-3.5 font-body-md text-body-md text-text-secondary">Beca Deporte Base Municipal</td>
+<td class="px-space-md py-3.5">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-secondary-container/20 text-secondary font-label-md text-label-md">
+<span class="material-symbols-outlined text-[14px]">school</span>
+                  Becado (100%)
+                </span>
+</td>
+<td class="px-space-md py-3.5 text-right font-headline-sm text-headline-sm text-text-secondary">0,00 €</td>
+<td class="px-space-md py-3.5 text-center">
+<div class="flex items-center justify-center gap-1">
+<button class="w-8 h-8 rounded-lg bg-surface-elevated-2 hover:bg-surface-variant text-secondary flex items-center justify-center transition-all" title="Ficha federativa FBMCV">
+<span class="material-symbols-outlined text-[18px]">verified_user</span>
+</button>
+<button class="w-8 h-8 rounded-lg bg-surface-elevated-2 hover:bg-surface-variant text-text-secondary hover:text-text-primary flex items-center justify-center transition-all" title="Certificado Beca">
+<span class="material-symbols-outlined text-[18px]">description</span>
+</button>
+<button class="w-8 h-8 rounded-lg hover:bg-surface-variant text-text-secondary flex items-center justify-center transition-all" title="Más opciones">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 4: Cuota pendiente (Sénior A) -->
+<tr class="bg-surface-elevated-1 hover:bg-surface-container-high/60 transition-colors group">
+<td class="w-12 px-space-md text-center py-3.5">
+<input class="w-4 h-4 rounded bg-surface-elevated-1 accent-primary-container cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-space-md py-3.5">
+<div class="flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-full bg-surface-container flex items-center justify-center text-text-primary font-label-lg text-label-lg shadow-sm">
+                    SV
+                  </div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-headline-sm text-text-primary truncate">Sergi Villar Hernández</span>
+<span class="font-body-sm text-body-sm text-text-secondary">Capitán Sénior A</span>
+</div>
+</div>
+</td>
+<td class="px-space-md py-3.5 font-body-md text-body-md text-text-secondary">73599812A</td>
+<td class="px-space-md py-3.5">
+<span class="inline-flex items-center px-2.5 py-1 rounded-full bg-secondary/15 text-secondary font-label-md text-label-md">
+                  Sénior A Masculino
+                </span>
+</td>
+<td class="px-space-md py-3.5 font-body-md text-body-md text-text-primary">Fraccionada (2 plazos)</td>
+<td class="px-space-md py-3.5">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary-container/20 text-primary font-label-md text-label-md">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span>
+                  Cuota 2 pendiente
+                </span>
+</td>
+<td class="px-space-md py-3.5 text-right font-headline-sm text-headline-sm text-text-primary">90,00 €</td>
+<td class="px-space-md py-3.5 text-center">
+<div class="flex items-center justify-center gap-1">
+<button class="w-8 h-8 rounded-lg bg-surface-elevated-2 hover:bg-primary-container hover:text-text-primary text-primary-container flex items-center justify-center transition-all" title="Enviar aviso de pago">
+<span class="material-symbols-outlined text-[18px]">notification_important</span>
+</button>
+<button class="w-8 h-8 rounded-lg bg-surface-elevated-2 hover:bg-surface-variant text-text-secondary hover:text-text-primary flex items-center justify-center transition-all" title="Descargar Recibo PDF">
+<span class="material-symbols-outlined text-[18px]">receipt_long</span>
+</button>
+<button class="w-8 h-8 rounded-lg hover:bg-surface-variant text-text-secondary flex items-center justify-center transition-all" title="Más opciones">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 5: Al día (Infantil Femenino) -->
+<tr class="bg-surface-base hover:bg-surface-container-high/60 transition-colors group">
+<td class="w-12 px-space-md text-center py-3.5">
+<input class="w-4 h-4 rounded bg-surface-elevated-1 accent-primary-container cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-space-md py-3.5">
+<div class="flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-full bg-surface-container flex items-center justify-center text-text-primary font-label-lg text-label-lg shadow-sm">
+                    NE
+                  </div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-headline-sm text-text-primary truncate">Nuria Esteve Ferrer</span>
+<span class="font-body-sm text-body-sm text-text-secondary truncate">Tutor: Carmina Ferrer Mas</span>
+</div>
+</div>
+</td>
+<td class="px-space-md py-3.5 font-body-md text-body-md text-text-secondary">44892176Z</td>
+<td class="px-space-md py-3.5">
+<span class="inline-flex items-center px-2.5 py-1 rounded-full bg-secondary/15 text-secondary font-label-md text-label-md">
+                  Infantil Femenino
+                </span>
+</td>
+<td class="px-space-md py-3.5 font-body-md text-body-md text-text-primary">Pago Único Anual</td>
+<td class="px-space-md py-3.5">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-high text-secondary font-label-md text-label-md">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>
+                  Al día
+                </span>
+</td>
+<td class="px-space-md py-3.5 text-right font-headline-sm text-headline-sm text-text-primary">150,00 €</td>
+<td class="px-space-md py-3.5 text-center">
+<div class="flex items-center justify-center gap-1">
+<button class="w-8 h-8 rounded-lg bg-surface-elevated-2 hover:bg-surface-variant text-text-secondary hover:text-text-primary flex items-center justify-center transition-all" title="Descargar Recibo PDF">
+<span class="material-symbols-outlined text-[18px]">receipt_long</span>
+</button>
+<button class="w-8 h-8 rounded-lg bg-surface-elevated-2 hover:bg-surface-variant text-text-secondary hover:text-text-primary flex items-center justify-center transition-all" title="Ficha Deportiva">
+<span class="material-symbols-outlined text-[18px]">badge</span>
+</button>
+<button class="w-8 h-8 rounded-lg hover:bg-surface-variant text-text-secondary flex items-center justify-center transition-all" title="Más opciones">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination & Status Shelf -->
+<div class="bg-surface-elevated-2 px-space-md py-space-md flex flex-col sm:flex-row items-center justify-between gap-space-md">
+<span class="font-body-sm text-body-sm text-text-secondary">
+          Mostrando <span class="font-semibold text-text-primary">1</span> a <span class="font-semibold text-text-primary">5</span> de <span class="font-semibold text-text-primary">342</span> registros de cuotas
+        </span>
+<div class="flex items-center gap-1.5">
+<button class="h-9 px-3 rounded-lg bg-surface-container-low text-text-secondary hover:text-text-primary font-label-md text-label-md flex items-center gap-1 transition-all disabled:opacity-40">
+<span class="material-symbols-outlined text-[16px]">chevron_left</span>
+<span>Anterior</span>
+</button>
+<button class="w-9 h-9 rounded-lg bg-primary-container text-text-primary font-label-md text-label-md shadow-[0_0_12px_rgba(230,57,70,0.35)] transition-all">
+            1
+          </button>
+<button class="w-9 h-9 rounded-lg bg-surface-container-low hover:bg-surface-variant text-text-secondary hover:text-text-primary font-label-md text-label-md transition-all">
+            2
+          </button>
+<button class="w-9 h-9 rounded-lg bg-surface-container-low hover:bg-surface-variant text-text-secondary hover:text-text-primary font-label-md text-label-md transition-all">
+            3
+          </button>
+<span class="px-1 text-text-secondary font-body-sm">...</span>
+<button class="w-9 h-9 rounded-lg bg-surface-container-low hover:bg-surface-variant text-text-secondary hover:text-text-primary font-label-md text-label-md transition-all">
+            69
+          </button>
+<button class="h-9 px-3 rounded-lg bg-surface-container-low text-text-secondary hover:text-text-primary font-label-md text-label-md flex items-center gap-1 transition-all">
+<span>Siguiente</span>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Administrative Quick Intendencia Shelf -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-md pb-space-lg">
+<div class="p-space-md rounded-xl bg-surface-elevated-1 flex items-center gap-space-md shadow-md">
+<div class="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[26px]">stadium</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-text-primary">Pabellón Polideportivo El Planell</span>
+<span class="font-body-sm text-body-sm text-text-secondary">Pistas A y B asignadas sin solapes</span>
+</div>
+</div>
+<div class="p-space-md rounded-xl bg-surface-elevated-1 flex items-center gap-space-md shadow-md">
+<div class="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined text-[26px]">medical_services</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-text-primary">Mutua Deportiva FBMCV</span>
+<span class="font-body-sm text-body-sm text-text-secondary">Protocolo de partes de urgencia activo</span>
+</div>
+</div>
+<div class="p-space-md rounded-xl bg-surface-elevated-1 flex items-center gap-space-md shadow-md">
+<div class="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[26px]">lock_clock</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-text-primary">Cierre de Ventana Licencias</span>
+<span class="font-body-sm text-body-sm text-text-secondary">Próximo plazo: 15 de Noviembre</span>
+</div>
+</div>
+</div>
+</div>
+</div></main><footer class="w-full bg-surface-container-lowest py-space-lg"><div class="w-full px-gutter flex flex-col md:flex-row items-center justify-between gap-space-md"><div class="flex items-center gap-space-sm"><div class="w-6 h-6 rounded bg-surface-container flex items-center justify-center text-primary-container"><span class="material-symbols-outlined text-[16px]">sports_handball</span></div><span class="font-body-sm text-body-sm text-text-secondary">© 2024 Club Balonmano Buñol. Todos los derechos reservados.</span></div><div class="flex items-center gap-space-lg"><a class="font-label-md text-label-md text-text-secondary hover:text-secondary transition-colors" href="#">RFEBM</a><a class="font-label-md text-label-md text-text-secondary hover:text-secondary transition-colors" href="#">FBMCV</a><a class="font-label-md text-label-md text-text-secondary hover:text-text-primary transition-colors" href="#">Contacto</a></div></div></footer></body></html>

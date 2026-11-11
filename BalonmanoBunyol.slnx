@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/backend/" />
+  <Folder Name="/backend/src/">
+    <Project Path="backend/src/BalonmanoBunol.Api/BalonmanoBunol.Api.csproj" />
+    <Project Path="backend/src/BalonmanoBunol.Application/BalonmanoBunol.Application.csproj" />
+    <Project Path="backend/src/BalonmanoBunol.Domain/BalonmanoBunol.Domain.csproj" />
+    <Project Path="backend/src/BalonmanoBunol.Infrastructure/BalonmanoBunol.Infrastructure.csproj" />
+  </Folder>
+</Solution>

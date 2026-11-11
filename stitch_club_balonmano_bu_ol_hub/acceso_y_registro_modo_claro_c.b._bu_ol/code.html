@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+
+<html lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="web_blank" name="shell-type"/>
+<title>Club Balonmano Buñol - Portal Oficial</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<style>
+    @layer base {
+      html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+      }
+      body {
+        overscroll-behavior: none;
+      }
+    }
+    ::-webkit-scrollbar {
+      display: none;
+    }
+  </style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          "surface-container-high": "#e2e7ff",
+          "on-secondary-container": "#fffbff",
+          "inverse-on-surface": "#eef0ff",
+          "card-dark-surface": "#0B192C",
+          "on-primary": "#ffffff",
+          "surface-container-highest": "#dae2fd",
+          "surface-container-lowest": "#ffffff",
+          "primary-fixed-dim": "#94ccff",
+          "error-container": "#ffdad6",
+          "tertiary-container": "#4770be",
+          "on-secondary-fixed-variant": "#93000d",
+          "surface-container": "#eaedff",
+          "on-error-container": "#93000a",
+          "surface-light": "#F8FAFC",
+          "deep-navy": "#023E8A",
+          "on-tertiary-fixed": "#001a42",
+          "court-blue": "#0077B6",
+          "secondary": "#b90c17",
+          "on-primary-fixed-variant": "#004b74",
+          "primary": "#0077b6",
+          "tertiary-fixed": "#d8e2ff",
+          "primary-container": "#0077b6",
+          "surface": "#faf8ff",
+          "background": "#faf8ff",
+          "error": "#ba1a1a",
+          "surface-bright": "#faf8ff",
+          "on-tertiary-fixed-variant": "#0f4490",
+          "outline": "#707881",
+          "tertiary": "#2b57a4",
+          "inverse-surface": "#283044",
+          "surface-container-low": "#f2f3ff",
+          "on-surface-variant": "#404850",
+          "tertiary-fixed-dim": "#aec6ff",
+          "border-subtle": "#E2E8F0",
+          "card-dark-container": "#132238",
+          "inverse-primary": "#94ccff",
+          "secondary-fixed": "#ffdad6",
+          "on-primary-container": "#f3f7ff",
+          "outline-variant": "#bfc7d1",
+          "surface-tint": "#0077b6",
+          "surface-dim": "#d2d9f4",
+          "secondary-fixed-dim": "#ffb4ab",
+          "on-background": "#131b2e",
+          "on-secondary": "#ffffff",
+          "on-tertiary": "#ffffff",
+          "on-surface": "#131b2e",
+          "on-secondary-fixed": "#410002",
+          "secondary-container": "#d62828",
+          "on-primary-fixed": "#001d32",
+          "surface-pure": "#FFFFFF",
+          "on-error": "#ffffff",
+          "on-tertiary-container": "#f7f7ff",
+          "away-red": "#D62828",
+          "primary-fixed": "#cde5ff",
+          "surface-variant": "#dae2fd"
+        },
+        fontFamily: {
+          "headline": ["Plus Jakarta Sans", "sans-serif"],
+          "body": ["Inter", "sans-serif"]
+        }
+      }
+    }
+  };
+</script>
+</head>
+<body class="bg-background font-body text-on-surface antialiased min-h-screen selection:bg-court-blue/20 selection:text-court-blue">
+<!-- Full Screen Desktop Split Layout (min-h-screen, 100vw, no nested constraints) -->
+<main class="w-full min-h-screen flex flex-col lg:flex-row relative">
+<!-- LEFT COLUMN: Marca y Espíritu del Club (54% width) -->
+<section class="relative lg:w-[54%] w-full bg-gradient-to-br from-[#eff5fb] via-[#e3eef9] to-[#d6e7f7] p-8 md:p-14 lg:p-16 flex flex-col justify-between overflow-hidden border-b lg:border-b-0 lg:border-r border-[#d0e0f0]">
+<!-- Ambient Lighting & Watermark Graphic -->
+<div class="absolute -top-32 -left-32 w-[520px] h-[520px] rounded-full bg-court-blue/15 blur-[120px] pointer-events-none"></div>
+<div class="absolute -bottom-40 -right-20 w-[480px] h-[480px] rounded-full bg-away-red/10 blur-[130px] pointer-events-none"></div>
+<!-- Subtle court line & handball texture overlay -->
+<div class="absolute inset-0 opacity-[0.06] pointer-events-none bg-[radial-gradient(#0077b6_1.5px,transparent_1.5px)] [background-size:24px_24px]"></div>
+<div class="absolute inset-0 pointer-events-none opacity-[0.08] bg-[radial-gradient(circle_at_70%_40%,_rgba(0,119,182,0.25)_0%,_transparent_60%)]"></div>
+<!-- Top Club Brand Header -->
+<div class="relative z-10">
+<div class="flex items-center gap-4 mb-8">
+<div class="relative flex-shrink-0">
+<img alt="Escudo Oficial Club Balonmano Buñol" class="w-16 h-16 object-contain drop-shadow-[0_8px_16px_rgba(0,119,182,0.25)]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDeFaCpxuYMtfW_9VTOX6aX8Rf72E2D4GRwyAVTpsTUAYVJ48l6GhGCmdWuVWkiEWkrJcC7BOUvJr02j0PL6T-G6kFet5bPWFoVk1iCitJvyfUI71btB7I0lVjiyZTNKEethyxtuC1UVnjeKCxsSY6jE3UYpUpY-KQ7Q3cT2tEDWzjXZempvSxKRa8VZykKYw_PCGttVX3ktU2J19C71oheYEbcekoUZNawdr5iNA8"/>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<span class="font-headline font-bold text-xs tracking-[0.18em] text-away-red uppercase">Federación de Balonmano de la C.V.</span>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-bold bg-court-blue/10 text-court-blue border border-court-blue/25">Oficial</span>
+</div>
+<h2 class="font-headline font-extrabold text-2xl lg:text-3xl text-deep-navy tracking-tight leading-none mt-1">CLUB BALONMANO BUÑOL</h2>
+</div>
+</div>
+<!-- Hero Headline & Core Message -->
+<div class="max-w-xl">
+<div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/80 border border-court-blue/20 text-deep-navy text-xs font-headline font-semibold tracking-wide uppercase mb-5 backdrop-blur-md shadow-xs">
+<span class="w-2 h-2 rounded-full bg-away-red animate-pulse"></span>
+            Pabellón Municipal El Planell • Temporada 24/25
+          </div>
+<h1 class="font-headline text-3xl sm:text-4xl lg:text-5xl font-extrabold text-on-surface tracking-tight leading-[1.15] mb-5">
+            Pasión, Cantera y Deporte en <span class="text-transparent bg-clip-text bg-gradient-to-r from-court-blue via-[#023E8A] to-court-blue">El Planell</span>
+</h1>
+<p class="font-body text-base lg:text-lg text-on-surface-variant leading-relaxed font-normal">
+            El portal integral para jugadores, cuerpo técnico, directiva y afición del C.B. Buñol. Gestiona convocatorias, fichas federativas y el pulso deportivo de nuestro club en un solo lugar.
+          </p>
+</div>
+</div>
+<!-- Center Feature: Metric Cards & Institutional Quote -->
+<div class="relative z-10 my-8 lg:my-10 space-y-6">
+<!-- Metric Cards Grid -->
+<div class="grid grid-cols-3 gap-3.5 sm:gap-5 max-w-xl">
+<div class="bg-white/90 border border-court-blue/20 rounded-xl p-4 lg:p-5 backdrop-blur-md transition-all hover:border-court-blue hover:shadow-md group shadow-xs">
+<div class="flex items-center justify-between mb-2">
+<span class="material-symbols-outlined text-court-blue text-2xl group-hover:scale-110 transition-transform">groups</span>
+<span class="text-[11px] font-headline font-bold text-court-blue tracking-wider uppercase">Censo</span>
+</div>
+<div class="font-headline font-extrabold text-2xl lg:text-3xl text-on-surface tracking-tight">+250</div>
+<div class="text-xs font-semibold text-on-surface-variant mt-1">Socios Activos</div>
+</div>
+<div class="bg-white/90 border border-court-blue/20 rounded-xl p-4 lg:p-5 backdrop-blur-md transition-all hover:border-away-red hover:shadow-md group shadow-xs">
+<div class="flex items-center justify-between mb-2">
+<span class="material-symbols-outlined text-away-red text-2xl group-hover:scale-110 transition-transform">history_edu</span>
+<span class="text-[11px] font-headline font-bold text-away-red tracking-wider uppercase">Historia</span>
+</div>
+<div class="font-headline font-extrabold text-2xl lg:text-3xl text-on-surface tracking-tight">1982</div>
+<div class="text-xs font-semibold text-on-surface-variant mt-1">Fundación Oficial</div>
+</div>
+<div class="bg-white/90 border border-court-blue/20 rounded-xl p-4 lg:p-5 backdrop-blur-md transition-all hover:border-court-blue hover:shadow-md group shadow-xs">
+<div class="flex items-center justify-between mb-2">
+<span class="material-symbols-outlined text-court-blue text-2xl group-hover:scale-110 transition-transform">sports_handball</span>
+<span class="text-[11px] font-headline font-bold text-court-blue tracking-wider uppercase">Equipos</span>
+</div>
+<div class="font-headline font-extrabold text-2xl lg:text-3xl text-on-surface tracking-tight">9</div>
+<div class="text-xs font-semibold text-on-surface-variant mt-1">Equipos Federados</div>
+</div>
+</div>
+<!-- Institutional Value / Quote Banner -->
+<div class="max-w-xl bg-white/90 border-l-4 border-away-red rounded-r-xl p-4 lg:p-5 backdrop-blur-sm shadow-xs border-y border-r border-[#dce6f2]">
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-away-red text-2xl flex-shrink-0 mt-0.5">format_quote</span>
+<div>
+<p class="font-body text-sm text-on-surface italic leading-snug font-medium">
+                "Más de cuatro décadas defendiendo los colores de Buñol con entrega, respeto y espíritu de equipo en cada partido."
+              </p>
+<div class="mt-2 flex items-center gap-2 text-xs font-headline font-bold text-on-surface-variant">
+<span>Junta Directiva &amp; Afición</span>
+<span class="text-outline-variant">•</span>
+<span class="text-away-red">#OrgulloBuñol</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer: Federation Accreditation & Local Sponsors -->
+<div class="relative z-10 pt-6 border-t border-[#cadcf0]">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+<div>
+<span class="text-[11px] font-headline font-bold tracking-wider text-on-surface-variant uppercase block mb-2">Colaboradores &amp; Patrocinio Local</span>
+<div class="flex items-center gap-4 text-xs font-headline font-semibold tracking-wider text-on-surface-variant">
+<span class="hover:text-court-blue transition-colors cursor-default font-bold">CAJA BUÑOL</span>
+<span class="text-outline-variant">•</span>
+<span class="hover:text-court-blue transition-colors cursor-default font-bold">CERÁMICAS LA HOYA</span>
+<span class="text-outline-variant">•</span>
+<span class="hover:text-court-blue transition-colors cursor-default font-bold">DEPORTES TURIA</span>
+</div>
+</div>
+<div class="flex items-center gap-2 text-xs font-headline font-semibold text-court-blue">
+<span class="material-symbols-outlined text-base">verified_user</span>
+<span>Plataforma Federada C.V.</span>
+</div>
+</div>
+</div>
+</section>
+<!-- RIGHT COLUMN: Centro de Acceso y Registro (46% width) -->
+<section class="relative lg:w-[46%] w-full bg-white flex flex-col justify-center items-center p-6 sm:p-10 md:p-14 lg:p-16">
+<!-- Centered roomy form container with generous max-width and breathing room -->
+<div class="w-full max-w-lg mx-auto flex flex-col justify-between h-full py-4">
+<!-- Top Header on Right (Mobile Brand reminder + Security indicator) -->
+<div class="flex items-center justify-between mb-8 pb-4 border-b border-border-subtle">
+<div class="flex items-center gap-2.5">
+<div class="w-9 h-9 rounded-xl bg-court-blue/10 flex items-center justify-center text-court-blue border border-court-blue/20">
+<span class="material-symbols-outlined text-xl">sports_handball</span>
+</div>
+<div>
+<span class="font-headline font-bold text-sm text-on-surface block leading-none">Acceso Federativo</span>
+<span class="text-[11px] text-on-surface-variant font-body">Temporada Oficial 2024 - 2025</span>
+</div>
+</div>
+<div class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-low text-court-blue text-xs font-semibold border border-court-blue/20">
+<span class="material-symbols-outlined text-sm">lock</span>
+<span>SSL 256-bit</span>
+</div>
+</div>
+<!-- Form Core -->
+<div class="flex-1 flex flex-col justify-center">
+<!-- Tab Selector: Iniciar Sesión / Registro -->
+<div class="mb-7">
+<div class="p-1 bg-surface-container-low rounded-xl border border-border-subtle grid grid-cols-2 gap-1.5">
+<button class="py-2.5 px-4 rounded-lg font-headline font-bold text-sm tracking-wide transition-all duration-200 text-center bg-court-blue text-white shadow-sm" id="tab-login-btn" onclick="switchAuthTab('login')" type="button">
+                Iniciar Sesión
+              </button>
+<button class="py-2.5 px-4 rounded-lg font-headline font-semibold text-sm tracking-wide transition-all duration-200 text-center text-on-surface-variant hover:text-court-blue hover:bg-white" id="tab-register-btn" onclick="switchAuthTab('register')" type="button">
+                Solicitud Alta / Ficha
+              </button>
+</div>
+</div>
+<!-- Role Selector Strip (4 comfortable buttons in grid) -->
+<div class="mb-7">
+<label class="block font-headline font-bold text-xs tracking-wider uppercase text-on-surface-variant mb-2.5">
+              Seleccionar perfil de acceso
+            </label>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5" id="role-selector">
+<button class="role-btn active flex flex-col items-center justify-center p-3 rounded-xl bg-court-blue/10 border-2 border-court-blue text-court-blue transition-all duration-150 shadow-xs group" onclick="selectRole(this, 'socio')" type="button">
+<span class="material-symbols-outlined text-2xl mb-1 group-hover:scale-110 transition-transform">loyalty</span>
+<span class="font-headline font-bold text-xs">Socio / Afición</span>
+</button>
+<button class="role-btn flex flex-col items-center justify-center p-3 rounded-xl bg-surface-light border border-border-subtle text-on-surface-variant hover:text-court-blue hover:border-court-blue/40 transition-all duration-150 group" onclick="selectRole(this, 'jugador')" type="button">
+<span class="material-symbols-outlined text-2xl mb-1 group-hover:scale-110 transition-transform">sports_handball</span>
+<span class="font-headline font-semibold text-xs">Jugador/a</span>
+</button>
+<button class="role-btn flex flex-col items-center justify-center p-3 rounded-xl bg-surface-light border border-border-subtle text-on-surface-variant hover:text-court-blue hover:border-court-blue/40 transition-all duration-150 group" onclick="selectRole(this, 'tecnico')" type="button">
+<span class="material-symbols-outlined text-2xl mb-1 group-hover:scale-110 transition-transform">assignment_ind</span>
+<span class="font-headline font-semibold text-xs">Cuerpo Técnico</span>
+</button>
+<button class="role-btn flex flex-col items-center justify-center p-3 rounded-xl bg-surface-light border border-border-subtle text-on-surface-variant hover:text-court-blue hover:border-court-blue/40 transition-all duration-150 group" onclick="selectRole(this, 'directiva')" type="button">
+<span class="material-symbols-outlined text-2xl mb-1 group-hover:scale-110 transition-transform">shield_person</span>
+<span class="font-headline font-semibold text-xs">Directiva</span>
+</button>
+</div>
+</div>
+<!-- PANEL 1: INICIAR SESIÓN -->
+<form class="space-y-5" id="login-form" onsubmit="event.preventDefault();">
+<div>
+<label class="block font-headline font-bold text-xs tracking-wide uppercase text-on-surface mb-2" for="login-id">
+                Correo electrónico, DNI o Nº de Socio
+              </label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline pointer-events-none text-xl">account_circle</span>
+<input class="w-full bg-surface-light text-on-surface placeholder:text-outline/70 h-12 pl-12 pr-4 rounded-xl border border-border-subtle focus:border-court-blue focus:ring-2 focus:ring-court-blue/20 transition-colors font-body text-sm font-medium" id="login-id" placeholder="ej. socio42@cbbunol.es o 12345678Z" required="" type="text"/>
+</div>
+<p class="text-[11px] text-on-surface-variant mt-1.5 pl-1 font-medium">Puedes identificarte con tus credenciales federativas o carnet de socio.</p>
+</div>
+<div>
+<div class="flex items-center justify-between mb-2">
+<label class="block font-headline font-bold text-xs tracking-wide uppercase text-on-surface" for="login-pass">
+                  Contraseña
+                </label>
+<a class="font-headline font-bold text-xs text-court-blue hover:text-deep-navy hover:underline transition-colors" href="#recuperar">
+                  ¿Has olvidado la contraseña?
+                </a>
+</div>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline pointer-events-none text-xl">lock</span>
+<input class="w-full bg-surface-light text-on-surface placeholder:text-outline/70 h-12 pl-12 pr-12 rounded-xl border border-border-subtle focus:border-court-blue focus:ring-2 focus:ring-court-blue/20 transition-colors font-body text-sm font-medium" id="login-pass" placeholder="••••••••••••" required="" type="password"/>
+<button aria-label="Ver contraseña" class="absolute right-3.5 top-1/2 -translate-y-1/2 text-outline hover:text-on-surface p-1 rounded transition-colors" onclick="togglePassVisibility('login-pass', this)" type="button">
+<span class="material-symbols-outlined text-xl">visibility</span>
+</button>
+</div>
+</div>
+<div class="flex items-center justify-between pt-1">
+<label class="flex items-center gap-2.5 cursor-pointer select-none">
+<input checked="" class="w-4 h-4 rounded bg-surface-light border-border-subtle text-court-blue focus:ring-court-blue focus:ring-offset-0" type="checkbox"/>
+<span class="font-body text-xs text-on-surface-variant font-medium">Mantener sesión activa en este equipo</span>
+</label>
+</div>
+<!-- CTA Principal en Azul Claro Equipación (#0077B6) con acento rojo en hover/estilo deportivo -->
+<div class="pt-3">
+<button class="w-full h-12 rounded-xl bg-court-blue hover:bg-[#006499] text-white font-headline font-bold text-sm tracking-wide flex items-center justify-center gap-2.5 transition-all duration-200 shadow-md hover:shadow-lg active:scale-[0.99]" type="submit">
+<span>Acceder al Portal del Club</span>
+<span class="material-symbols-outlined text-xl font-bold">arrow_forward</span>
+</button>
+</div>
+</form>
+<!-- PANEL 2: REGISTRO / SOLICITUD DE ALTA (Hidden by default) -->
+<form class="space-y-4 hidden" id="register-form" onsubmit="event.preventDefault();">
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+<div>
+<label class="block font-headline font-bold text-xs tracking-wide uppercase text-on-surface mb-1.5" for="reg-name">Nombre y Apellidos</label>
+<input class="w-full bg-surface-light text-on-surface placeholder:text-outline/70 h-11 px-3.5 rounded-xl border border-border-subtle focus:border-court-blue focus:ring-2 focus:ring-court-blue/20 transition-colors font-body text-sm font-medium" id="reg-name" placeholder="Carlos García Sanz" required="" type="text"/>
+</div>
+<div>
+<label class="block font-headline font-bold text-xs tracking-wide uppercase text-on-surface mb-1.5" for="reg-phone">Teléfono de Contacto</label>
+<input class="w-full bg-surface-light text-on-surface placeholder:text-outline/70 h-11 px-3.5 rounded-xl border border-border-subtle focus:border-court-blue focus:ring-2 focus:ring-court-blue/20 transition-colors font-body text-sm font-medium" id="reg-phone" placeholder="+34 600 000 000" required="" type="tel"/>
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+<div>
+<label class="block font-headline font-bold text-xs tracking-wide uppercase text-on-surface mb-1.5" for="reg-email">Correo Electrónico</label>
+<input class="w-full bg-surface-light text-on-surface placeholder:text-outline/70 h-11 px-3.5 rounded-xl border border-border-subtle focus:border-court-blue focus:ring-2 focus:ring-court-blue/20 transition-colors font-body text-sm font-medium" id="reg-email" placeholder="atleta@dominio.es" required="" type="email"/>
+</div>
+<div>
+<label class="block font-headline font-bold text-xs tracking-wide uppercase text-on-surface mb-1.5" for="reg-category">Categoría / Modalidad</label>
+<select class="w-full bg-surface-light text-on-surface h-11 px-3.5 rounded-xl border border-border-subtle focus:border-court-blue focus:ring-2 focus:ring-court-blue/20 transition-colors font-body text-sm font-medium" id="reg-category">
+<option value="benjamin">Benjamín Mixto (El Planell)</option>
+<option value="alevin">Alevín Masculino / Femenino</option>
+<option value="infantil">Infantil Federado</option>
+<option value="cadete">Cadete Autonómico</option>
+<option value="juvenil">Juvenil Masculino / Femenino</option>
+<option selected="" value="senior">Sénior Autonómica 1ª Div</option>
+<option value="veteranos">Veteranos &amp; Máster</option>
+<option value="socio">Socio Protector / Simpatizante</option>
+</select>
+</div>
+</div>
+<div>
+<label class="block font-headline font-bold text-xs tracking-wide uppercase text-on-surface mb-1.5">Documentación (DNI o Ficha Médica)</label>
+<label class="flex flex-col items-center justify-center w-full h-20 bg-surface-light hover:bg-surface-container-low rounded-xl border border-dashed border-court-blue/40 cursor-pointer transition-colors p-3 text-center">
+<div class="flex items-center gap-2 text-court-blue">
+<span class="material-symbols-outlined text-xl">cloud_upload</span>
+<span class="font-headline font-bold text-xs">Adjuntar archivo digital</span>
+</div>
+<span class="font-body text-[11px] text-on-surface-variant mt-0.5">Formatos PDF, JPG o PNG (Máx 5MB)</span>
+<input class="hidden" type="file"/>
+</label>
+</div>
+<div class="flex items-start gap-2.5 pt-1">
+<input class="w-4 h-4 mt-0.5 rounded bg-surface-light border-border-subtle text-away-red focus:ring-away-red focus:ring-offset-0" id="terms-check" required="" type="checkbox"/>
+<label class="font-body text-xs text-on-surface-variant leading-relaxed" for="terms-check">
+                Acepto los estatutos del C.B. Buñol, reglamento federativo y el tratamiento de datos para formalizar la ficha deportiva.
+              </label>
+</div>
+<div class="pt-2">
+<button class="w-full h-12 rounded-xl bg-away-red hover:bg-[#b91d1d] text-white font-headline font-bold text-sm tracking-wide flex items-center justify-center gap-2 transition-all duration-200 shadow-md hover:shadow-lg active:scale-[0.99]" type="submit">
+<span>Enviar Solicitud de Ficha</span>
+<span class="material-symbols-outlined text-xl font-bold">how_to_reg</span>
+</button>
+</div>
+</form>
+</div>
+<!-- Bottom Support Section -->
+<div class="pt-6 mt-8 border-t border-border-subtle flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+<div class="flex items-center gap-2 text-on-surface-variant font-medium">
+<span class="material-symbols-outlined text-base text-away-red">contact_support</span>
+<span>¿Dudas con la ficha federativa?</span>
+</div>
+<a class="font-headline font-bold text-court-blue hover:text-deep-navy hover:underline flex items-center gap-1" href="mailto:administracion@cbbunol.com">
+<span>Contactar con secretaría</span>
+<span class="material-symbols-outlined text-sm">arrow_outward</span>
+</a>
+</div>
+</div>
+</section>
+</main>
+<!-- Interactive Scripts -->
+<script>
+    function switchAuthTab(type) {
+      const loginForm = document.getElementById('login-form');
+      const registerForm = document.getElementById('register-form');
+      const tabLoginBtn = document.getElementById('tab-login-btn');
+      const tabRegisterBtn = document.getElementById('tab-register-btn');
+
+      if (type === 'login') {
+        loginForm.classList.remove('hidden');
+        registerForm.classList.add('hidden');
+        
+        tabLoginBtn.className = "py-2.5 px-4 rounded-lg font-headline font-bold text-sm tracking-wide transition-all duration-200 text-center bg-court-blue text-white shadow-sm";
+        tabRegisterBtn.className = "py-2.5 px-4 rounded-lg font-headline font-semibold text-sm tracking-wide transition-all duration-200 text-center text-on-surface-variant hover:text-court-blue hover:bg-white";
+      } else {
+        loginForm.classList.add('hidden');
+        registerForm.classList.remove('hidden');
+        
+        tabRegisterBtn.className = "py-2.5 px-4 rounded-lg font-headline font-bold text-sm tracking-wide transition-all duration-200 text-center bg-court-blue text-white shadow-sm";
+        tabLoginBtn.className = "py-2.5 px-4 rounded-lg font-headline font-semibold text-sm tracking-wide transition-all duration-200 text-center text-on-surface-variant hover:text-court-blue hover:bg-white";
+      }
+    }
+
+    function selectRole(button, role) {
+      const buttons = document.querySelectorAll('#role-selector .role-btn');
+      buttons.forEach(btn => {
+        btn.classList.remove('bg-court-blue/10', 'border-2', 'border-court-blue', 'text-court-blue', 'shadow-xs', 'active');
+        btn.classList.add('bg-surface-light', 'border', 'border-border-subtle', 'text-on-surface-variant');
+      });
+      button.classList.remove('bg-surface-light', 'border', 'border-border-subtle', 'text-on-surface-variant');
+      button.classList.add('bg-court-blue/10', 'border-2', 'border-court-blue', 'text-court-blue', 'shadow-xs', 'active');
+    }
+
+    function togglePassVisibility(inputId, btn) {
+      const input = document.getElementById(inputId);
+      const icon = btn.querySelector('.material-symbols-outlined');
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.textContent = 'visibility_off';
+      } else {
+        input.type = 'password';
+        icon.textContent = 'visibility';
+      }
+    }
+  </script>
+</body></html>

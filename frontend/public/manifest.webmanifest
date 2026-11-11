@@ -1,0 +1,16 @@
+{
+  "name": "Club Balonmano Buñol",
+  "short_name": "CB Buñol",
+  "description": "Comunidad, equipos y actualidad del Club Balonmano Buñol",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "lang": "es",
+  "theme_color": "#0077b6",
+  "background_color": "#f4f7fb",
+  "icons": [
+    { "src": "/pwa-192.svg", "sizes": "192x192", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "/pwa-512.svg", "sizes": "512x512", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
