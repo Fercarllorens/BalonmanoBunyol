@@ -1,6 +1,8 @@
 using System.Security.Claims;
 using BalonmanoBunol.Application.Auth;
 using BalonmanoBunol.Domain.Auth;
+using BalonmanoBunol.Domain.Teams;
+using BalonmanoBunol.Application.Profile;
 using BalonmanoBunol.Infrastructure.Identity;
 using BalonmanoBunol.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Authentication;
@@ -16,7 +18,8 @@ public sealed class AuthService(
     ClubDbContext dbContext,
     UserManager<ClubUser> userManager,
     IHttpContextAccessor httpContextAccessor,
-    IOptions<IdentityOptions> identityOptions) : IAuthService
+    IOptions<IdentityOptions> identityOptions,
+    IProfileService profiles) : IAuthService
 {
     public async Task<AuthResult> RegisterAsync(RegisterRequest request, CancellationToken cancellationToken)
     {
@@ -25,7 +28,10 @@ public sealed class AuthService(
         var email = request.Email.Trim();
         var accountType = request.AccountType.Trim();
 
-        if (string.IsNullOrWhiteSpace(firstName) || string.IsNullOrWhiteSpace(lastName) || string.IsNullOrWhiteSpace(email))
+        if (string.IsNullOrWhiteSpace(firstName) || firstName.Length > 80
+            || string.IsNullOrWhiteSpace(lastName) || lastName.Length > 79
+            || firstName.Length + lastName.Length + 1 > 160
+            || string.IsNullOrWhiteSpace(email))
             return AuthResult.Failure("Completa todos los campos obligatorios.");
         if (accountType is not ("Socio" or "Jugador" or "CuerpoTecnico"))
             return AuthResult.Failure("El tipo de alta no es válido.");
@@ -39,6 +45,9 @@ public sealed class AuthService(
             Email = email,
             EmailConfirmed = true,
             DisplayName = $"{firstName} {lastName}".Trim(),
+            FirstName = firstName,
+            LastName = lastName,
+            PreferredTeamId = await profiles.GetDefaultPreferredTeamIdAsync(cancellationToken),
             IsActive = true,
             LockoutEnabled = true
         };
@@ -140,10 +149,17 @@ public sealed class AuthService(
 
         if (approve)
         {
+            var oldRoles = await userManager.GetRolesAsync(user);
+            var principalRoles = new[] { "SocioAficion", "Jugador", "CuerpoTecnico" };
+            foreach (var oldRole in oldRoles.Where(role => principalRoles.Contains(role) && role != request.RequestedRole))
+            {
+                var removeResult = await userManager.RemoveFromRoleAsync(user, oldRole);
+                if (!removeResult.Succeeded) return false;
+            }
             if (!await userManager.IsInRoleAsync(user, request.RequestedRole))
             {
-                var roleResult = await userManager.AddToRoleAsync(user, request.RequestedRole);
-                if (!roleResult.Succeeded) return false;
+                var addResult = await userManager.AddToRoleAsync(user, request.RequestedRole);
+                if (!addResult.Succeeded) return false;
             }
             request.Approve(administratorId);
         }
@@ -151,6 +167,12 @@ public sealed class AuthService(
         {
             request.Reject(administratorId);
         }
+
+        dbContext.AdministrationAuditEntries.Add(new AdministrationAuditEntry(
+            administratorId,
+            user.Id,
+            approve ? "RoleRequestApproved" : "RoleRequestRejected",
+            $"{request.Id} | {request.RequestedRole}"));
 
         await dbContext.SaveChangesAsync(cancellationToken);
         await transaction.CommitAsync(cancellationToken);
@@ -161,7 +183,15 @@ public sealed class AuthService(
     {
         cancellationToken.ThrowIfCancellationRequested();
         var roles = await userManager.GetRolesAsync(user);
-        return new AuthUserDto(user.Id, user.Email ?? string.Empty, user.DisplayName, roles.ToArray());
+        return new AuthUserDto(
+            user.Id,
+            user.Email ?? string.Empty,
+            user.DisplayName,
+            roles.ToArray(),
+            user.FirstName,
+            user.LastName,
+            user.PreferredTeamId,
+            user.AvatarStorageKey is null ? null : $"/api/v1/profile/avatar/{user.Id}");
     }
 
     private async Task SignInAsync(ClubUser user, bool isPersistent)

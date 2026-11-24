@@ -17,6 +17,8 @@
 - **Dado** que he iniciado sesión,
 - **Cuando** consulto la barra superior,
 - **Entonces** puedo acceder al Feed y cerrar sesión.
+- **Y** puedo abrir el menú de usuario para acceder a «Personalizar perfil» y cerrar sesión.
+- **Y** el menú conserva su presentación visual como botón de cuenta (avatar, nombre y control desplegable) en escritorio y móvil.
 
 ### Acceso administrativo a solicitudes
 

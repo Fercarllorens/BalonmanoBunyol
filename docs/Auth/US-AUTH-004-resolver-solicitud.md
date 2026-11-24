@@ -8,7 +8,7 @@
 
 - **Dado** que he iniciado sesión como Administrador y hay una solicitud Pendiente,
 - **Cuando** la apruebo,
-- **Entonces** se asigna a la cuenta el rol solicitado y la solicitud queda Aprobada con quién y cuándo la resolvió.
+- **Entonces** el rol principal solicitado sustituye al anterior y la solicitud queda Aprobada con quién y cuándo la resolvió.
 
 ### Rechazar una solicitud
 

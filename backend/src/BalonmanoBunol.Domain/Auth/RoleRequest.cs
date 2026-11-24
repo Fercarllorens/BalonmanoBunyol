@@ -23,21 +23,13 @@ public sealed class RoleRequest : Entity
     public Guid? ResolvedByUserId { get; private set; }
     public DateTimeOffset? ResolvedAt { get; private set; }
 
-    public void Approve(Guid administratorId)
-    {
-        Resolve(administratorId, RoleRequestStatus.Approved);
-    }
-
-    public void Reject(Guid administratorId)
-    {
-        Resolve(administratorId, RoleRequestStatus.Rejected);
-    }
+    public void Approve(Guid administratorId) => Resolve(administratorId, RoleRequestStatus.Approved);
+    public void Reject(Guid administratorId) => Resolve(administratorId, RoleRequestStatus.Rejected);
 
     private void Resolve(Guid administratorId, RoleRequestStatus status)
     {
         if (administratorId == Guid.Empty) throw new ArgumentException("El administrador es obligatorio.", nameof(administratorId));
         if (Status != RoleRequestStatus.Pending) throw new InvalidOperationException("La solicitud ya ha sido resuelta.");
-
         Status = status;
         ResolvedByUserId = administratorId;
         ResolvedAt = DateTimeOffset.UtcNow;

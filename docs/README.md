@@ -12,6 +12,10 @@ Esta carpeta conserva el contexto acordado para continuar el proyecto en futuras
 - [Estado y próximos hitos](ESTADO.md)
 - [Landing](landing/README.md): historias y criterios de aceptación de la landing pública.
 - [Auth](Auth/README.md): autenticación, registro y solicitudes de rol.
+- [Feed](feed/README.md): historias y criterios para publicaciones y navegación de la feed.
+- [Perfil](profile/README.md): personalización de datos, avatar y equipo preferido.
+- [Administración](administration/README.md): solicitudes, gestión de roles, equipos y asignaciones.
+- [Equipos](teams/README.md): espacio privado por equipo, plantilla, convocatoria, pizarra, calendario y estadísticas.
 - [System](system/README.md): historias y criterios de aceptación transversales.
 
 Las instrucciones para agentes y sesiones están en la raíz, en [AGENTS.md](../AGENTS.md).

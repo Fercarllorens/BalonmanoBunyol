@@ -17,6 +17,8 @@ Se conservan los HTML originales en `stitch_club_balonmano_bu_ol_hub/`:
 - Gestión de equipo y convocatorias claro/oscuro.
 - Administración del club clara y panel en tema oscuro.
 - Landing oficial clara y oscura.
+- Feed social y comunidad en modo claro y oscuro.
+- Feed social y comunidad en modo claro y oscuro.
 
 Especificaciones completas:
 
@@ -26,5 +28,9 @@ Especificaciones completas:
 - `stitch_club_balonmano_bu_ol_hub/landing_page_oficial_modo_oscuro_club_balonmano_bu_ol/code.html` y `screen.png` (landing oscura).
 - `stitch_club_balonmano_bu_ol_hub/acceso_y_registro_modo_claro_c.b._bu_ol/code.html` (acceso claro).
 - `stitch_club_balonmano_bu_ol_hub/acceso_y_registro_modo_oscuro_c.b._bu_ol/code.html` (acceso oscuro).
+- `stitch_club_balonmano_bu_ol_hub/feed_social_y_comunidad_c.b._bu_ol/code.html` (feed clara).
+- `stitch_club_balonmano_bu_ol_hub/feed_social_y_comunidad_modo_oscuro_c.b._bu_ol/code.html` (feed oscura).
+- `stitch_club_balonmano_bu_ol_hub/feed_social_y_comunidad_c.b._bu_ol/code.html` (feed clara).
+- `stitch_club_balonmano_bu_ol_hub/feed_social_y_comunidad_modo_oscuro_c.b._bu_ol/code.html` (feed oscura).
 
 Antes de extraer componentes React de las vistas, unificar las diferencias cromáticas entre ambos documentos: la especificación oscura propuesta usa rojo como primary, mientras la identidad clara define azul como primary. La base actual del frontend conserva azul principal y rojo de acento.

@@ -9,14 +9,16 @@ src/
   features/
     landing/
     auth/
-    feed/
+    profile/              # datos de cuenta, avatar y preferencias
+    feed/                # publicaciones, filtros y widgets de feed
     system/
     teams/
     matches/
     events/
     administration/
+    teams/                 # plantilla, convocatoria, pizarra, calendario y estadísticas por equipo
     medical/
   lib/                 # cliente HTTP y utilidades compartidas
 ```
 
-El prototipo inicial de inicio/feed está en `src/App.tsx`. Se extraerá a esas funcionalidades al comenzar la implementación de rutas y pantallas conectadas a la API.
+Landing, feed y autenticación se encuentran en `src/features/<funcionalidad>/`. La composición de rutas y sesión se coordina desde `src/App.tsx`.

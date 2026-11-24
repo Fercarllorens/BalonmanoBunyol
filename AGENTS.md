@@ -13,6 +13,7 @@ Antes de realizar cambios, consulta el índice `docs/README.md` y los documentos
 - Proteger especialmente datos médicos y datos de menores: acceso mínimo necesario, permisos por rol/ámbito y auditoría en las funcionalidades correspondientes.
 - No guardar secretos ni credenciales productivas en archivos versionados.
 - Actualizar `docs/` cuando se acuerden decisiones o se implementen cambios relevantes de arquitectura o producto.
+- Cada desarrollo funcional debe incluir las pruebas pertinentes para la capa afectada (unitarias, componentes, integración u otras). Ejecutar las pruebas relevantes y corregir los fallos antes de dar el trabajo por terminado; si alguna prueba no puede ejecutarse por dependencias externas, dejarlo indicado junto con el motivo.
 - Mantener historias de usuario y criterios Given-When-Then en español (Dado-Cuando-Entonces) dentro de `docs/<grupo-funcional>/`; crear y enlazar un apartado por cada nueva sección/grupo funcional y usar `docs/system/` para comportamiento transversal.
 
 ## Índice
@@ -26,4 +27,6 @@ Antes de realizar cambios, consulta el índice `docs/README.md` y los documentos
 - `docs/ESTADO.md`: implementación y próximos hitos.
 - `docs/landing/`: historias y criterios de aceptación de la landing.
 - `docs/Auth/`: historias y criterios de autenticación y registro.
+- `docs/feed/`: historias y criterios de publicaciones y feed.
+- `docs/feed/`: historias y criterios de publicaciones y feed.
 - `docs/system/`: historias y criterios de aceptación del sistema general.

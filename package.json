@@ -9,6 +9,9 @@
     "api": "powershell -NoProfile -ExecutionPolicy Bypass -File ./scripts/start-api.ps1",
     "web": "npm --prefix frontend run dev",
     "web:build": "npm --prefix frontend run build",
-    "web:lint": "npm --prefix frontend run lint"
+    "web:lint": "npm --prefix frontend run lint",
+    "test": "powershell -NoProfile -ExecutionPolicy Bypass -File ./scripts/test.ps1",
+    "test:backend": "dotnet test BalonmanoBunyol.slnx",
+    "test:frontend": "npm --prefix frontend test"
   }
 }
