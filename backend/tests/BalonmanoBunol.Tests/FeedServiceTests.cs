@@ -1,6 +1,6 @@
 using BalonmanoBunol.Application.Social;
 using BalonmanoBunol.Domain.Social;
-using BalonmanoBunol.Infrastructure.Persistence;
+using BalonmanoBunol.Infrastructure.Social;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 

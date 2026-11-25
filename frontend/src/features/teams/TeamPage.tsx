@@ -268,6 +268,19 @@ export default function TeamPage({ theme, onToggleTheme, user }: { theme: Theme;
   const [editingEvent, setEditingEvent] = useState<CalendarItem | null>(null)
   const [editingTraining, setEditingTraining] = useState<CalendarItem | null>(null)
   const [now] = useState(() => Date.now())
+  const activeTeamIdRef = useRef('')
+  const selectionVersionRef = useRef(0)
+  const spaceRequestIdRef = useRef(0)
+  const calendarRequestIdRef = useRef(0)
+
+  const isCurrentSelection = (teamId: string, version: number) =>
+    activeTeamIdRef.current === teamId && selectionVersionRef.current === version
+
+  const invalidateTeamRequests = () => {
+    selectionVersionRef.current += 1
+    spaceRequestIdRef.current += 1
+    calendarRequestIdRef.current += 1
+  }
 
   const loadTeams = useCallback(async () => {
     setError('')
@@ -282,21 +295,39 @@ export default function TeamPage({ theme, onToggleTheme, user }: { theme: Theme;
           .map(({ id, name, category }) => ({ id, name, category, access: 'Administrador' as const }))
         : await response.json() as Team[]
       setTeams(result)
-      setSelectedTeamId((current) => result.some((team) => team.id === current) ? current : result[0]?.id ?? '')
+      const currentTeamId = activeTeamIdRef.current
+      const nextTeamId = result.some((team) => team.id === currentTeamId) ? currentTeamId : result[0]?.id ?? ''
+      if (nextTeamId !== currentTeamId) invalidateTeamRequests()
+      activeTeamIdRef.current = nextTeamId
+      setSelectedTeamId(nextTeamId)
     } catch (loadError) { setError(loadError instanceof Error ? loadError.message : 'No se pudieron cargar tus equipos.') }
     finally { setLoadingTeams(false) }
   }, [user.roles])
 
   const loadSpace = useCallback(async (teamId: string) => {
-    if (!teamId) { setSpace(null); return }
+    if (!teamId) {
+      if (!activeTeamIdRef.current) { setSpace(null); setLoadingSpace(false) }
+      return
+    }
+    const selectionVersion = selectionVersionRef.current
+    const requestId = ++spaceRequestIdRef.current
+    const isCurrentRequest = () => isCurrentSelection(teamId, selectionVersion) && spaceRequestIdRef.current === requestId
+    if (!isCurrentRequest()) return
     setLoadingSpace(true)
     setError('')
     try {
       const response = await fetch(`/api/v1/teams/${teamId}/space`, { credentials: 'include', cache: 'no-store' })
       if (!response.ok) throw new Error(response.status === 404 ? 'No tienes acceso a este equipo o ya no está disponible.' : 'No se pudo cargar el espacio del equipo.')
-      setSpace(await response.json() as TeamSpace)
-    } catch (loadError) { setSpace(null); setError(loadError instanceof Error ? loadError.message : 'No se pudo cargar el espacio del equipo.') }
-    finally { setLoadingSpace(false) }
+      const result = await response.json() as TeamSpace
+      if (isCurrentRequest()) setSpace(result)
+    } catch (loadError) {
+      if (isCurrentRequest()) {
+        setSpace(null)
+        setError(loadError instanceof Error ? loadError.message : 'No se pudo cargar el espacio del equipo.')
+      }
+    } finally {
+      if (isCurrentRequest()) setLoadingSpace(false)
+    }
   }, [])
 
   useEffect(() => {
@@ -310,17 +341,25 @@ export default function TeamPage({ theme, onToggleTheme, user }: { theme: Theme;
 
   useEffect(() => {
     if (!selectedTeamId || tab !== 'calendario-v2') return
+    const selectionVersion = selectionVersionRef.current
+    const requestId = ++calendarRequestIdRef.current
+    let active = true
+    const isCurrentRequest = () => active && isCurrentSelection(selectedTeamId, selectionVersion) && calendarRequestIdRef.current === requestId
     const timer = window.setTimeout(() => {
       void fetch(`/api/v1/teams/${selectedTeamId}/calendar?year=${calendarMonth.split('-')[0]}&month=${calendarMonth.split('-')[1]}`, { credentials: 'include', cache: 'no-store' })
         .then(async (response) => {
           if (!response.ok) throw new Error('No se pudo cargar el calendario.')
           const result = await response.json() as TeamCalendar
-          setCalendar(result)
-          setCalendarMonth(result.month.slice(0, 7))
+          if (isCurrentRequest()) {
+            setCalendar(result)
+            setCalendarMonth(result.month.slice(0, 7))
+          }
         })
-        .catch((loadError: unknown) => setError(loadError instanceof Error ? loadError.message : 'No se pudo cargar el calendario.'))
+        .catch((loadError: unknown) => {
+          if (isCurrentRequest()) setError(loadError instanceof Error ? loadError.message : 'No se pudo cargar el calendario.')
+        })
     }, 0)
-    return () => window.clearTimeout(timer)
+    return () => { active = false; window.clearTimeout(timer) }
   }, [calendarMonth, selectedTeamId, tab])
 
   useEffect(() => {
@@ -415,116 +454,148 @@ export default function TeamPage({ theme, onToggleTheme, user }: { theme: Theme;
   const upcomingMatch = useMemo(() => space?.matches.find((match) => new Date(match.startsAt).getTime() >= now) ?? space?.matches[0] ?? null, [now, space?.matches])
   const confirmedCount = upcomingMatch?.callups.filter((callup) => callup.attendance === 'Confirmada').length ?? 0
 
-  const refreshSpace = async () => { await loadSpace(selectedTeamId) }
+  const refreshSpace = async (teamId: string, selectionVersion: number) => {
+    if (teamId !== activeTeamIdRef.current || selectionVersion !== selectionVersionRef.current) return false
+    await loadSpace(teamId)
+    return isCurrentSelection(teamId, selectionVersion)
+  }
 
   const addPlayer = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    if (!space || !selectedPlayer) return
+    if (!space || space.team.id !== activeTeamIdRef.current || !selectedPlayer) return
+    const teamId = space.team.id
+    const selectionVersion = selectionVersionRef.current
     setBusy(true); setError(''); setNotice('')
     try {
-      await sendJson(`/api/v1/teams/${space.team.id}/players`, 'POST', {
+      await sendJson(`/api/v1/teams/${teamId}/players`, 'POST', {
         userId: selectedPlayer, jerseyNumber: jerseyNumber ? Number(jerseyNumber) : null, position,
       })
+      if (!isCurrentSelection(teamId, selectionVersion)) return
       clearSelectedCandidate(); setJerseyNumber(''); setPosition('Universal')
-      await refreshSpace()
+      if (!await refreshSpace(teamId, selectionVersion)) return
       setNotice('Jugador añadido a la plantilla.')
-    } catch (actionError) { setError(actionError instanceof Error ? actionError.message : 'No se pudo añadir al jugador.') }
-    finally { setBusy(false) }
+    } catch (actionError) { if (isCurrentSelection(teamId, selectionVersion)) setError(actionError instanceof Error ? actionError.message : 'No se pudo añadir al jugador.') }
+    finally { if (isCurrentSelection(teamId, selectionVersion)) setBusy(false) }
   }
 
   const removePlayer = async (player: TeamPlayer) => {
-    if (!space || !window.confirm(`¿Retirar a ${player.displayName} de ${space.team.name}?`)) return
+    if (!space || space.team.id !== activeTeamIdRef.current || !window.confirm(`¿Retirar a ${player.displayName} de ${space.team.name}?`)) return
+    const teamId = space.team.id
+    const selectionVersion = selectionVersionRef.current
     setError(''); setNotice('')
     try {
-      await sendJson(`/api/v1/teams/${space.team.id}/players/${player.userId}`, 'DELETE')
-      await refreshSpace()
+      await sendJson(`/api/v1/teams/${teamId}/players/${player.userId}`, 'DELETE')
+      if (!isCurrentSelection(teamId, selectionVersion)) return
+      if (!await refreshSpace(teamId, selectionVersion)) return
       setNotice(`${player.displayName} ya no pertenece a este equipo.`)
-    } catch (actionError) { setError(actionError instanceof Error ? actionError.message : 'No se pudo retirar al jugador.') }
+    } catch (actionError) { if (isCurrentSelection(teamId, selectionVersion)) setError(actionError instanceof Error ? actionError.message : 'No se pudo retirar al jugador.') }
   }
 
   const updatePlayerStats = async (player: TeamPlayer, form: HTMLFormElement) => {
-    if (!space) return
+    if (!space || space.team.id !== activeTeamIdRef.current) return
+    const teamId = space.team.id
+    const selectionVersion = selectionVersionRef.current
     const formData = new FormData(form)
     try {
-      await sendJson(`/api/v1/teams/${space.team.id}/players/${player.userId}`, 'PUT', {
+      await sendJson(`/api/v1/teams/${teamId}/players/${player.userId}`, 'PUT', {
         matchesPlayed: Number(formData.get('matchesPlayed')), minutesPlayed: Number(formData.get('minutesPlayed')),
         goals: Number(formData.get('goals')), saves: Number(formData.get('saves')),
       })
-      await refreshSpace()
+      if (!isCurrentSelection(teamId, selectionVersion)) return
+      if (!await refreshSpace(teamId, selectionVersion)) return
       setNotice(`Estadísticas de ${player.displayName} actualizadas.`)
-    } catch (actionError) { setError(actionError instanceof Error ? actionError.message : 'No se pudieron guardar las estadísticas.') }
+    } catch (actionError) { if (isCurrentSelection(teamId, selectionVersion)) setError(actionError instanceof Error ? actionError.message : 'No se pudieron guardar las estadísticas.') }
   }
 
   const createMatch = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    if (!space) return
+    if (!space || space.team.id !== activeTeamIdRef.current) return
+    const teamId = space.team.id
+    const selectionVersion = selectionVersionRef.current
     const form = new FormData(event.currentTarget)
     setBusy(true); setError(''); setNotice('')
     try {
-      await sendJson(`/api/v1/teams/${space.team.id}/matches`, 'POST', {
+      await sendJson(`/api/v1/teams/${teamId}/matches`, 'POST', {
         opponent: form.get('opponent'), startsAt: new Date(String(form.get('startsAt'))).toISOString(),
         venue: form.get('venue'), round: form.get('round'),
         calledUpPlayerIds: form.getAll('calledUpPlayerIds').map(String),
       })
+      if (!isCurrentSelection(teamId, selectionVersion)) return
       setMatchFormOpen(false)
-      await refreshSpace()
+      if (!await refreshSpace(teamId, selectionVersion)) return
       setNotice('Partido y convocatoria guardados.')
-    } catch (actionError) { setError(actionError instanceof Error ? actionError.message : 'No se pudo crear el partido.') }
-    finally { setBusy(false) }
+    } catch (actionError) { if (isCurrentSelection(teamId, selectionVersion)) setError(actionError instanceof Error ? actionError.message : 'No se pudo crear el partido.') }
+    finally { if (isCurrentSelection(teamId, selectionVersion)) setBusy(false) }
   }
 
   const setAttendance = async (matchId: string, attendance: string) => {
-    if (!space) return
+    if (!space || space.team.id !== activeTeamIdRef.current) return
+    const teamId = space.team.id
+    const selectionVersion = selectionVersionRef.current
     try {
-      await sendJson(`/api/v1/teams/${space.team.id}/matches/${matchId}/attendance`, 'PUT', { attendance })
-      await refreshSpace()
+      await sendJson(`/api/v1/teams/${teamId}/matches/${matchId}/attendance`, 'PUT', { attendance })
+      if (!isCurrentSelection(teamId, selectionVersion)) return
+      if (!await refreshSpace(teamId, selectionVersion)) return
       setNotice('Tu respuesta de asistencia se ha guardado.')
-    } catch (actionError) { setError(actionError instanceof Error ? actionError.message : 'No se pudo actualizar la asistencia.') }
+    } catch (actionError) { if (isCurrentSelection(teamId, selectionVersion)) setError(actionError instanceof Error ? actionError.message : 'No se pudo actualizar la asistencia.') }
   }
 
   const createEvent = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    if (!space) return
+    if (!space || space.team.id !== activeTeamIdRef.current) return
+    const teamId = space.team.id
+    const selectionVersion = selectionVersionRef.current
     const form = new FormData(event.currentTarget)
     setBusy(true); setError(''); setNotice('')
     try {
-      await sendJson(`/api/v1/teams/${space.team.id}/events`, 'POST', {
+      await sendJson(`/api/v1/teams/${teamId}/events`, 'POST', {
         title: form.get('title'), kind: form.get('kind'), startsAt: new Date(String(form.get('startsAt'))).toISOString(),
         endsAt: form.get('endsAt') ? new Date(String(form.get('endsAt'))).toISOString() : null,
         venue: form.get('venue'), notes: form.get('notes'),
       })
+      if (!isCurrentSelection(teamId, selectionVersion)) return
       setEventFormOpen(false)
-      await refreshSpace()
+      if (!await refreshSpace(teamId, selectionVersion)) return
       setNotice('Actividad añadida al calendario.')
-      void loadCalendar()
-    } catch (actionError) { setError(actionError instanceof Error ? actionError.message : 'No se pudo añadir la actividad.') }
-    finally { setBusy(false) }
+      void loadCalendar(teamId, selectionVersion).catch((loadError: unknown) => {
+        if (isCurrentSelection(teamId, selectionVersion)) setError(loadError instanceof Error ? loadError.message : 'No se pudo cargar el calendario.')
+      })
+    } catch (actionError) { if (isCurrentSelection(teamId, selectionVersion)) setError(actionError instanceof Error ? actionError.message : 'No se pudo añadir la actividad.') }
+    finally { if (isCurrentSelection(teamId, selectionVersion)) setBusy(false) }
   }
 
-  const loadCalendar = async () => {
-    if (!space) return
+  const loadCalendar = async (teamId: string, selectionVersion: number) => {
+    if (!space || space.team.id !== teamId) return false
+    const requestId = ++calendarRequestIdRef.current
     const [year, month] = calendarMonth.split('-')
-    const response = await fetch(`/api/v1/teams/${space.team.id}/calendar?year=${year}&month=${month}`, { credentials: 'include', cache: 'no-store' })
+    const response = await fetch(`/api/v1/teams/${teamId}/calendar?year=${year}&month=${month}`, { credentials: 'include', cache: 'no-store' })
+    if (!isCurrentSelection(teamId, selectionVersion) || calendarRequestIdRef.current !== requestId) return false
     if (!response.ok) throw new Error('No se pudo cargar el calendario.')
-    setCalendar(await response.json() as TeamCalendar)
+    const result = await response.json() as TeamCalendar
+    if (!isCurrentSelection(teamId, selectionVersion) || calendarRequestIdRef.current !== requestId) return false
+    setCalendar(result)
+    return true
   }
 
   const saveEvent = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    if (!space || !editingEvent) return
+    if (!space || space.team.id !== activeTeamIdRef.current || !editingEvent) return
+    const teamId = space.team.id
+    const selectionVersion = selectionVersionRef.current
     const form = new FormData(event.currentTarget)
     setBusy(true); setError(''); setNotice('')
     try {
-      await sendJson(`/api/v1/teams/${space.team.id}/events/${editingEvent.id}`, 'PUT', {
+      await sendJson(`/api/v1/teams/${teamId}/events/${editingEvent.id}`, 'PUT', {
         title: form.get('title'), kind: form.get('kind'), startsAt: new Date(String(form.get('startsAt'))).toISOString(),
         endsAt: form.get('endsAt') ? new Date(String(form.get('endsAt'))).toISOString() : null,
         venue: form.get('venue'), notes: form.get('notes'),
       })
+      if (!isCurrentSelection(teamId, selectionVersion)) return
       setEditingEvent(null)
-      await loadCalendar()
+      if (!await loadCalendar(teamId, selectionVersion)) return
       setNotice('Evento actualizado.')
-    } catch (actionError) { setError(actionError instanceof Error ? actionError.message : 'No se pudo actualizar el evento.') }
-    finally { setBusy(false) }
+    } catch (actionError) { if (isCurrentSelection(teamId, selectionVersion)) setError(actionError instanceof Error ? actionError.message : 'No se pudo actualizar el evento.') }
+    finally { if (isCurrentSelection(teamId, selectionVersion)) setBusy(false) }
   }
 
   const saveCalendarTrainingException = (event: FormEvent<HTMLFormElement>) => {
@@ -532,17 +603,22 @@ export default function TeamPage({ theme, onToggleTheme, user }: { theme: Theme;
   }
 
   const cancelCalendarEvent = async (item: CalendarItem) => {
-    if (!space || !window.confirm(`¿Cancelar «${item.title}»?`)) return
+    if (!space || space.team.id !== activeTeamIdRef.current || !window.confirm(`¿Cancelar «${item.title}»?`)) return
+    const teamId = space.team.id
+    const selectionVersion = selectionVersionRef.current
     try {
-      await sendJson(`/api/v1/teams/${space.team.id}/events/${item.id}`, 'DELETE')
-      await loadCalendar()
+      await sendJson(`/api/v1/teams/${teamId}/events/${item.id}`, 'DELETE')
+      if (!isCurrentSelection(teamId, selectionVersion)) return
+      if (!await loadCalendar(teamId, selectionVersion)) return
       setNotice('Evento cancelado.')
-    } catch (actionError) { setError(actionError instanceof Error ? actionError.message : 'No se pudo cancelar el evento.') }
+    } catch (actionError) { if (isCurrentSelection(teamId, selectionVersion)) setError(actionError instanceof Error ? actionError.message : 'No se pudo cancelar el evento.') }
   }
 
   const saveTrainingPlan = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    if (!space) return
+    if (!space || space.team.id !== activeTeamIdRef.current) return
+    const teamId = space.team.id
+    const selectionVersion = selectionVersionRef.current
     const form = new FormData(event.currentTarget)
     const slots = [0, 1, 2, 3, 4, 5, 6].flatMap((dayOfWeek) => {
       const startsAt = String(form.get(`start-${dayOfWeek}`) ?? '')
@@ -552,33 +628,37 @@ export default function TeamPage({ theme, onToggleTheme, user }: { theme: Theme;
     })
     setBusy(true); setError(''); setNotice('')
     try {
-      await sendJson(`/api/v1/teams/${space.team.id}/training-plan`, 'PUT', { effectiveFrom: form.get('effectiveFrom'), slots })
+      await sendJson(`/api/v1/teams/${teamId}/training-plan`, 'PUT', { effectiveFrom: form.get('effectiveFrom'), slots })
+      if (!isCurrentSelection(teamId, selectionVersion)) return
       setTrainingPlanOpen(false)
-      await loadCalendar()
+      if (!await loadCalendar(teamId, selectionVersion)) return
       setNotice('La planificación semanal se ha guardado.')
-    } catch (actionError) { setError(actionError instanceof Error ? actionError.message : 'No se pudo guardar la planificación.') }
-    finally { setBusy(false) }
+    } catch (actionError) { if (isCurrentSelection(teamId, selectionVersion)) setError(actionError instanceof Error ? actionError.message : 'No se pudo guardar la planificación.') }
+    finally { if (isCurrentSelection(teamId, selectionVersion)) setBusy(false) }
   }
 
   const updateTrainingDate = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    if (!space || !editingTraining?.trainingSlotId || !editingTraining.trainingDate) return
+    if (!space || space.team.id !== activeTeamIdRef.current || !editingTraining?.trainingSlotId || !editingTraining.trainingDate) return
+    const teamId = space.team.id
+    const selectionVersion = selectionVersionRef.current
     const form = new FormData(event.currentTarget)
     const isCancelled = form.get('cancelled') === 'on'
     setBusy(true); setError(''); setNotice('')
     try {
       if (isCancelled) {
-        await sendJson(`/api/v1/teams/${space.team.id}/training-plan/${editingTraining.trainingSlotId}/exceptions/${editingTraining.trainingDate}`, 'PUT', { isCancelled: true })
+        await sendJson(`/api/v1/teams/${teamId}/training-plan/${editingTraining.trainingSlotId}/exceptions/${editingTraining.trainingDate}`, 'PUT', { isCancelled: true })
       } else {
-        await sendJson(`/api/v1/teams/${space.team.id}/training-plan/${editingTraining.trainingSlotId}/exceptions/${editingTraining.trainingDate}`, 'PUT', {
+        await sendJson(`/api/v1/teams/${teamId}/training-plan/${editingTraining.trainingSlotId}/exceptions/${editingTraining.trainingDate}`, 'PUT', {
           isCancelled: false, startsAt: `${String(form.get('startsAt'))}:00`, endsAt: `${String(form.get('endsAt'))}:00`, venue: form.get('venue'),
         })
       }
+      if (!isCurrentSelection(teamId, selectionVersion)) return
       setEditingTraining(null)
-      await loadCalendar()
+      if (!await loadCalendar(teamId, selectionVersion)) return
       setNotice(isCancelled ? 'Entrenamiento cancelado solo para esta fecha.' : 'Entrenamiento modificado solo para esta fecha.')
-    } catch (actionError) { setError(actionError instanceof Error ? actionError.message : 'No se pudo modificar el entrenamiento.') }
-    finally { setBusy(false) }
+    } catch (actionError) { if (isCurrentSelection(teamId, selectionVersion)) setError(actionError instanceof Error ? actionError.message : 'No se pudo modificar el entrenamiento.') }
+    finally { if (isCurrentSelection(teamId, selectionVersion)) setBusy(false) }
   }
 
   const navigateCalendar = (offset: number) => {
@@ -594,33 +674,66 @@ export default function TeamPage({ theme, onToggleTheme, user }: { theme: Theme;
   const isCalendarLastMonth = calendarMonth === (calendar?.seasonEnd.slice(0, 7) ?? seasonEndKey().slice(0, 7))
 
   const restoreTrainingDate = async (item: CalendarItem) => {
-    if (!space || !item.trainingSlotId || !item.trainingDate) return
+    if (!space || space.team.id !== activeTeamIdRef.current || !item.trainingSlotId || !item.trainingDate) return
+    const teamId = space.team.id
+    const selectionVersion = selectionVersionRef.current
     try {
-      await sendJson(`/api/v1/teams/${space.team.id}/training-plan/${item.trainingSlotId}/exceptions/${item.trainingDate}`, 'DELETE')
-      await loadCalendar()
+      await sendJson(`/api/v1/teams/${teamId}/training-plan/${item.trainingSlotId}/exceptions/${item.trainingDate}`, 'DELETE')
+      if (!isCurrentSelection(teamId, selectionVersion)) return
+      if (!await loadCalendar(teamId, selectionVersion)) return
       setNotice('Se ha restaurado la planificación semanal para esta fecha.')
-    } catch (actionError) { setError(actionError instanceof Error ? actionError.message : 'No se pudo restaurar el entrenamiento.') }
+    } catch (actionError) { if (isCurrentSelection(teamId, selectionVersion)) setError(actionError instanceof Error ? actionError.message : 'No se pudo restaurar el entrenamiento.') }
+  }
+
+  const selectTeam = (teamId: string) => {
+    if (teamId === activeTeamIdRef.current) return
+    activeTeamIdRef.current = teamId
+    invalidateTeamRequests()
+    setSelectedTeamId(teamId)
+    setSpace(null)
+    setLoadingSpace(Boolean(teamId))
+    setCalendar(null)
+    setCalendarMonth(monthDateKey(new Date()))
+    setEditingEvent(null)
+    setEditingTraining(null)
+    setMatchFormOpen(false)
+    setEventFormOpen(false)
+    setTrainingPlanOpen(false)
+    setBoardText('')
+    setBoardFiles([])
+    setBusy(false)
+    clearSelectedCandidate()
+    setJerseyNumber('')
+    setPosition('Universal')
+    setTab('plantilla')
+    setError('')
+    setNotice('')
   }
 
   const createBoardPost = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    if (!space) return
+    if (!space || space.team.id !== activeTeamIdRef.current) return
+    const teamId = space.team.id
+    const selectionVersion = selectionVersionRef.current
+    const text = boardText
+    const files = boardFiles
     setBusy(true); setError(''); setNotice('')
     try {
       const token = await getCsrfToken()
       const body = new FormData()
-      body.append('content', boardText)
-      boardFiles.forEach((file) => body.append('files', file))
-      const response = await fetch(`/api/v1/teams/${space.team.id}/board`, {
+      body.append('content', text)
+      files.forEach((file) => body.append('files', file))
+      const response = await fetch(`/api/v1/teams/${teamId}/board`, {
         method: 'POST', credentials: 'include', cache: 'no-store', headers: { 'X-CSRF-TOKEN': token }, body,
       })
       const result = await response.json().catch(() => undefined)
       if (!response.ok) throw new Error(result?.message ?? 'No se pudo publicar en la pizarra.')
+      if (!isCurrentSelection(teamId, selectionVersion)) return
       setBoardText(''); setBoardFiles([])
-      await refreshSpace()
+      if (!await refreshSpace(teamId, selectionVersion)) return
       setNotice('Mensaje publicado en la pizarra del equipo.')
-    } catch (actionError) { setError(actionError instanceof Error ? actionError.message : 'No se pudo publicar en la pizarra.') }
-    finally { setBusy(false) }
+    } catch (actionError) { if (isCurrentSelection(teamId, selectionVersion)) setError(actionError instanceof Error ? actionError.message : 'No se pudo publicar en la pizarra.') }
+    finally { if (isCurrentSelection(teamId, selectionVersion)) setBusy(false) }
   }
 
   const tabs: { id: Tab; label: string; icon: string }[] = [
@@ -646,7 +759,7 @@ export default function TeamPage({ theme, onToggleTheme, user }: { theme: Theme;
     <SiteHeader theme={theme} onToggleTheme={onToggleTheme} user={user}/>
     <div className="team-shell">
       <header className="team-heading"><div className="team-heading-icon material-symbols-outlined" aria-hidden="true">sports_handball</div><div className="team-heading-copy"><span className="section-kicker">ESPACIO PRIVADO DEL EQUIPO</span><h1>{space?.team.name ?? 'Mis equipos'}</h1><p>Plantilla, convocatorias y actividad semanal.</p></div>
-        {teams.length > 1 && <TeamPicker teams={teams} selectedTeamId={selectedTeamId} onSelect={(teamId) => { setSelectedTeamId(teamId); setSpace(null); clearSelectedCandidate(); setTab('plantilla'); setError(''); setNotice('') }}/>}
+        {teams.length > 1 && <TeamPicker teams={teams} selectedTeamId={selectedTeamId} onSelect={selectTeam}/>}
       </header>
       {error && <div className="team-message team-error" role="alert">{error}</div>}
       {notice && <div className="team-message team-success" role="status">{notice}</div>}

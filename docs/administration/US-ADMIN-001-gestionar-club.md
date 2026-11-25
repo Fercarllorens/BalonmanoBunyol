@@ -39,6 +39,7 @@
 - **Y** cada persona dispone de un desplegable compacto que muestra cuántos equipos tiene asignados y abre la lista con casillas, búsqueda y marcas actuales.
 - **Y** puedo identificar claramente qué equipos ya están asignados y cuáles están inactivos.
 - **Y** los equipos inactivos que ya están asignados permanecen visibles y se conservan al editar otras asignaciones, salvo que los retire explícitamente.
+- **Y** si guardo la lista vacía, se retiran todas las asignaciones de la persona y la acción queda registrada en auditoría.
 
 - **Dado** que una cuenta tiene rol Administrador,
 - **Cuando** consulto el apartado de asignación de equipos o intento asignarle equipos por API,
@@ -68,10 +69,14 @@
 - **Dado** que soy Administrador,
 - **Cuando** busco una persona por nombre o correo y cambio su rol principal,
 - **Entonces** los roles principales anteriores se sustituyen por el nuevo.
+- **Y** cualquier solicitud de rol pendiente de esa cuenta se resuelve en la misma operación: Aprobada si coincide con el rol asignado y Rechazada si es distinto.
+- **Y** la solicitud resuelta deja de aparecer en la lista de pendientes y la resolución manual queda auditada.
+- **Y** la transición desde Pendiente se reserva atómicamente antes de modificar roles; si otra decisión ya la reservó, esta operación recibe conflicto y no cambia roles ni añade auditoría.
 
 - **Dado** que intento cambiar mi propio rol Administrador o retirar el rol al último Administrador activo,
 - **Cuando** envío el cambio,
 - **Entonces** la API lo rechaza.
+- **Y** los cambios concurrentes de rol se serializan para impedir que se retiren a la vez los dos últimos Administradores.
 
 - **Dado** que una cuenta tiene rol Administrador,
 - **Cuando** otro Administrador modifica su rol,

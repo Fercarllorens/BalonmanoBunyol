@@ -13,8 +13,10 @@ backend/src/
   BalonmanoBunol.Domain/         # Entidades y reglas de negocio sin dependencias externas
   BalonmanoBunol.Application/    # Casos de uso, DTOs y contratos
   BalonmanoBunol.Infrastructure/ # EF Core, PostgreSQL, Identity y adaptadores
-  BalonmanoBunol.Api/            # HTTP, composición de dependencias y configuración
+  BalonmanoBunol.Api/            # Controladores HTTP por funcionalidad, middleware y composición
 ```
+
+Dentro de cada proyecto las carpetas se organizan por funcionalidad cuando aplica (`Administration`, `Auth`, `Profile`, `Social`, `Teams`). En Api, `Controllers/` agrupa los controladores por esa misma funcionalidad; `Program.cs` conserva configuración, middleware e inicialización. En Infrastructure, `Persistence` contiene el contexto EF Core y las migraciones, mientras `Identity` conserva los tipos propios de ASP.NET Identity. No es obligatorio que todas las capas tengan todas las carpetas: cada capa contiene solo los elementos de la funcionalidad que le corresponden.
 
 Dirección de dependencias: `Api -> Application`, `Api -> Infrastructure`, `Infrastructure -> Application`, `Infrastructure -> Domain`, `Application -> Domain`. Domain no depende de las demás capas.
 

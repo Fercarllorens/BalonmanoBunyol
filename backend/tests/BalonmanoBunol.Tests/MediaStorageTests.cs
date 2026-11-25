@@ -1,4 +1,4 @@
-using BalonmanoBunol.Infrastructure.Persistence;
+using BalonmanoBunol.Infrastructure.Social;
 
 namespace BalonmanoBunol.Tests;
 

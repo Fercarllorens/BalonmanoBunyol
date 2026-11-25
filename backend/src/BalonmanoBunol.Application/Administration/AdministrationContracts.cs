@@ -8,8 +8,9 @@ public sealed record AssignTeamsInput(IReadOnlyList<Guid> TeamIds);
 public sealed record ChangeRoleInput(string Role);
 public sealed record AdminPlayerAssignmentInput(Guid TeamId, int? JerseyNumber, string Position);
 public sealed record AdminTeamPlayerDto(Guid UserId, string DisplayName, string Email, int? JerseyNumber, string Position);
-public sealed record AdminOperationResult(bool Succeeded, string? Error)
+public sealed record AdminOperationResult(bool Succeeded, string? Error, bool IsConflict = false)
 {
     public static AdminOperationResult Success() => new(true, null);
     public static AdminOperationResult Failure(string error) => new(false, error);
+    public static AdminOperationResult Conflict(string error) => new(false, error, true);
 }

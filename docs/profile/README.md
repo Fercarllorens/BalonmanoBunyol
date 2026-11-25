@@ -10,7 +10,7 @@ La funcionalidad permite a una persona autenticada gestionar sus datos de cuenta
 - Al registrarse, se asigna por defecto el primer equipo Senior activo, ordenado por nombre.
 - Carga y eliminación de avatar JPEG, PNG o WebP de hasta 5 MB.
 - Datos guardados mediante Identity y avatar en almacenamiento local del servidor, fuera de PostgreSQL.
-- Las API de perfil identifican la cuenta desde la cookie de sesión y no cachean sus respuestas.
+- Las API de perfil identifican la cuenta desde la cookie de sesión y no cachean sus respuestas. El endpoint de lectura del avatar también requiere sesión, incluso si se muestra junto a una publicación pública.
 
 ## Historias de usuario
 

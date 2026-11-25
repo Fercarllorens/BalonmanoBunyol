@@ -25,6 +25,8 @@ public sealed class RoleRequest : Entity
 
     public void Approve(Guid administratorId) => Resolve(administratorId, RoleRequestStatus.Approved);
     public void Reject(Guid administratorId) => Resolve(administratorId, RoleRequestStatus.Rejected);
+    public void ResolveByManualRoleChange(Guid administratorId, bool assignedRequestedRole) =>
+        Resolve(administratorId, assignedRequestedRole ? RoleRequestStatus.Approved : RoleRequestStatus.Rejected);
 
     private void Resolve(Guid administratorId, RoleRequestStatus status)
     {

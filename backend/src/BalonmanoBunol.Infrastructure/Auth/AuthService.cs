@@ -1,16 +1,17 @@
 using System.Security.Claims;
 using BalonmanoBunol.Application.Auth;
+using BalonmanoBunol.Application.Profile;
+using BalonmanoBunol.Domain.Administration;
 using BalonmanoBunol.Domain.Auth;
 using BalonmanoBunol.Domain.Teams;
-using BalonmanoBunol.Application.Profile;
 using BalonmanoBunol.Infrastructure.Identity;
 using BalonmanoBunol.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Options;
 
 namespace BalonmanoBunol.Infrastructure.Auth;
 
@@ -141,11 +142,24 @@ public sealed class AuthService(
     public async Task<bool> ResolveRoleRequestAsync(Guid requestId, Guid administratorId, bool approve, CancellationToken cancellationToken)
     {
         await using var transaction = await dbContext.Database.BeginTransactionAsync(cancellationToken);
-        var request = await dbContext.RoleRequests.SingleOrDefaultAsync(item => item.Id == requestId, cancellationToken);
-        if (request is null || request.Status != RoleRequestStatus.Pending) return false;
+        var request = await dbContext.RoleRequests.AsNoTracking()
+            .Where(item => item.Id == requestId)
+            .Select(item => new { item.Id, item.UserId, item.RequestedRole })
+            .SingleOrDefaultAsync(cancellationToken);
+        if (request is null) return false;
 
         var user = await userManager.FindByIdAsync(request.UserId.ToString());
         if (user is null) return false;
+
+        var resolvedAt = DateTimeOffset.UtcNow;
+        var status = approve ? RoleRequestStatus.Approved : RoleRequestStatus.Rejected;
+        var reserved = await dbContext.RoleRequests
+            .Where(item => item.Id == requestId && item.Status == RoleRequestStatus.Pending)
+            .ExecuteUpdateAsync(updates => updates
+                .SetProperty(item => item.Status, status)
+                .SetProperty(item => item.ResolvedByUserId, administratorId)
+                .SetProperty(item => item.ResolvedAt, resolvedAt), cancellationToken);
+        if (reserved != 1) return false;
 
         if (approve)
         {
@@ -161,11 +175,6 @@ public sealed class AuthService(
                 var addResult = await userManager.AddToRoleAsync(user, request.RequestedRole);
                 if (!addResult.Succeeded) return false;
             }
-            request.Approve(administratorId);
-        }
-        else
-        {
-            request.Reject(administratorId);
         }
 
         dbContext.AdministrationAuditEntries.Add(new AdministrationAuditEntry(

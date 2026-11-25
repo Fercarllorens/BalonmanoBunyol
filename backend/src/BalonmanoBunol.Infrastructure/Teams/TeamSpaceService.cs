@@ -7,7 +7,7 @@ using BalonmanoBunol.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace BalonmanoBunol.Infrastructure.Auth;
+namespace BalonmanoBunol.Infrastructure.Teams;
 
 public sealed class TeamSpaceService(ClubDbContext db, UserManager<ClubUser> users, ITeamBoardStorage storage, IAdministrationService administration) : ITeamSpaceService
 {
@@ -65,7 +65,10 @@ public sealed class TeamSpaceService(ClubDbContext db, UserManager<ClubUser> use
                 item.Position, item.MatchesPlayed, item.MinutesPlayed, item.Goals, item.Saves))
             .ToListAsync(cancellationToken);
 
-        var matches = await db.TeamMatches.AsNoTracking().Where(match => match.TeamId == teamId && match.IsActive)
+        var today = ClubToday();
+        var todayStart = ClubDateTime(today, TimeOnly.MinValue).ToUniversalTime();
+        var matches = await db.TeamMatches.AsNoTracking()
+            .Where(match => match.TeamId == teamId && match.IsActive && match.StartsAt >= todayStart)
             .OrderBy(match => match.StartsAt).Take(20).ToListAsync(cancellationToken);
         var matchIds = matches.Select(match => match.Id).ToArray();
         var callups = await (from item in db.TeamCallups.AsNoTracking()
@@ -381,7 +384,7 @@ public sealed class TeamSpaceService(ClubDbContext db, UserManager<ClubUser> use
         var content = input.Content?.Trim() ?? string.Empty;
         if (content.Length > 4000 || (string.IsNullOrWhiteSpace(content) && files.Count == 0)) return TeamOperationResult.Failure("Escribe un mensaje (máximo 4000 caracteres) o adjunta un archivo.");
         if (files.Count > MaxFiles) return TeamOperationResult.Failure("Se permiten hasta cuatro archivos por mensaje.");
-        if (files.Sum(file => file.Length) > MaxFileBytes) return TeamOperationResult.Failure("El tamaño total de los adjuntos no puede superar 100 MB.");
+        if (files.Sum(file => file.Length) > MaxTotalFileBytes) return TeamOperationResult.Failure("El tamaño total de los adjuntos no puede superar 400 MB.");
         var post = new TeamBoardPost(teamId, userId, string.IsNullOrWhiteSpace(content) ? "Adjunto del equipo" : content);
         var keys = new List<string>();
         try
@@ -472,4 +475,5 @@ public sealed class TeamSpaceService(ClubDbContext db, UserManager<ClubUser> use
 
     private const int MaxFiles = 4;
     private const long MaxFileBytes = 100L * 1024 * 1024;
+    private const long MaxTotalFileBytes = 400L * 1024 * 1024;
 }

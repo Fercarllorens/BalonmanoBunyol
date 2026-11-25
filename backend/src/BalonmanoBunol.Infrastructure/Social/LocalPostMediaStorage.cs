@@ -1,14 +1,19 @@
-using BalonmanoBunol.Application.Teams;
+using BalonmanoBunol.Application.Social;
 
-namespace BalonmanoBunol.Infrastructure.Persistence;
+namespace BalonmanoBunol.Infrastructure.Social;
 
-public sealed class LocalTeamBoardStorage(string rootPath) : ITeamBoardStorage
+public sealed class LocalPostMediaStorage : IPostMediaStorage
 {
-    private readonly string _rootPath = Path.GetFullPath(rootPath);
+    private readonly string _rootPath;
 
-    public async Task<string> SaveAsync(Guid id, string extension, Stream content, CancellationToken cancellationToken)
+    public LocalPostMediaStorage(string rootPath)
     {
-        var storageKey = $"{id:N}{extension}";
+        _rootPath = Path.GetFullPath(rootPath);
+    }
+
+    public async Task<string> SaveAsync(Guid attachmentId, string extension, Stream content, CancellationToken cancellationToken)
+    {
+        var storageKey = $"{attachmentId:N}{extension}";
         var path = GetSafePath(storageKey);
         Directory.CreateDirectory(_rootPath);
         await using var target = new FileStream(path, FileMode.CreateNew, FileAccess.Write, FileShare.None, 81920, FileOptions.Asynchronous | FileOptions.SequentialScan);

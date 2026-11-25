@@ -1,14 +1,14 @@
-using BalonmanoBunol.Application.Profile;
+using BalonmanoBunol.Application.Teams;
 
-namespace BalonmanoBunol.Infrastructure.Persistence;
+namespace BalonmanoBunol.Infrastructure.Teams;
 
-public sealed class LocalProfileAvatarStorage(string rootPath) : IProfileAvatarStorage
+public sealed class LocalTeamBoardStorage(string rootPath) : ITeamBoardStorage
 {
     private readonly string _rootPath = Path.GetFullPath(rootPath);
 
-    public async Task<string> SaveAsync(Guid avatarId, string extension, Stream content, CancellationToken cancellationToken)
+    public async Task<string> SaveAsync(Guid id, string extension, Stream content, CancellationToken cancellationToken)
     {
-        var storageKey = $"{avatarId:N}{extension}";
+        var storageKey = $"{id:N}{extension}";
         var path = GetSafePath(storageKey);
         Directory.CreateDirectory(_rootPath);
         await using var target = new FileStream(path, FileMode.CreateNew, FileAccess.Write, FileShare.None, 81920, FileOptions.Asynchronous | FileOptions.SequentialScan);

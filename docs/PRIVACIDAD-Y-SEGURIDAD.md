@@ -9,8 +9,9 @@ La aplicación manejará información de jugadores, posiblemente menores, e info
 - No permitir incluir ni consultar documentos o información médica en publicaciones de la comunidad.
 - Autorizar la eliminación de publicaciones en backend y solo para su autor; conservar borrado lógico y metadatos de autoría.
 - Validar en servidor tamaño, contenido MIME y firma del archivo adjunto; usar nombres aleatorios de almacenamiento y servir los archivos desde rutas controladas.
-- Proteger el acceso a los avatares con sesión autenticada; validar JPEG, PNG y WebP por firma y limitar el tamaño a 5 MB. No incluirlos en caché PWA ni HTTP compartida.
+- Proteger el acceso a todos los avatares, incluidos los mostrados junto a publicaciones públicas, con sesión autenticada; para visitantes mostrar iniciales. Validar JPEG, PNG y WebP por firma y limitar el tamaño a 5 MB. No incluirlos en caché PWA ni HTTP compartida.
 - Proteger todas las operaciones del panel con rol Administrador en backend y antiforgery; auditar cambios de rol, decisiones de solicitudes y asignaciones de equipo.
+- Serializar los cambios de rol Administrador mediante bloqueo transaccional compartido antes de comprobar que permanece al menos una cuenta administradora activa.
 - Las plantillas, pizarra, partidos, asistencia, eventos y estadísticas son privados por equipo: comprobar membresía de Jugador o asignación activa del staff en backend. Los adjuntos de pizarra requieren la misma comprobación y firma/MIME/tamaño válidos.
 - No permitir incluir ni consultar documentos o información médica en publicaciones de la comunidad.
 - Autorizar la eliminación de publicaciones en backend y solo para su autor; conservar borrado lógico y metadatos de autoría.

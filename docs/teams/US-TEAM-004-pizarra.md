@@ -24,3 +24,7 @@
 - **Dado** que subo un archivo no permitido, con firma incorrecta o por encima del límite,
 - **Cuando** intento publicarlo,
 - **Entonces** se rechaza la operación.
+
+- **Dado** que adjunto hasta cuatro archivos permitidos de 100 MB cada uno,
+- **Cuando** publico el mensaje,
+- **Entonces** el límite de solicitud multipart permite el total de archivos más su overhead y el servidor aplica también los límites por archivo y total.

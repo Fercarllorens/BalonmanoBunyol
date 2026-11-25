@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 
-namespace BalonmanoBunol.Infrastructure.Auth;
+namespace BalonmanoBunol.Infrastructure.Profile;
 
 public sealed class ProfileService(
     UserManager<ClubUser> userManager,
@@ -57,36 +57,18 @@ public sealed class ProfileService(
             if (existingUser is not null) return ProfileOperationResult.Failure("Ese correo electrónico ya está asociado a otra cuenta.");
         }
 
-        var oldEmail = user.Email;
-        var oldUserName = user.UserName;
-        if (!string.Equals(oldEmail, email, StringComparison.OrdinalIgnoreCase))
-        {
-            var emailResult = await userManager.SetEmailAsync(user, email);
-            if (!emailResult.Succeeded) return ProfileOperationResult.Failure("No se pudo actualizar el correo electrónico.");
-            var usernameResult = await userManager.SetUserNameAsync(user, email);
-            if (!usernameResult.Succeeded)
-            {
-                if (!string.IsNullOrWhiteSpace(oldEmail)) await userManager.SetEmailAsync(user, oldEmail);
-                if (!string.IsNullOrWhiteSpace(oldUserName)) await userManager.SetUserNameAsync(user, oldUserName);
-                return ProfileOperationResult.Failure("No se pudo actualizar el correo electrónico.");
-            }
-        }
-
+        await using var transaction = await db.Database.BeginTransactionAsync(cancellationToken);
+        user.Email = email;
+        user.UserName = email;
         user.FirstName = firstName;
         user.LastName = lastName;
         user.DisplayName = $"{firstName} {lastName}".Trim();
         user.PreferredTeamId = preferredTeamId;
         var updateResult = await userManager.UpdateAsync(user);
         if (!updateResult.Succeeded)
-        {
-            if (!string.IsNullOrWhiteSpace(oldEmail) && !string.Equals(oldEmail, email, StringComparison.OrdinalIgnoreCase))
-            {
-                await userManager.SetEmailAsync(user, oldEmail);
-                if (!string.IsNullOrWhiteSpace(oldUserName)) await userManager.SetUserNameAsync(user, oldUserName);
-            }
             return ProfileOperationResult.Failure("No se pudo guardar la información del perfil.");
-        }
 
+        await transaction.CommitAsync(cancellationToken);
         await RefreshSessionAsync(user);
         return ProfileOperationResult.Success(await ToDtoAsync(user, cancellationToken));
     }

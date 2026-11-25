@@ -27,6 +27,7 @@
 - **Dado** que envío datos válidos para mi perfil,
 - **Cuando** guardo los cambios,
 - **Entonces** se actualizan mis datos y la sesión refleja el nuevo nombre y correo.
+- **Y** el correo, nombre, apellidos y equipo preferido se guardan en una única transacción; la sesión solo se refresca tras confirmar.
 
 - **Dado** que el nombre completo supera 160 caracteres,
 - **Cuando** intento guardar el perfil,
@@ -35,6 +36,10 @@
 - **Dado** que el correo indicado ya pertenece a otra cuenta,
 - **Cuando** intento guardar el perfil,
 - **Entonces** la API rechaza el cambio sin modificar mi correo actual.
+
+- **Dado** que falla la escritura de cualquiera de los campos al guardar un perfil,
+- **Cuando** la operación termina sin éxito,
+- **Entonces** ni el correo de inicio de sesión ni el resto del perfil quedan modificados.
 
 ### Equipo preferido
 
@@ -59,6 +64,7 @@
 - **Dado** que selecciono una imagen JPEG, PNG o WebP de 5 MB o menos,
 - **Cuando** se carga correctamente,
 - **Entonces** aparece como mi avatar en la aplicación.
+- **Y** la imagen se entrega solo a personas con sesión activa; las visitas públicas ven la inicial de la persona.
 
 - **Dado** que selecciono un archivo no admitido, demasiado grande o cuyo contenido no coincide con su formato,
 - **Cuando** intento cargarlo,

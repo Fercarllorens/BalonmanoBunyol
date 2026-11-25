@@ -22,6 +22,10 @@
 | D-018 | Los equipos no se vinculan a una temporada; Senior es una categoría única y Senior A/B son nombres de equipo | Acordada/implementada | Administración gestiona los traslados de jugadores entre plantillas al cambiar la temporada. |
 | D-019 | La pertenencia como jugador a una plantilla es independiente del rol principal | Acordada/implementada | Cuentas activas de Jugador o Cuerpo Técnico pueden tener membresía deportiva; el rol de Cuerpo Técnico conserva sus permisos asignados y Administración no se ofrece como jugador. |
 | D-020 | Temporada automática del club de julio a junio y calendario mensual | Acordada/implementada | La aplicación calcula el rango con la fecha actual. Los horarios semanales tienen fecha efectiva; cambios/cancelaciones puntuales son excepciones de una fecha. |
+| D-021 | Los cambios de rol Administrador bloquean la fila compartida del rol antes de validar el último administrador | Acordada/implementada | Serializa los cambios concurrentes de roles con PostgreSQL `FOR UPDATE`, evitando que dos solicitudes retiren simultáneamente los últimos administradores. |
+| D-022 | La resolución de solicitudes de rol reserva atómicamente la transición desde Pendiente | Acordada/implementada | Un `UPDATE` condicional dentro de la transacción permite un único ganador entre decisiones concurrentes; cambios de rol y auditoría se confirman juntos y las decisiones perdedoras reciben conflicto. |
+| D-023 | Límites de cuerpo HTTP de cargas multimedia por endpoint | Acordada/implementada | Feed: 201 MiB para cuatro vídeos de hasta 50 MiB y overhead multipart. Tablón: 401 MiB para cuatro archivos de hasta 100 MiB y overhead. No se amplía globalmente Kestrel. |
+| D-024 | Los cambios del perfil y correo se guardan en una transacción Identity compartida | Acordada/implementada | Se actualizan todos los campos del usuario en una sola escritura dentro de la transacción del `ClubDbContext`; la cookie se refresca únicamente tras confirmar, evitando correos parcialmente persistidos ante fallos de concurrencia. |
 
 ## Pendiente de decisión
 

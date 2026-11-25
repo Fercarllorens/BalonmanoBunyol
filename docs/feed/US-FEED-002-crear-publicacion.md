@@ -21,6 +21,7 @@
 - **Dado** que intento adjuntar más de cuatro archivos, un formato no permitido, una imagen mayor de 10 MB o un vídeo mayor de 50 MB,
 - **Cuando** intento publicar,
 - **Entonces** la API rechaza la publicación y la interfaz comunica el límite aplicable.
+- **Y** una solicitud con cuatro vídeos válidos de hasta 50 MB no se rechaza por el límite HTTP de Kestrel antes de validar los archivos.
 
 ### Contenido vacío
 

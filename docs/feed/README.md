@@ -6,12 +6,12 @@ Primera fase de la feed social inspirada en los diseños `feed_social_y_comunida
 
 - Feed general real, cronológico y paginado.
 - Publicar requiere sesión. El feed público se puede consultar sin autenticación.
-- Adjuntos: máximo cuatro por publicación; JPEG/PNG/WebP hasta 10 MB por imagen y MP4/WebM hasta 50 MB por vídeo.
+- Adjuntos: máximo cuatro por publicación; JPEG/PNG/WebP hasta 10 MB por imagen y MP4/WebM hasta 50 MB por vídeo. El endpoint permite cuerpos multipart de hasta 201 MiB para cubrir cuatro vídeos al máximo más el overhead.
 - Borrado lógico disponible solo para la persona autora; la API aplica la autorización.
 - Filtro «Comunicados» para Administradores y Cuerpo Técnico.
 - «Mi feed» se presenta como pestaña visual, pero no personaliza el contenido en esta fase.
 - Perfil de la cuenta autenticada con nombre y correo reales.
-- Las publicaciones muestran el avatar del perfil de su autor cuando existe; si no, usan su inicial.
+- Las publicaciones muestran el avatar protegido de su autor a personas con sesión; las visitas públicas ven su inicial. La imagen se entrega mediante el endpoint autenticado de perfil y no existe un endpoint público alternativo.
 - Partido, clasificación, estadísticas, agenda, patrocinadores y enlaces laterales son contenido mock de presentación.
 - Comentarios, reacciones, compartir y seguimiento quedan para fases posteriores.
 

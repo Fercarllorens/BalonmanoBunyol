@@ -1,7 +1,8 @@
 using BalonmanoBunol.Application.Social;
+using BalonmanoBunol.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 
-namespace BalonmanoBunol.Infrastructure.Persistence;
+namespace BalonmanoBunol.Infrastructure.Social;
 
 public sealed class PostRepository(ClubDbContext dbContext) : IPostRepository
 {
@@ -43,7 +44,7 @@ public sealed class PostRepository(ClubDbContext dbContext) : IPostRepository
             post.Id,
             post.AuthorId,
             authors.TryGetValue(post.AuthorId, out var author) ? author.DisplayName : "Usuario del club",
-            authors.TryGetValue(post.AuthorId, out author) && author.AvatarStorageKey is not null ? $"/api/v1/feed/author-avatar/{post.AuthorId}" : null,
+            authors.TryGetValue(post.AuthorId, out author) && author.AvatarStorageKey is not null ? $"/api/v1/profile/avatar/{post.AuthorId}" : null,
             GetProfile(authorRoles.Where(item => item.UserId == post.AuthorId).Select(item => item.Name ?? string.Empty)),
             post.TeamId,
             post.Content,

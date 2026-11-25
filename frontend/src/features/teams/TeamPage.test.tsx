@@ -1,5 +1,5 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
-import { describe, expect, it, vi } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import TeamPage from './TeamPage'
 import type { SessionUser } from '../system/SiteHeader'
 
@@ -30,7 +30,23 @@ function responseFor(url: string) {
   return new Response(JSON.stringify({}), { status: 200 })
 }
 
+function deferred<T>() {
+  let resolve!: (value: T) => void
+  let reject!: (reason?: unknown) => void
+  const promise = new Promise<T>((resolvePromise, rejectPromise) => {
+    resolve = resolvePromise
+    reject = rejectPromise
+  })
+  return { promise, resolve, reject }
+}
+
+function jsonResponse(value: unknown, status = 200) {
+  return new Response(JSON.stringify(value), { status })
+}
+
 describe('TeamPage', () => {
+  afterEach(() => vi.useRealTimers())
+
   it('muestra el selector solo si se tienen varios equipos y carga la selección nueva', async () => {
     const fetchMock = vi.fn().mockImplementation((input: RequestInfo | URL) => Promise.resolve(responseFor(String(input))))
     vi.stubGlobal('fetch', fetchMock)
@@ -159,6 +175,149 @@ describe('TeamPage', () => {
     expect(search).toHaveValue('')
   })
 
+  it('descarta la respuesta tardía del espacio del equipo anterior', async () => {
+    const firstSpace = deferred<Response>()
+    const secondSpace = deferred<Response>()
+    const secondTeamSpace = { ...space, team: { ...secondTeam, access: 'CuerpoTecnico' }, canManage: true }
+    const fetchMock = vi.fn().mockImplementation((input: RequestInfo | URL, init?: RequestInit) => {
+      const url = String(input)
+      if (url === '/api/v1/my-teams') return Promise.resolve(jsonResponse([firstTeam, secondTeam]))
+      if (url.endsWith('/team-a/space')) return firstSpace.promise
+      if (url.endsWith('/team-b/space')) return secondSpace.promise
+      if (url.endsWith('/team-b/board') && init?.method === 'POST') return Promise.resolve(new Response(null, { status: 204 }))
+      return Promise.resolve(responseFor(url))
+    })
+    vi.stubGlobal('fetch', fetchMock)
+    render(<TeamPage theme="light" onToggleTheme={() => undefined} user={user}/> )
+
+    const teamPicker = await screen.findByRole('button', { name: /Seleccionar equipo/ })
+    await waitFor(() => expect(fetchMock).toHaveBeenCalledWith('/api/v1/teams/team-a/space', expect.anything()))
+    fireEvent.click(teamPicker)
+    fireEvent.click(await screen.findByRole('option', { name: /Cadete B/ }))
+    await waitFor(() => expect(fetchMock).toHaveBeenCalledWith('/api/v1/teams/team-b/space', expect.anything()))
+
+    secondSpace.resolve(jsonResponse(secondTeamSpace))
+    expect(await screen.findByRole('heading', { level: 1, name: 'Cadete B' })).toBeInTheDocument()
+    firstSpace.resolve(jsonResponse({ ...space, team: firstTeam, players: [{ ...space.players[0], displayName: 'Respuesta antigua' }] }))
+    await waitFor(() => expect(screen.queryByText('Respuesta antigua')).not.toBeInTheDocument())
+    expect(screen.getByRole('heading', { level: 1, name: 'Cadete B' })).toBeInTheDocument()
+
+    fireEvent.click(screen.getByRole('button', { name: 'Pizarra' }))
+    fireEvent.change(await screen.findByRole('textbox', { name: 'Mensaje para la pizarra' }), { target: { value: 'Mensaje del equipo B' } })
+    fireEvent.click(screen.getByRole('button', { name: 'Publicar mensaje' }))
+    await waitFor(() => expect(fetchMock).toHaveBeenCalledWith('/api/v1/teams/team-b/board', expect.objectContaining({ method: 'POST' })))
+    expect(fetchMock).not.toHaveBeenCalledWith('/api/v1/teams/team-a/board', expect.anything())
+  })
+
+  it('descarta errores y cambios de carga de una petición del equipo anterior', async () => {
+    const firstSpace = deferred<Response>()
+    const secondSpace = deferred<Response>()
+    const secondTeamSpace = { ...space, team: { ...secondTeam, access: 'CuerpoTecnico' }, canManage: true }
+    const fetchMock = vi.fn().mockImplementation((input: RequestInfo | URL) => {
+      const url = String(input)
+      if (url === '/api/v1/my-teams') return Promise.resolve(jsonResponse([firstTeam, secondTeam]))
+      if (url.endsWith('/team-a/space')) return firstSpace.promise
+      if (url.endsWith('/team-b/space')) return secondSpace.promise
+      return Promise.resolve(responseFor(url))
+    })
+    vi.stubGlobal('fetch', fetchMock)
+    render(<TeamPage theme="light" onToggleTheme={() => undefined} user={user}/> )
+
+    const teamPicker = await screen.findByRole('button', { name: /Seleccionar equipo/ })
+    await waitFor(() => expect(fetchMock).toHaveBeenCalledWith('/api/v1/teams/team-a/space', expect.anything()))
+    fireEvent.click(teamPicker)
+    fireEvent.click(await screen.findByRole('option', { name: /Cadete B/ }))
+    await waitFor(() => expect(fetchMock).toHaveBeenCalledWith('/api/v1/teams/team-b/space', expect.anything()))
+
+    firstSpace.reject(new Error('Error obsoleto del equipo A'))
+    await waitFor(() => expect(screen.getByText('Cargando equipo…')).toBeInTheDocument())
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+    secondSpace.resolve(jsonResponse(secondTeamSpace))
+    expect(await screen.findByRole('heading', { level: 1, name: 'Cadete B' })).toBeInTheDocument()
+    await waitFor(() => expect(screen.queryByText('Cargando equipo…')).not.toBeInTheDocument())
+  })
+
+  it('descarta el calendario tardío del equipo anterior', async () => {
+    vi.useFakeTimers({ toFake: ['Date'] })
+    vi.setSystemTime(new Date(2026, 10, 15, 12))
+    const firstCalendar = deferred<Response>()
+    const secondCalendar = deferred<Response>()
+    const fetchMock = vi.fn().mockImplementation((input: RequestInfo | URL) => {
+      const url = String(input)
+      if (url.includes('/calendar?')) return url.includes('/team-a/') ? firstCalendar.promise : secondCalendar.promise
+      if (url.endsWith('/team-b/space')) return Promise.resolve(jsonResponse({ ...space, team: secondTeam }))
+      return Promise.resolve(responseFor(url))
+    })
+    vi.stubGlobal('fetch', fetchMock)
+    render(<TeamPage theme="light" onToggleTheme={() => undefined} user={user}/> )
+
+    await screen.findByRole('heading', { level: 1, name: 'Infantil A' })
+    fireEvent.click(screen.getByRole('button', { name: 'Calendario' }))
+    await waitFor(() => expect(fetchMock).toHaveBeenCalledWith('/api/v1/teams/team-a/calendar?year=2026&month=11', expect.anything()))
+    fireEvent.click(screen.getByRole('button', { name: /Seleccionar equipo/ }))
+    fireEvent.click(await screen.findByRole('option', { name: /Cadete B/ }))
+    await screen.findByRole('heading', { level: 1, name: 'Cadete B' })
+    fireEvent.click(screen.getByRole('button', { name: 'Calendario' }))
+    await waitFor(() => expect(fetchMock).toHaveBeenCalledWith('/api/v1/teams/team-b/calendar?year=2026&month=11', expect.anything()))
+
+    secondCalendar.resolve(jsonResponse({ seasonStart: '2026-07-01', seasonEnd: '2027-06-30', month: '2026-11-01', items: [], plans: [] }))
+    expect(await screen.findByText('No hay actividades en esta fecha.')).toBeInTheDocument()
+    firstCalendar.resolve(jsonResponse({
+      seasonStart: '2026-07-01', seasonEnd: '2027-06-30', month: '2026-11-01', plans: [], items: [{
+        id: 'old-event', source: 'Evento', kind: 'Reunión', title: 'Evento tardío de A', startsAt: '2026-11-02T18:00:00Z',
+        endsAt: null, venue: '', notes: '', isCancelled: false, trainingSlotId: null, trainingDate: null, canManage: false, callups: null,
+      }],
+    }))
+    await waitFor(() => expect(screen.queryByText('Evento tardío de A')).not.toBeInTheDocument())
+    expect(screen.getByRole('heading', { level: 1, name: 'Cadete B' })).toBeInTheDocument()
+  })
+
+  it('reinicia calendario, editores y borrador de pizarra al cambiar de equipo', async () => {
+    vi.useFakeTimers({ toFake: ['Date'] })
+    vi.setSystemTime(new Date(2026, 10, 15, 12))
+
+    const oldEvent = {
+      id: 'event-a', source: 'Evento', kind: 'Reunión', title: 'Evento de A', startsAt: '2026-11-02T18:00:00Z',
+      endsAt: null, venue: '', notes: '', isCancelled: false, trainingSlotId: null, trainingDate: null, canManage: true, callups: null,
+    }
+    const fetchMock = vi.fn().mockImplementation((input: RequestInfo | URL) => {
+      const url = String(input)
+      if (url.includes('/calendar?')) {
+        const isFirstTeam = url.includes('/team-a/')
+        return Promise.resolve(jsonResponse({
+          seasonStart: '2026-07-01', seasonEnd: '2027-06-30', month: '2026-11-01',
+          items: isFirstTeam ? [oldEvent] : [], plans: [],
+        }))
+      }
+      if (url.endsWith('/team-b/space')) return Promise.resolve(jsonResponse({ ...space, team: secondTeam }))
+      return Promise.resolve(responseFor(url))
+    })
+    vi.stubGlobal('fetch', fetchMock)
+    render(<TeamPage theme="light" onToggleTheme={() => undefined} user={user}/> )
+
+    await screen.findByRole('heading', { level: 1, name: 'Infantil A' })
+    fireEvent.click(screen.getByRole('button', { name: 'Calendario' }))
+    fireEvent.click(await screen.findByRole('button', { name: 'Editar' }))
+    expect(await screen.findByRole('heading', { name: 'Editar evento' })).toBeInTheDocument()
+
+    fireEvent.click(screen.getByRole('button', { name: 'Pizarra' }))
+    fireEvent.change(await screen.findByRole('textbox', { name: 'Mensaje para la pizarra' }), { target: { value: 'Borrador de A' } })
+    fireEvent.change(screen.getByLabelText(/Vídeo o archivo/), { target: { files: [new File(['imagen'], 'tactica.png', { type: 'image/png' })] } })
+    expect(screen.getByText('1 archivo(s) seleccionado(s)')).toBeInTheDocument()
+    fireEvent.click(screen.getByRole('button', { name: /Seleccionar equipo/ }))
+    fireEvent.click(await screen.findByRole('option', { name: /Cadete B/ }))
+    await screen.findByRole('heading', { level: 1, name: 'Cadete B' })
+
+    fireEvent.click(screen.getByRole('button', { name: 'Pizarra' }))
+    expect(await screen.findByRole('textbox', { name: 'Mensaje para la pizarra' })).toHaveValue('')
+    expect(screen.queryByText('1 archivo(s) seleccionado(s)')).not.toBeInTheDocument()
+    expect(screen.getByText('Imágenes, vídeos o PDF · hasta 4 archivos')).toBeInTheDocument()
+    fireEvent.click(screen.getByRole('button', { name: 'Calendario' }))
+    expect(await screen.findByRole('grid', { name: /Calendario de/ })).toBeInTheDocument()
+    expect(screen.queryByRole('heading', { name: 'Editar evento' })).not.toBeInTheDocument()
+    expect(screen.queryByText('Evento de A')).not.toBeInTheDocument()
+  })
+
   it('los jugadores ven la plantilla pero no las acciones de gestión', async () => {
     vi.stubGlobal('fetch', vi.fn().mockImplementation((input: RequestInfo | URL) => {
       const url = String(input)
@@ -200,6 +359,9 @@ describe('TeamPage', () => {
   })
 
   it('muestra el calendario mensual y la temporada automática, y permite navegar de mes', async () => {
+    vi.useFakeTimers({ toFake: ['Date'] })
+    vi.setSystemTime(new Date(2026, 10, 15, 12))
+
     const trainingDay = new Date(2026, 10, 2)
     const previewDate = `${trainingDay.getFullYear()}-${String(trainingDay.getMonth() + 1).padStart(2, '0')}-${String(trainingDay.getDate()).padStart(2, '0')}`
     const fetchMock = vi.fn().mockImplementation((input: RequestInfo | URL) => {

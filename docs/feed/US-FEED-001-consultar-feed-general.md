@@ -27,3 +27,4 @@
 - **Dado** que no he iniciado sesión,
 - **Cuando** abro `/feed`,
 - **Entonces** puedo consultar las publicaciones activas sin controles de publicación o borrado.
+- **Y** las publicaciones muestran la inicial del autor sin sesión; los avatares solo se descargan con sesión activa.

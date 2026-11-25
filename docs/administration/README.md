@@ -10,7 +10,7 @@
 - Las categorías son Benjamín, Alevín, Infantil, Cadete, Juvenil y Senior; «Senior A» y «Senior B» son nombres posibles de equipos de categoría Senior.
 - La plantilla se mantiene bajo control de Administración, que puede asignar, retirar y trasladar cuentas con rol Jugador o Cuerpo Técnico entre equipos, sin cambiar su rol principal.
 - Búsqueda de usuarios por nombre o correo y edición de su rol principal.
-- El cambio de rol sustituye los roles principales. Solo otro Administrador puede cambiar el rol Administrador; no puede autoasignárselo y debe quedar siempre un Administrador activo.
+- El cambio manual de rol sustituye los roles principales y resuelve las solicitudes pendientes de la cuenta en la misma operación. Solo otro Administrador puede cambiar el rol Administrador; no puede autoasignárselo y debe quedar siempre un Administrador activo.
 - Auditoría en PostgreSQL para aprobaciones/rechazos, cambios de rol, asignaciones y mantenimiento de equipos.
 
 ## Historias de usuario

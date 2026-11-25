@@ -85,8 +85,8 @@ describe('PublicFeedPage sidebars', () => {
     expect(fetchMock).not.toHaveBeenCalledWith('/api/v1/feed', expect.objectContaining({ method: 'POST' }))
   })
 
-  it('muestra la foto de perfil del autor en las publicaciones del feed', async () => {
-    const authorAvatarUrl = '/api/v1/feed/author-avatar/author-1'
+  it('muestra la inicial del autor en las publicaciones del feed para visitantes', async () => {
+    const authorAvatarUrl = '/api/v1/profile/avatar/author-1'
     vi.stubGlobal('fetch', vi.fn().mockImplementation((input: RequestInfo | URL) => {
       if (String(input).includes('/api/v1/feed')) {
         return Promise.resolve(new Response(JSON.stringify({
@@ -101,6 +101,29 @@ describe('PublicFeedPage sidebars', () => {
     }))
 
     render(<PublicFeedPage theme="light" onToggleTheme={() => undefined} user={null}/>)
+    const author = await screen.findByText('¡Amunt!')
+    const post = author.closest('.feed-post')
+    expect(post?.querySelector('.post-avatar img')).not.toBeInTheDocument()
+    expect(post?.querySelector('.post-avatar')).toHaveTextContent('A')
+  })
+
+  it('carga el avatar del autor por la ruta de perfil protegida para una persona autenticada', async () => {
+    const authorAvatarUrl = '/api/v1/profile/avatar/author-1'
+    vi.stubGlobal('fetch', vi.fn().mockImplementation((input: RequestInfo | URL) => {
+      if (String(input).includes('/api/v1/feed')) {
+        return Promise.resolve(new Response(JSON.stringify({
+          posts: [{
+            id: 'post-1', authorId: 'author-1', authorDisplayName: 'Ana Jugadora', authorAvatarUrl,
+            authorProfile: 'Jugador/a', content: '¡Amunt!', createdAt: '2026-01-01T10:00:00Z', attachments: [],
+          }],
+          hasMore: false, nextBefore: null, nextBeforeId: null,
+        }), { status: 200 }))
+      }
+      return Promise.resolve(new Response(null, { status: 204 }))
+    }))
+    const user: SessionUser = { id: 'viewer-1', displayName: 'María Seguidora', email: 'maria@example.es', roles: ['SocioAficion'] }
+
+    render(<PublicFeedPage theme="light" onToggleTheme={() => undefined} user={user}/> )
     const author = await screen.findByText('¡Amunt!')
     const post = author.closest('.feed-post')
     expect(post?.querySelector('.post-avatar img')).toHaveAttribute('src', authorAvatarUrl)

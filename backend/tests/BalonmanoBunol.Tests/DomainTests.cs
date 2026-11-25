@@ -1,4 +1,5 @@
 using BalonmanoBunol.Domain.Auth;
+using BalonmanoBunol.Domain.Administration;
 using BalonmanoBunol.Domain.Social;
 using BalonmanoBunol.Domain.Teams;
 
@@ -81,6 +82,20 @@ public sealed class DomainTests
         Assert.Throws<ArgumentException>(() => new RoleRequest(Guid.NewGuid(), "Administrador"));
         var request = new RoleRequest(Guid.NewGuid(), "Jugador");
         Assert.Throws<ArgumentException>(() => request.Reject(Guid.Empty));
+    }
+
+    [Fact]
+    public void RoleRequest_ManualRoleChangeApprovesOnlyMatchingRequestedRole()
+    {
+        var administratorId = Guid.NewGuid();
+        var matchingRequest = new RoleRequest(Guid.NewGuid(), "Jugador");
+        matchingRequest.ResolveByManualRoleChange(administratorId, assignedRequestedRole: true);
+        Assert.Equal(RoleRequestStatus.Approved, matchingRequest.Status);
+        Assert.Equal(administratorId, matchingRequest.ResolvedByUserId);
+
+        var differentRoleRequest = new RoleRequest(Guid.NewGuid(), "CuerpoTecnico");
+        differentRoleRequest.ResolveByManualRoleChange(administratorId, assignedRequestedRole: false);
+        Assert.Equal(RoleRequestStatus.Rejected, differentRoleRequest.Status);
     }
 
     [Fact]

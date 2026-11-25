@@ -1,6 +1,6 @@
 using BalonmanoBunol.Domain.Common;
 
-namespace BalonmanoBunol.Domain.Auth;
+namespace BalonmanoBunol.Domain.Administration;
 
 public sealed class AdministrationAuditEntry : Entity
 {

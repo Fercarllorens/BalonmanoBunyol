@@ -1,19 +1,14 @@
-using BalonmanoBunol.Application.Social;
+using BalonmanoBunol.Application.Profile;
 
-namespace BalonmanoBunol.Infrastructure.Persistence;
+namespace BalonmanoBunol.Infrastructure.Profile;
 
-public sealed class LocalPostMediaStorage : IPostMediaStorage
+public sealed class LocalProfileAvatarStorage(string rootPath) : IProfileAvatarStorage
 {
-    private readonly string _rootPath;
+    private readonly string _rootPath = Path.GetFullPath(rootPath);
 
-    public LocalPostMediaStorage(string rootPath)
+    public async Task<string> SaveAsync(Guid avatarId, string extension, Stream content, CancellationToken cancellationToken)
     {
-        _rootPath = Path.GetFullPath(rootPath);
-    }
-
-    public async Task<string> SaveAsync(Guid attachmentId, string extension, Stream content, CancellationToken cancellationToken)
-    {
-        var storageKey = $"{attachmentId:N}{extension}";
+        var storageKey = $"{avatarId:N}{extension}";
         var path = GetSafePath(storageKey);
         Directory.CreateDirectory(_rootPath);
         await using var target = new FileStream(path, FileMode.CreateNew, FileAccess.Write, FileShare.None, 81920, FileOptions.Asynchronous | FileOptions.SequentialScan);
