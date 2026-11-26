@@ -1,8 +1,19 @@
 # .NET
 **/bin/
 **/obj/
+**/App_Data/post-media/*
+!**/App_Data/post-media/.gitkeep
+**/App_Data/post-media/*
+!**/App_Data/post-media/.gitkeep
+**/App_Data/post-media/*
+!**/App_Data/post-media/.gitkeep
+**/App_Data/profile-avatars/*
+!**/App_Data/profile-avatars/.gitkeep
+**/App_Data/team-board/*
+!**/App_Data/team-board/.gitkeep
 *.user
 *.suo
+.buildcheck
 
 # Node / Vite
 frontend/node_modules/
@@ -24,3 +35,4 @@ frontend/dist/
 
 # Enviroment
 .env
+.accs

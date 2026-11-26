@@ -8,7 +8,12 @@
 
 - **Dado** que he iniciado sesión como Administrador y hay una solicitud Pendiente,
 - **Cuando** la apruebo,
-- **Entonces** se asigna a la cuenta el rol solicitado y la solicitud queda Aprobada con quién y cuándo la resolvió.
+- **Entonces** el rol principal solicitado sustituye al anterior y la solicitud queda Aprobada con quién y cuándo la resolvió.
+
+- **Dado** que tengo una solicitud pendiente y Administración me cambia manualmente al rol solicitado,
+- **Cuando** se guarda el cambio de rol,
+- **Entonces** la solicitud queda resuelta como Aprobada por ese Administrador y deja de aparecer entre las pendientes.
+- **Y** si Administración me asigna manualmente un rol distinto al solicitado, la solicitud queda resuelta como Rechazada por ese Administrador y el rol asignado se conserva.
 
 ### Rechazar una solicitud
 
@@ -27,6 +32,12 @@
 - **Dado** que la solicitud ya está Aprobada o Rechazada,
 - **Cuando** intento resolverla de nuevo,
 - **Entonces** la API rechaza el cambio y conserva la resolución anterior.
+
+- **Dado** que dos Administradores intentan resolver a la vez la misma solicitud Pendiente,
+- **Cuando** una decisión reserva Pendiente y confirma su transacción,
+- **Entonces** solo esa decisión queda resuelta y auditada: si aprueba, cambia el rol; si rechaza, el rol se conserva.
+- **Y** la otra decisión recibe conflicto y no cambia roles ni genera auditoría de resolución.
+- **Y** una reserva revertida no determina qué decisión resulta ganadora.
 
 ### Acceso a la vista de solicitudes desde la barra
 

@@ -6,4 +6,7 @@
     <Project Path="backend/src/BalonmanoBunol.Domain/BalonmanoBunol.Domain.csproj" />
     <Project Path="backend/src/BalonmanoBunol.Infrastructure/BalonmanoBunol.Infrastructure.csproj" />
   </Folder>
+  <Folder Name="/backend/tests/">
+    <Project Path="backend/tests/BalonmanoBunol.Tests/BalonmanoBunol.Tests.csproj" />
+  </Folder>
 </Solution>

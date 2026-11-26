@@ -1,11 +1,10 @@
-using BalonmanoBunol.Application.Social;
-using BalonmanoBunol.Application.Auth;
-using BalonmanoBunol.Infrastructure.Identity;
 using BalonmanoBunol.Infrastructure;
+using BalonmanoBunol.Infrastructure.Identity;
+using BalonmanoBunol.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.EntityFrameworkCore;
-using BalonmanoBunol.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,23 +15,27 @@ if (string.IsNullOrWhiteSpace(builder.Configuration.GetConnectionString("ClubDat
 
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddAuthorization();
+builder.Services.AddControllers();
 builder.Services.AddAntiforgery(options =>
 {
     options.HeaderName = "X-CSRF-TOKEN";
+    options.SuppressReadingTokenFromFormBody = true;
     options.Cookie.Name = "cb-bunol-csrf";
     options.Cookie.HttpOnly = true;
     options.Cookie.SecurePolicy = builder.Environment.IsDevelopment() ? CookieSecurePolicy.SameAsRequest : CookieSecurePolicy.Always;
     options.Cookie.SameSite = SameSiteMode.Strict;
+});
+builder.Services.Configure<FormOptions>(options =>
+{
+    options.MultipartBodyLengthLimit = 401L * 1024 * 1024;
+    options.ValueLengthLimit = 16 * 1024;
 });
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("Frontend", policy =>
     {
         var origins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>();
-        if (origins is { Length: > 0 })
-        {
-            policy.WithOrigins(origins).AllowAnyHeader().AllowAnyMethod().AllowCredentials();
-        }
+        if (origins is { Length: > 0 }) policy.WithOrigins(origins).AllowAnyHeader().AllowAnyMethod().AllowCredentials();
     });
 });
 
@@ -46,22 +49,41 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.Use(async (context, next) =>
 {
-    if (context.Request.Path.StartsWithSegments("/api/v1/auth") || context.Request.Path.StartsWithSegments("/api/v1/admin"))
+    if (context.Request.Path.StartsWithSegments("/api/v1/auth")
+        || context.Request.Path.StartsWithSegments("/api/v1/admin")
+        || context.Request.Path.StartsWithSegments("/api/v1/profile")
+        || context.Request.Path.StartsWithSegments("/api/v1/teams")
+        || context.Request.Path.StartsWithSegments("/api/v1/my-teams"))
         context.Response.Headers.CacheControl = "no-store, no-cache";
 
-    var isAuthMutation = HttpMethods.IsPost(context.Request.Method)
+    if (context.Request.Path.StartsWithSegments("/api/v1/admin") && context.User.Identity?.IsAuthenticated == true)
+    {
+        var userIdValue = context.User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+        var userManager = context.RequestServices.GetRequiredService<UserManager<ClubUser>>();
+        var currentUser = Guid.TryParse(userIdValue, out var currentUserId)
+            ? await userManager.FindByIdAsync(currentUserId.ToString())
+            : null;
+        if (currentUser is null || !currentUser.IsActive || !await userManager.IsInRoleAsync(currentUser, "Administrador"))
+        {
+            context.Response.StatusCode = StatusCodes.Status403Forbidden;
+            return;
+        }
+    }
+
+    var isProtectedMutation = (HttpMethods.IsPost(context.Request.Method) || HttpMethods.IsDelete(context.Request.Method)
+        || HttpMethods.IsPut(context.Request.Method) || HttpMethods.IsPatch(context.Request.Method))
         && (context.Request.Path.StartsWithSegments("/api/v1/auth/register")
             || context.Request.Path.StartsWithSegments("/api/v1/auth/login")
             || context.Request.Path.StartsWithSegments("/api/v1/auth/logout")
-            || context.Request.Path.StartsWithSegments("/api/v1/admin/role-requests"));
+            || context.Request.Path.StartsWithSegments("/api/v1/profile")
+            || context.Request.Path.StartsWithSegments("/api/v1/admin")
+            || context.Request.Path.StartsWithSegments("/api/v1/teams")
+            || context.Request.Path.StartsWithSegments("/api/v1/feed"));
 
-    if (isAuthMutation)
+    if (isProtectedMutation)
     {
         var antiforgery = context.RequestServices.GetRequiredService<IAntiforgery>();
-        try
-        {
-            await antiforgery.ValidateRequestAsync(context);
-        }
+        try { await antiforgery.ValidateRequestAsync(context); }
         catch (AntiforgeryValidationException)
         {
             context.Response.StatusCode = StatusCodes.Status400BadRequest;
@@ -73,88 +95,7 @@ app.Use(async (context, next) =>
     await next();
 });
 
-app.MapGet("/api/v1/auth/csrf", (IAntiforgery antiforgery, HttpContext context) =>
-{
-    var tokens = antiforgery.GetAndStoreTokens(context);
-    context.Response.Headers.CacheControl = "no-store, no-cache";
-    return Results.Ok(new { token = tokens.RequestToken });
-}).AllowAnonymous();
-
-app.MapPost("/api/v1/auth/register", async (RegisterRequest request, IAuthService auth, CancellationToken cancellationToken) =>
-{
-    var result = await auth.RegisterAsync(request, cancellationToken);
-    return result.Succeeded ? Results.Ok(result.User) : Results.BadRequest(new { message = result.Error });
-}).AllowAnonymous();
-
-app.MapPost("/api/v1/auth/login", async (LoginRequest request, IAuthService auth, CancellationToken cancellationToken) =>
-{
-    var result = await auth.LoginAsync(request, cancellationToken);
-    return result.Succeeded ? Results.Ok(result.User) : Results.Json(new { message = result.Error }, statusCode: StatusCodes.Status401Unauthorized);
-}).AllowAnonymous();
-
-app.MapGet("/api/v1/auth/me", async (HttpContext context, IAuthService auth, CancellationToken cancellationToken) =>
-{
-    var userIdValue = context.User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-    if (!Guid.TryParse(userIdValue, out var userId)) return Results.Unauthorized();
-    var user = await auth.GetCurrentUserAsync(userId, cancellationToken);
-    return user is null ? Results.Unauthorized() : Results.Ok(user);
-}).RequireAuthorization();
-
-app.MapPost("/api/v1/auth/logout", async (IAuthService auth, CancellationToken cancellationToken) =>
-{
-    await auth.LogoutAsync(cancellationToken);
-    return Results.NoContent();
-}).RequireAuthorization();
-
-var roleRequests = app.MapGroup("/api/v1/admin/role-requests").RequireAuthorization(policy => policy.RequireRole("Administrador"));
-roleRequests.MapGet("/", async (IAuthService auth, CancellationToken cancellationToken) =>
-{
-    var requests = await auth.GetRoleRequestsAsync(cancellationToken);
-    return Results.Ok(requests.Select(request => new
-    {
-        id = request.Id,
-        displayName = request.DisplayName,
-        email = request.Email,
-        requestedRole = request.RequestedRole,
-        status = request.Status,
-        createdAt = request.CreatedAt,
-        resolvedAt = request.ResolvedAt,
-        resolvedByUserId = request.ResolvedByUserId
-    }));
-});
-roleRequests.MapPost("/{requestId:guid}/approve", async (Guid requestId, HttpContext context, IAuthService auth, CancellationToken cancellationToken) =>
-{
-    var administratorId = Guid.Parse(context.User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)!.Value);
-    return await auth.ResolveRoleRequestAsync(requestId, administratorId, approve: true, cancellationToken)
-        ? Results.NoContent()
-        : Results.Conflict(new { message = "La solicitud no existe o ya ha sido resuelta." });
-});
-roleRequests.MapPost("/{requestId:guid}/reject", async (Guid requestId, HttpContext context, IAuthService auth, CancellationToken cancellationToken) =>
-{
-    var administratorId = Guid.Parse(context.User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)!.Value);
-    return await auth.ResolveRoleRequestAsync(requestId, administratorId, approve: false, cancellationToken)
-        ? Results.NoContent()
-        : Results.Conflict(new { message = "La solicitud no existe o ya ha sido resuelta." });
-});
-
-app.MapGet("/api/health", () => Results.Ok(new
-{
-    status = "healthy",
-    service = "balonmano-bunol-api",
-    timestamp = DateTimeOffset.UtcNow
-})).WithName("HealthCheck");
-
-app.MapGet("/api", () => Results.Ok(new
-{
-    name = "Club Balonmano Buñol API",
-    version = "v1",
-    documentation = "/docs"
-}));
-
-app.MapGet("/api/v1/feed", async (int? pageSize, DateTimeOffset? before, Guid? beforeId, IFeedService feed, CancellationToken cancellationToken) =>
-    Results.Ok(await feed.GetLatestAsync(pageSize ?? 20, before, beforeId, cancellationToken)))
-    .WithName("GetFeed");
-
+app.MapControllers();
 app.Run();
 
 static async Task InitializeDatabaseAsync(WebApplication app)
@@ -192,6 +133,8 @@ static async Task InitializeDatabaseAsync(WebApplication app)
             Email = normalizedEmail,
             EmailConfirmed = true,
             DisplayName = adminName,
+            FirstName = adminName.Split(' ', StringSplitOptions.RemoveEmptyEntries).FirstOrDefault() ?? adminName,
+            LastName = string.Join(' ', adminName.Split(' ', StringSplitOptions.RemoveEmptyEntries).Skip(1)),
             IsActive = true,
             LockoutEnabled = true
         };
@@ -222,4 +165,4 @@ static async Task InitializeDatabaseAsync(WebApplication app)
     }
 }
 
-public partial class Program;
+public partial class Program { }

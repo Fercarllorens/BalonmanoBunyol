@@ -1,0 +1,54 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+language: es-ES
+tone_instructions: >-
+  Escribe todas las revisiones en castellano claro, natural y conciso. Explica cada
+  problema de forma directa, indica su impacto y propone una corrección concreta.
+  Evita jerga innecesaria, repeticiones, elogios genéricos y comentarios especulativos.
+reviews:
+  profile: chill
+  high_level_summary: true
+  high_level_summary_instructions: >-
+    Resume en castellano y en pocas viñetas qué cambia, los riesgos relevantes y
+    qué comprobaciones se ejecutaron o faltan.
+  path_instructions:
+    - path: "backend/src/**"
+      instructions: |
+        Antes de revisar, consulta `docs/README.md` y las secciones pertinentes de `docs/ARQUITECTURA.md`, `docs/PRIVACIDAD-Y-SEGURIDAD.md` y `docs/DECISIONES.md`.
+        Comprueba que se respeta Clean Architecture: Domain no depende de otras capas; Application depende de Domain; Infrastructure implementa contratos de Application; Api compone servicios.
+        Revisa validación de entradas, errores, transacciones, consultas EF Core/Npgsql, rendimiento y autorización por rol y ámbito.
+        Para datos de menores, médicos o privados, verifica mínimo privilegio, antiforgery en mutaciones, auditoría cuando corresponda y ausencia de filtraciones en errores o logs.
+        Comprueba que las migraciones EF Core reflejan el modelo y que los cambios funcionales tienen pruebas pertinentes.
+        Informa solo de problemas concretos y reproducibles; no plantees recomendaciones genéricas como defectos.
+    - path: "frontend/src/**"
+      instructions: |
+        Consulta `docs/README.md`, `docs/DISEÑO.md` y la historia funcional correspondiente en `docs/<grupo>/` antes de valorar el cambio.
+        Revisa TypeScript, estados de carga/error/vacío, accesibilidad por teclado y lector de pantalla, diseño responsive y consistencia con los patrones React existentes.
+        Comprueba que los datos privados no se guarden en caché PWA ni en almacenamiento del navegador y que las mutaciones respeten la protección antiforgery usada por el proyecto.
+        Verifica que la interfaz y el contenido de producto estén en castellano.
+        Para cambios funcionales, comprueba que haya pruebas de componente pertinentes y que no se rompan los flujos existentes.
+    - path: "backend/tests/**"
+      instructions: |
+        Comprueba que las pruebas cubren comportamiento observable, casos límite, errores y permisos relevantes sin duplicar la implementación.
+        Las pruebas de integración que necesiten PostgreSQL deben aislar sus datos y limpiar los recursos creados.
+        Mantén en castellano los nombres y mensajes de pruebas cuando describan comportamiento del producto.
+    - path: "frontend/src/**/*.test.{ts,tsx}"
+      instructions: |
+        Comprueba estados principales y casos límite relevantes, interacción accesible y mensajes en castellano. Evita pruebas frágiles ligadas a detalles internos del componente.
+    - path: "docs/**/*.md"
+      instructions: |
+        Usa `docs/README.md` como índice y consulta las decisiones y documentos funcionales relacionados para comprobar coherencia.
+        Mantén las historias de usuario y los criterios en castellano y con formato Dado–Cuando–Entonces.
+        Comprueba que enlaces y rutas sean correctos, que las afirmaciones coincidan con el comportamiento implementado y que se documenten decisiones funcionales o arquitectónicas relevantes.
+        Señala contradicciones, instrucciones obsoletas o afirmaciones no verificables. Propón texto concreto y conciso.
+    - path: "backend/src/**/Persistence/Migrations/**"
+      instructions: |
+        Revisa compatibilidad y seguridad de la migración: pérdida o transformación de datos, valores por defecto, claves foráneas, índices y orden de operaciones.
+        Comprueba que el snapshot EF Core queda sincronizado con el modelo y que el método Down revierte el cambio cuando sea viable.
+        Trata los cambios de esquema y migraciones como riesgo alto; no los marques como errores por ser destructivos si la intención está documentada y la migración conserva correctamente los datos.
+knowledge_base:
+  code_guidelines:
+    enabled: true
+    filePatterns:
+      - "AGENTS.md"
+      - files: "docs/**/*.md"
+        applyTo: "backend/src/**, frontend/src/**, backend/tests/**, frontend/**/*.test.{ts,tsx}"

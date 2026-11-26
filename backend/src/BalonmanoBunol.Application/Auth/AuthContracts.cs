@@ -9,7 +9,17 @@ public sealed record RegisterRequest(
 
 public sealed record LoginRequest(string Email, string Password, bool RememberMe);
 
-public sealed record AuthUserDto(Guid Id, string Email, string DisplayName, IReadOnlyList<string> Roles);
+public sealed record AuthUserDto(
+    Guid Id,
+    string Email,
+    string DisplayName,
+    IReadOnlyList<string> Roles,
+    string FirstName = "",
+    string LastName = "",
+    Guid? PreferredTeamId = null,
+    string? AvatarUrl = null);
+
+public sealed record RoleRequestDecisionDto(Guid AdministratorId, bool Approve);
 
 public sealed record RoleRequestDto(
     Guid Id,

@@ -7,7 +7,7 @@
 - Alta Socio/Afición con cuenta activa inmediatamente.
 - Alta Jugador/Cuerpo Técnico con cuenta Socio/Afición activa y solicitud de rol separada.
 - Revisión administrativa de solicitudes: aprobación añade el rol; rechazo conserva Socio/Afición.
-- Barra superior compartida: enlaces de Login/Registro al salir de sesión, y Feed/Cerrar sesión al autenticarse; Administrador dispone de «Solicitudes».
+- Barra superior compartida: enlaces de Login/Registro al salir de sesión, Feed y menú de cuenta al autenticarse; Administrador dispone de «Administración».
 - Tras iniciar sesión, la vista principal es `/feed`; al cerrar sesión se vuelve a `/`.
 - Barra superior compartida: enlaces de Login/Registro al salir de sesión, y Feed/Cerrar sesión al autenticarse; Administrador dispone de «Solicitudes».
 - Tras iniciar sesión, la vista principal es `/feed`; al cerrar sesión se vuelve a `/`.

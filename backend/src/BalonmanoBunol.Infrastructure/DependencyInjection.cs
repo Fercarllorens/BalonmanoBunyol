@@ -1,14 +1,22 @@
-using BalonmanoBunol.Application.Social;
 using BalonmanoBunol.Application.Auth;
 using BalonmanoBunol.Infrastructure.Auth;
+using BalonmanoBunol.Infrastructure.Administration;
 using BalonmanoBunol.Infrastructure.Identity;
 using BalonmanoBunol.Infrastructure.Persistence;
+using BalonmanoBunol.Infrastructure.Profile;
+using BalonmanoBunol.Infrastructure.Social;
+using BalonmanoBunol.Infrastructure.Teams;
+using BalonmanoBunol.Application.Social;
+using BalonmanoBunol.Application.Profile;
+using BalonmanoBunol.Application.Administration;
+using BalonmanoBunol.Application.Teams;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Hosting;
 
 namespace BalonmanoBunol.Infrastructure;
 
@@ -65,8 +73,35 @@ public static class DependencyInjection
         });
 
         services.AddScoped<IPostRepository, PostRepository>();
+        services.AddSingleton<IPostMediaStorage>(serviceProvider =>
+        {
+            var environment = serviceProvider.GetRequiredService<IHostEnvironment>();
+            var rootPath = configuration["PostMedia:RootPath"];
+            return new LocalPostMediaStorage(string.IsNullOrWhiteSpace(rootPath)
+                ? Path.Combine(environment.ContentRootPath, "App_Data", "post-media")
+                : rootPath);
+        });
+        services.AddSingleton<IProfileAvatarStorage>(serviceProvider =>
+        {
+            var environment = serviceProvider.GetRequiredService<IHostEnvironment>();
+            var rootPath = configuration["ProfileAvatar:RootPath"];
+            return new LocalProfileAvatarStorage(string.IsNullOrWhiteSpace(rootPath)
+                ? Path.Combine(environment.ContentRootPath, "App_Data", "profile-avatars")
+                : rootPath);
+        });
         services.AddScoped<IFeedService, FeedService>();
         services.AddScoped<IAuthService, AuthService>();
+        services.AddScoped<IProfileService, ProfileService>();
+        services.AddScoped<IAdministrationService, AdministrationService>();
+        services.AddSingleton<ITeamBoardStorage>(serviceProvider =>
+        {
+            var environment = serviceProvider.GetRequiredService<IHostEnvironment>();
+            var rootPath = configuration["TeamBoard:RootPath"];
+            return new LocalTeamBoardStorage(string.IsNullOrWhiteSpace(rootPath)
+                ? Path.Combine(environment.ContentRootPath, "App_Data", "team-board")
+                : rootPath);
+        });
+        services.AddScoped<ITeamSpaceService, TeamSpaceService>();
         return services;
     }
 }

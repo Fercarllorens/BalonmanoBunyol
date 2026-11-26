@@ -1,14 +1,17 @@
 using System.Security.Claims;
 using BalonmanoBunol.Application.Auth;
+using BalonmanoBunol.Application.Profile;
+using BalonmanoBunol.Domain.Administration;
 using BalonmanoBunol.Domain.Auth;
+using BalonmanoBunol.Domain.Teams;
 using BalonmanoBunol.Infrastructure.Identity;
 using BalonmanoBunol.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Options;
 
 namespace BalonmanoBunol.Infrastructure.Auth;
 
@@ -16,7 +19,8 @@ public sealed class AuthService(
     ClubDbContext dbContext,
     UserManager<ClubUser> userManager,
     IHttpContextAccessor httpContextAccessor,
-    IOptions<IdentityOptions> identityOptions) : IAuthService
+    IOptions<IdentityOptions> identityOptions,
+    IProfileService profiles) : IAuthService
 {
     public async Task<AuthResult> RegisterAsync(RegisterRequest request, CancellationToken cancellationToken)
     {
@@ -25,7 +29,10 @@ public sealed class AuthService(
         var email = request.Email.Trim();
         var accountType = request.AccountType.Trim();
 
-        if (string.IsNullOrWhiteSpace(firstName) || string.IsNullOrWhiteSpace(lastName) || string.IsNullOrWhiteSpace(email))
+        if (string.IsNullOrWhiteSpace(firstName) || firstName.Length > 80
+            || string.IsNullOrWhiteSpace(lastName) || lastName.Length > 79
+            || firstName.Length + lastName.Length + 1 > 160
+            || string.IsNullOrWhiteSpace(email))
             return AuthResult.Failure("Completa todos los campos obligatorios.");
         if (accountType is not ("Socio" or "Jugador" or "CuerpoTecnico"))
             return AuthResult.Failure("El tipo de alta no es válido.");
@@ -39,6 +46,9 @@ public sealed class AuthService(
             Email = email,
             EmailConfirmed = true,
             DisplayName = $"{firstName} {lastName}".Trim(),
+            FirstName = firstName,
+            LastName = lastName,
+            PreferredTeamId = await profiles.GetDefaultPreferredTeamIdAsync(cancellationToken),
             IsActive = true,
             LockoutEnabled = true
         };
@@ -132,25 +142,46 @@ public sealed class AuthService(
     public async Task<bool> ResolveRoleRequestAsync(Guid requestId, Guid administratorId, bool approve, CancellationToken cancellationToken)
     {
         await using var transaction = await dbContext.Database.BeginTransactionAsync(cancellationToken);
-        var request = await dbContext.RoleRequests.SingleOrDefaultAsync(item => item.Id == requestId, cancellationToken);
-        if (request is null || request.Status != RoleRequestStatus.Pending) return false;
+        var request = await dbContext.RoleRequests.AsNoTracking()
+            .Where(item => item.Id == requestId)
+            .Select(item => new { item.Id, item.UserId, item.RequestedRole })
+            .SingleOrDefaultAsync(cancellationToken);
+        if (request is null) return false;
 
         var user = await userManager.FindByIdAsync(request.UserId.ToString());
         if (user is null) return false;
 
+        var resolvedAt = DateTimeOffset.UtcNow;
+        var status = approve ? RoleRequestStatus.Approved : RoleRequestStatus.Rejected;
+        var reserved = await dbContext.RoleRequests
+            .Where(item => item.Id == requestId && item.Status == RoleRequestStatus.Pending)
+            .ExecuteUpdateAsync(updates => updates
+                .SetProperty(item => item.Status, status)
+                .SetProperty(item => item.ResolvedByUserId, administratorId)
+                .SetProperty(item => item.ResolvedAt, resolvedAt), cancellationToken);
+        if (reserved != 1) return false;
+
         if (approve)
         {
+            var oldRoles = await userManager.GetRolesAsync(user);
+            var principalRoles = new[] { "SocioAficion", "Jugador", "CuerpoTecnico" };
+            foreach (var oldRole in oldRoles.Where(role => principalRoles.Contains(role) && role != request.RequestedRole))
+            {
+                var removeResult = await userManager.RemoveFromRoleAsync(user, oldRole);
+                if (!removeResult.Succeeded) return false;
+            }
             if (!await userManager.IsInRoleAsync(user, request.RequestedRole))
             {
-                var roleResult = await userManager.AddToRoleAsync(user, request.RequestedRole);
-                if (!roleResult.Succeeded) return false;
+                var addResult = await userManager.AddToRoleAsync(user, request.RequestedRole);
+                if (!addResult.Succeeded) return false;
             }
-            request.Approve(administratorId);
         }
-        else
-        {
-            request.Reject(administratorId);
-        }
+
+        dbContext.AdministrationAuditEntries.Add(new AdministrationAuditEntry(
+            administratorId,
+            user.Id,
+            approve ? "RoleRequestApproved" : "RoleRequestRejected",
+            $"{request.Id} | {request.RequestedRole}"));
 
         await dbContext.SaveChangesAsync(cancellationToken);
         await transaction.CommitAsync(cancellationToken);
@@ -161,7 +192,15 @@ public sealed class AuthService(
     {
         cancellationToken.ThrowIfCancellationRequested();
         var roles = await userManager.GetRolesAsync(user);
-        return new AuthUserDto(user.Id, user.Email ?? string.Empty, user.DisplayName, roles.ToArray());
+        return new AuthUserDto(
+            user.Id,
+            user.Email ?? string.Empty,
+            user.DisplayName,
+            roles.ToArray(),
+            user.FirstName,
+            user.LastName,
+            user.PreferredTeamId,
+            user.AvatarStorageKey is null ? null : $"/api/v1/profile/avatar/{user.Id}");
     }
 
     private async Task SignInAsync(ClubUser user, bool isPersistent)
