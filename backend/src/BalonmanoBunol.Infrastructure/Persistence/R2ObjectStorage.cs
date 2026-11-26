@@ -14,6 +14,8 @@ public sealed class R2ObjectStorage(IAmazonS3 client, string bucketName, string 
             Key = key,
             InputStream = content,
             AutoCloseStream = false,
+            DisablePayloadSigning = true,
+            DisableDefaultChecksumValidation = true,
         }, cancellationToken);
         return key;
     }

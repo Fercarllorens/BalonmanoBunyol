@@ -141,6 +141,21 @@ public sealed class MediaStorageTests
     public void LocalStorageConfiguration_DoesNotRequireR2Settings() =>
         new R2ObjectStorageConfiguration("Local", null, null, null, null).Validate();
 
+    [Theory]
+    [InlineData("Host=ep-example-pooler.us-east-2.aws.neon.tech;Database=club;Username=club;Password=secret")]
+    [InlineData("Host=ep-example.us-east-2.aws.neon.tech,ep-example-pooler.us-east-2.aws.neon.tech;Database=club;Username=club;Password=secret")]
+    public void NeonConnectionStringValidator_RejectsPooledHost(string connectionString)
+    {
+        var exception = Assert.Throws<InvalidOperationException>(() => NeonConnectionStringValidator.EnsureDirectConnection(connectionString));
+        Assert.Contains("directa de Neon", exception.Message);
+    }
+
+    [Theory]
+    [InlineData("Host=ep-example.us-east-2.aws.neon.tech;Database=club;Username=club;Password=secret")]
+    [InlineData("Host=localhost;Database=club;Username=club;Password=secret")]
+    public void NeonConnectionStringValidator_AllowsDirectHost(string connectionString) =>
+        NeonConnectionStringValidator.EnsureDirectConnection(connectionString);
+
     [Fact]
     public async Task R2ObjectStorage_SaveOpenDelete_UsesPrivateObjectOperations()
     {
@@ -153,7 +168,16 @@ public sealed class MediaStorageTests
         client.Setup(storage => storage.DeleteObjectAsync(It.Is<DeleteObjectRequest>(request =>
             request.BucketName == "club-assets" && request.Key == objectKey), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new DeleteObjectResponse());
+        PutObjectRequest? putRequest = null;
+        client.Setup(storage => storage.PutObjectAsync(It.IsAny<PutObjectRequest>(), It.IsAny<CancellationToken>()))
+            .Callback<PutObjectRequest, CancellationToken>((request, _) => putRequest = request)
+            .ReturnsAsync(new PutObjectResponse());
         var storage = new R2ObjectStorage(client.Object, "club-assets", "club-bunol/feed/");
+
+        Assert.Equal(objectKey, await storage.SaveAsync(Guid.ParseExact(Path.GetFileNameWithoutExtension(objectKey), "N"), ".jpg", new MemoryStream([1]), CancellationToken.None));
+        Assert.NotNull(putRequest);
+        Assert.True(putRequest!.DisablePayloadSigning);
+        Assert.True(putRequest.DisableDefaultChecksumValidation);
 
         await using (var read = await storage.OpenReadAsync(objectKey, CancellationToken.None))
         {
@@ -165,6 +189,8 @@ public sealed class MediaStorageTests
         await storage.DeleteAsync(objectKey, CancellationToken.None);
         client.Verify(storage => storage.GetObjectAsync("club-assets", objectKey, It.IsAny<CancellationToken>()), Times.Once);
         client.Verify(storage => storage.DeleteObjectAsync(It.Is<DeleteObjectRequest>(request => request.Key == objectKey), It.IsAny<CancellationToken>()), Times.Once);
+        client.Verify(storage => storage.PutObjectAsync(It.Is<PutObjectRequest>(request => request.Key == objectKey
+            && request.DisablePayloadSigning == true && request.DisableDefaultChecksumValidation == true), It.IsAny<CancellationToken>()), Times.Once);
         client.VerifyNoOtherCalls();
         Assert.NotNull(savedResponse);
     }

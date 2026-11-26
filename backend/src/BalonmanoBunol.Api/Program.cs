@@ -19,6 +19,7 @@ if (string.IsNullOrWhiteSpace(builder.Configuration.GetConnectionString("ClubDat
 {
     throw new InvalidOperationException("Falta ConnectionStrings__ClubDatabase. Inicia la API con npm run api para cargar la configuración local desde .env.");
 }
+NeonConnectionStringValidator.EnsureDirectConnection(builder.Configuration.GetConnectionString("ClubDatabase"));
 
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddAuthorization();

@@ -51,7 +51,7 @@ El espacio `/equipo` resuelve equipos desde `team_assignments` para Cuerpo Técn
 - Contraseñas/secretos de producción se inyectarán por configuración segura del entorno.
 - El despliegue demo de una sola URL usa Docker: Vite compila a `backend/src/BalonmanoBunol.Api/wwwroot`, ASP.NET Core sirve la PWA y la API, y `render.yaml` declara el web service Render Free. Las claves de Neon y R2 se inyectan como variables de entorno; no se versionan.
 - `/api/health` confirma que el proceso responde y `/api/ready` comprueba además la conexión a PostgreSQL para los checks del proveedor.
-- El arranque serializa las migraciones PostgreSQL con un advisory lock de sesión. En Render se respetan los encabezados `X-Forwarded-*` para TLS y cookies seguras.
+- El arranque serializa las migraciones PostgreSQL con `pg_advisory_lock`, ligado a la sesión/conexión. Neon debe configurarse con la URL directa sin `-pooler` porque su pooler en modo transacción no conserva este bloqueo; la API rechaza esa configuración antes de arrancar. En Render se respetan los encabezados `X-Forwarded-*` para TLS y cookies seguras.
 - Las migraciones EF Core se generan con `dotnet-ef`; `FeedPostsV2` incorpora borrado lógico, tabla de adjuntos e índices de consulta.
 
 ## Pruebas
