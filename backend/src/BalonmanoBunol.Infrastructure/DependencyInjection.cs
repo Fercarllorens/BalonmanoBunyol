@@ -17,6 +17,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;
+using Amazon.S3;
+using Amazon.Runtime;
 
 namespace BalonmanoBunol.Infrastructure;
 
@@ -73,34 +75,53 @@ public static class DependencyInjection
         });
 
         services.AddScoped<IPostRepository, PostRepository>();
-        services.AddSingleton<IPostMediaStorage>(serviceProvider =>
+        var r2Configuration = new R2ObjectStorageConfiguration(
+            configuration["FileStorage:Provider"], configuration["R2:Endpoint"], configuration["R2:Bucket"],
+            configuration["R2:AccessKeyId"], configuration["R2:SecretAccessKey"]);
+        r2Configuration.Validate();
+        if (r2Configuration.IsEnabled)
         {
-            var environment = serviceProvider.GetRequiredService<IHostEnvironment>();
-            var rootPath = configuration["PostMedia:RootPath"];
-            return new LocalPostMediaStorage(string.IsNullOrWhiteSpace(rootPath)
-                ? Path.Combine(environment.ContentRootPath, "App_Data", "post-media")
-                : rootPath);
-        });
-        services.AddSingleton<IProfileAvatarStorage>(serviceProvider =>
+            services.AddSingleton<IAmazonS3>(_ => new AmazonS3Client(
+                new BasicAWSCredentials(r2Configuration.AccessKeyId, r2Configuration.SecretAccessKey),
+                new AmazonS3Config { ServiceURL = r2Configuration.Endpoint, ForcePathStyle = true, AuthenticationRegion = "auto" }));
+            services.AddSingleton<IPostMediaStorage>(serviceProvider => new R2PostMediaStorage(new R2ObjectStorage(
+                serviceProvider.GetRequiredService<IAmazonS3>(), r2Configuration.Bucket!, "club-bunol/feed/")));
+            services.AddSingleton<IProfileAvatarStorage>(serviceProvider => new R2ProfileAvatarStorage(new R2ObjectStorage(
+                serviceProvider.GetRequiredService<IAmazonS3>(), r2Configuration.Bucket!, "club-bunol/avatars/")));
+            services.AddSingleton<ITeamBoardStorage>(serviceProvider => new R2TeamBoardStorage(new R2ObjectStorage(
+                serviceProvider.GetRequiredService<IAmazonS3>(), r2Configuration.Bucket!, "club-bunol/team-board/")));
+        }
+        else
         {
-            var environment = serviceProvider.GetRequiredService<IHostEnvironment>();
-            var rootPath = configuration["ProfileAvatar:RootPath"];
-            return new LocalProfileAvatarStorage(string.IsNullOrWhiteSpace(rootPath)
-                ? Path.Combine(environment.ContentRootPath, "App_Data", "profile-avatars")
-                : rootPath);
-        });
+            services.AddSingleton<IPostMediaStorage>(serviceProvider =>
+            {
+                var environment = serviceProvider.GetRequiredService<IHostEnvironment>();
+                var rootPath = configuration["PostMedia:RootPath"];
+                return new LocalPostMediaStorage(string.IsNullOrWhiteSpace(rootPath)
+                    ? Path.Combine(environment.ContentRootPath, "App_Data", "post-media")
+                    : rootPath);
+            });
+            services.AddSingleton<IProfileAvatarStorage>(serviceProvider =>
+            {
+                var environment = serviceProvider.GetRequiredService<IHostEnvironment>();
+                var rootPath = configuration["ProfileAvatar:RootPath"];
+                return new LocalProfileAvatarStorage(string.IsNullOrWhiteSpace(rootPath)
+                    ? Path.Combine(environment.ContentRootPath, "App_Data", "profile-avatars")
+                    : rootPath);
+            });
+            services.AddSingleton<ITeamBoardStorage>(serviceProvider =>
+            {
+                var environment = serviceProvider.GetRequiredService<IHostEnvironment>();
+                var rootPath = configuration["TeamBoard:RootPath"];
+                return new LocalTeamBoardStorage(string.IsNullOrWhiteSpace(rootPath)
+                    ? Path.Combine(environment.ContentRootPath, "App_Data", "team-board")
+                    : rootPath);
+            });
+        }
         services.AddScoped<IFeedService, FeedService>();
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IProfileService, ProfileService>();
         services.AddScoped<IAdministrationService, AdministrationService>();
-        services.AddSingleton<ITeamBoardStorage>(serviceProvider =>
-        {
-            var environment = serviceProvider.GetRequiredService<IHostEnvironment>();
-            var rootPath = configuration["TeamBoard:RootPath"];
-            return new LocalTeamBoardStorage(string.IsNullOrWhiteSpace(rootPath)
-                ? Path.Combine(environment.ContentRootPath, "App_Data", "team-board")
-                : rootPath);
-        });
         services.AddScoped<ITeamSpaceService, TeamSpaceService>();
         return services;
     }

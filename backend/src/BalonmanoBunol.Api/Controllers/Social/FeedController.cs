@@ -31,6 +31,8 @@ public sealed class FeedController(IFeedService feed) : ControllerBase
         const long maxRequestBytes = 201L * 1024 * 1024;
         if (Request.ContentLength is > maxRequestBytes)
             return BadRequest(new { message = "El tamaño total de los adjuntos supera el límite permitido." });
+        if (Request.ContentLength is null && Request.Body.CanSeek && Request.Body.Length > maxRequestBytes)
+            return BadRequest(new { message = "El tamaño total de los adjuntos supera el límite permitido." });
         if (!Guid.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out var authorId)) return Unauthorized();
 
         IFormCollection form;

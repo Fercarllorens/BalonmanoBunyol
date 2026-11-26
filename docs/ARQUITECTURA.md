@@ -40,7 +40,7 @@ La funcionalidad de perfil almacena nombre, apellidos, equipo preferido opcional
 
 El panel `/admin` requiere rol Administrador en rutas y endpoints. La gestión usa tablas `team_assignments` (múltiples equipos por miembro de Cuerpo Técnico/Administrador) y `administration_audit_entries`; las operaciones administrativas quedan auditadas. Los roles principales son excluyentes entre SocioAficion, Jugador, CuerpoTecnico y Administrador. La membresía deportiva `team_player_memberships` es independiente del rol principal y puede asociarse a cuentas activas de Jugador o Cuerpo Técnico; Administración queda excluida como jugador.
 
-El espacio `/equipo` resuelve equipos desde `team_assignments` para Cuerpo Técnico y `team_player_memberships` para Jugadores; Administración puede consultar todos los equipos activos. Los equipos se identifican por nombre y categoría. La temporada del calendario se calcula automáticamente de julio a junio. Las planificaciones recurrentes se guardan en `team_weekly_training_plans`/`team_weekly_training_slots` con fecha efectiva, y `team_training_exceptions` conserva cambios o cancelaciones de una fecha concreta. Eventos puntuales y partidos/convocatorias se almacenan por separado. El servicio valida acceso por equipo en cada operación. La pizarra/adjuntos y estadísticas se almacenan en tablas separadas. Los adjuntos de pizarra quedan fuera de PostgreSQL, en `App_Data/team-board`; no se reutiliza el feed público ni se incluyen datos médicos.
+El espacio `/equipo` resuelve equipos desde `team_assignments` para Cuerpo Técnico y `team_player_memberships` para Jugadores; Administración puede consultar todos los equipos activos. Los equipos se identifican por nombre y categoría. La temporada del calendario se calcula automáticamente de julio a junio. Las planificaciones recurrentes se guardan en `team_weekly_training_plans`/`team_weekly_training_slots` con fecha efectiva, y `team_training_exceptions` conserva cambios o cancelaciones de una fecha concreta. Eventos puntuales y partidos/convocatorias se almacenan por separado. El servicio valida acceso por equipo en cada operación. La pizarra/adjuntos y estadísticas se almacenan en tablas separadas. Los medios, avatares y adjuntos de pizarra comparten contratos de almacenamiento independientes por colección: desarrollo usa filesystem local; el despliegue demo puede seleccionar el adaptador S3-compatible de Cloudflare R2 con `FileStorage:Provider=R2`. Los objetos R2 son privados y se leen mediante endpoints con autorización. No se reutiliza el feed público ni se incluyen datos médicos.
 
 ## Datos y despliegue
 
@@ -49,6 +49,9 @@ El espacio `/equipo` resuelve equipos desde `team_assignments` para Cuerpo Técn
 - Los avatares se guardan en `App_Data/profile-avatars` local; su formato, firma y tamaño máximo de 5 MB se validan en backend.
 - `docker-compose.yml` permite levantar una base local de desarrollo.
 - Contraseñas/secretos de producción se inyectarán por configuración segura del entorno.
+- El despliegue demo de una sola URL usa Docker: Vite compila a `backend/src/BalonmanoBunol.Api/wwwroot`, ASP.NET Core sirve la PWA y la API, y `render.yaml` declara el web service Render Free. Las claves de Neon y R2 se inyectan como variables de entorno; no se versionan.
+- `/api/health` confirma que el proceso responde y `/api/ready` comprueba además la conexión a PostgreSQL para los checks del proveedor.
+- El arranque serializa las migraciones PostgreSQL con un advisory lock de sesión. En Render se respetan los encabezados `X-Forwarded-*` para TLS y cookies seguras.
 - Las migraciones EF Core se generan con `dotnet-ef`; `FeedPostsV2` incorpora borrado lógico, tabla de adjuntos e índices de consulta.
 
 ## Pruebas

@@ -1,3 +1,4 @@
+using BalonmanoBunol.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,6 +8,23 @@ namespace BalonmanoBunol.Api.Controllers.System;
 [AllowAnonymous]
 public sealed class SystemController : ControllerBase
 {
+    [HttpGet("/api/ready")]
+    public async Task<IActionResult> Ready([FromServices] ClubDbContext dbContext, CancellationToken cancellationToken)
+    {
+        bool canConnect;
+        try
+        {
+            canConnect = await dbContext.Database.CanConnectAsync(cancellationToken);
+        }
+        catch (Npgsql.NpgsqlException)
+        {
+            // Readiness returns a generic response; database details stay out of public output.
+            canConnect = false;
+        }
+        if (canConnect) return Ok(new { status = "ready", service = "balonmano-bunol-api" });
+        return StatusCode(StatusCodes.Status503ServiceUnavailable, new { status = "unavailable" });
+    }
+
     [HttpGet("/api/health")]
     public IActionResult Health() => Ok(new
     {
