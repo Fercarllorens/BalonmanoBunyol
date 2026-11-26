@@ -42,7 +42,13 @@ El repositorio incluye un `Dockerfile` multi-stage y `render.yaml` para servir e
 4. `BootstrapAdmin__Email` y `BootstrapAdmin__Password` crean una cuenta de demostración al iniciar. Usa datos inventados; no cargues datos reales del club ni de menores.
 5. Espera al despliegue, abre `/api/health` y `/api/ready`, después `/` y ensaya inicio de sesión, carga de archivos y rutas PWA. Tras un periodo sin visitas Render Free puede tardar cerca de un minuto en despertar.
 
-El Blueprint no crea una base de datos Render gratuita porque expira a los 30 días. Crea Neon Free aparte y configura su cadena PostgreSQL como `ConnectionStrings__ClubDatabase` en el panel de Render. Debe ser la cadena **directa** de Neon: en la consola de Neon abre **Connect** y desactiva **Connection pooling** antes de copiarla. La aplicación rechaza hosts Neon que contengan `-pooler` porque la inicialización de migraciones usa un bloqueo de sesión PostgreSQL, que PgBouncer en modo transacción no conserva. Neon escala a cero al estar inactivo, por lo que la primera conexión tras una pausa puede tardar varios segundos.
+El Blueprint no crea una base de datos Render gratuita porque expira a los 30 días. Crea Neon Free aparte y configura su cadena PostgreSQL como `ConnectionStrings__ClubDatabase` en el panel de Render con este formato, usando los valores que proporciona Neon:
+
+```text
+Host=<HOST_DIRECTO_NEON>;Database=<DATABASE>;Username=<USERNAME>;Password=<PASSWORD>;SSL Mode=Require
+```
+
+Debe ser la conexión **directa** de Neon: en la consola abre **Connect**, desactiva **Connection pooling** y copia el host sin el sufijo `-pooler`. La aplicación rechaza hosts Neon que incluyan `-pooler` porque las migraciones usan un bloqueo de sesión PostgreSQL, que PgBouncer en modo transacción no conserva. Neon escala a cero al estar inactivo, por lo que la primera conexión tras una pausa puede tardar varios segundos.
 
 Las cuotas gratuitas y disponibilidad dependen de los proveedores y pueden cambiar. Neon Free limita recursos y escala la base a cero; Render Free tiene sistema de archivos efímero, por lo que todos los medios deben ir a R2. El bucket R2 es privado; la API preserva el acceso público únicamente a los adjuntos del feed que ya se exponen como públicos. La demo no sustituye un despliegue productivo ni una estrategia de copias de seguridad.
 
