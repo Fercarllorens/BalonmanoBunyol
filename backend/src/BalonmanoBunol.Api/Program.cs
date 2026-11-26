@@ -19,12 +19,17 @@ builder.Services.AddControllers();
 builder.Services.AddAntiforgery(options =>
 {
     options.HeaderName = "X-CSRF-TOKEN";
+    options.SuppressReadingTokenFromFormBody = true;
     options.Cookie.Name = "cb-bunol-csrf";
     options.Cookie.HttpOnly = true;
     options.Cookie.SecurePolicy = builder.Environment.IsDevelopment() ? CookieSecurePolicy.SameAsRequest : CookieSecurePolicy.Always;
     options.Cookie.SameSite = SameSiteMode.Strict;
 });
-builder.Services.Configure<FormOptions>(options => options.MultipartBodyLengthLimit = 401L * 1024 * 1024);
+builder.Services.Configure<FormOptions>(options =>
+{
+    options.MultipartBodyLengthLimit = 401L * 1024 * 1024;
+    options.ValueLengthLimit = 16 * 1024;
+});
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("Frontend", policy =>

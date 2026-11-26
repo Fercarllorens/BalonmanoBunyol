@@ -46,7 +46,8 @@ public sealed class ProfileService(
             return ProfileOperationResult.Failure("Indica un nombre (máximo 80 caracteres) y unos apellidos válidos; el nombre completo no puede superar 160 caracteres.");
         if (email.Length > 256 || !new EmailAddressAttribute().IsValid(email))
             return ProfileOperationResult.Failure("Introduce un correo electrónico válido.");
-        if (preferredTeamId is not null && !await db.Teams.AnyAsync(team => team.Id == preferredTeamId && team.IsActive, cancellationToken))
+        if (preferredTeamId is not null && !await db.Teams.AnyAsync(
+                team => team.Id == preferredTeamId && (team.IsActive || team.Id == user.PreferredTeamId), cancellationToken))
             return ProfileOperationResult.Failure("El equipo preferido seleccionado no existe o no está activo.");
 
         var normalizedEmail = userManager.NormalizeEmail(email);

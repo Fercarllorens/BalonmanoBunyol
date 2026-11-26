@@ -237,6 +237,31 @@ describe('TeamPage', () => {
     await waitFor(() => expect(screen.queryByText('Cargando equipo…')).not.toBeInTheDocument())
   })
 
+  it('no repuebla candidatos ni reabre el menú si la respuesta de búsqueda llega después del cambio de equipo', async () => {
+    let resolveCandidateJson!: (value: { userId: string; displayName: string; email: string }[]) => void
+    const candidateJson = new Promise<{ userId: string; displayName: string; email: string }[]>((resolve) => { resolveCandidateJson = resolve })
+    const fetchMock = vi.fn().mockImplementation((input: RequestInfo | URL) => {
+      const url = String(input)
+      if (url.includes('/players/search')) return Promise.resolve({ ok: true, json: () => candidateJson })
+      return Promise.resolve(responseFor(url))
+    })
+    vi.stubGlobal('fetch', fetchMock)
+    render(<TeamPage theme="light" onToggleTheme={() => undefined} user={user}/> )
+
+    await screen.findByText('Pau Pérez')
+    const search = screen.getByRole('textbox', { name: 'Buscar jugador para añadir' })
+    fireEvent.change(search, { target: { value: 'Ana' } })
+    await waitFor(() => expect(fetchMock).toHaveBeenCalledWith('/api/v1/teams/team-a/players/search?query=Ana', expect.anything()))
+    fireEvent.click(screen.getByRole('button', { name: /Seleccionar equipo/ }))
+    fireEvent.click(await screen.findByRole('option', { name: /Cadete B/ }))
+    expect(await screen.findByRole('heading', { level: 1, name: 'Cadete B' })).toBeInTheDocument()
+    expect(screen.getByRole('textbox', { name: 'Buscar jugador para añadir' })).toHaveValue('')
+    resolveCandidateJson([{ userId: 'stale-player', displayName: 'Candidata antigua', email: 'old@example.es' }])
+
+    await waitFor(() => expect(screen.queryByRole('option', { name: /Candidata antigua/ })).not.toBeInTheDocument())
+    expect(screen.queryByRole('listbox', { name: 'Jugadores encontrados' })).not.toBeInTheDocument()
+  })
+
   it('descarta el calendario tardío del equipo anterior', async () => {
     vi.useFakeTimers({ toFake: ['Date'] })
     vi.setSystemTime(new Date(2026, 10, 15, 12))
@@ -270,6 +295,39 @@ describe('TeamPage', () => {
     }))
     await waitFor(() => expect(screen.queryByText('Evento tardío de A')).not.toBeInTheDocument())
     expect(screen.getByRole('heading', { level: 1, name: 'Cadete B' })).toBeInTheDocument()
+  })
+
+  it('no aplica la recarga de calendario de una mutación si cambia el mes mientras espera', async () => {
+    vi.useFakeTimers({ toFake: ['Date'] })
+    vi.setSystemTime(new Date(2026, 10, 15, 12))
+    const mutationCalendar = deferred<Response>()
+    const fetchMock = vi.fn().mockImplementation((input: RequestInfo | URL, init?: RequestInit) => {
+      const url = String(input)
+      if (url.includes('/calendar?')) return url.includes('month=11') ? mutationCalendar.promise : Promise.resolve(jsonResponse({
+        seasonStart: '2026-07-01', seasonEnd: '2027-06-30', month: '2026-10-01', items: [], plans: [],
+      }))
+      if (url.endsWith('/team-a/events') && init?.method === 'POST') return Promise.resolve(new Response(null, { status: 204 }))
+      return Promise.resolve(responseFor(url))
+    })
+    vi.stubGlobal('fetch', fetchMock)
+    render(<TeamPage theme="light" onToggleTheme={() => undefined} user={user}/> )
+
+    await screen.findByRole('heading', { level: 1, name: 'Infantil A' })
+    fireEvent.click(screen.getByRole('button', { name: 'Calendario' }))
+    await screen.findByRole('grid', { name: /Calendario de/ })
+    fireEvent.click(screen.getByRole('button', { name: 'Añadir evento' }))
+    fireEvent.change(screen.getByLabelText('Actividad'), { target: { value: 'Reunión de noviembre' } })
+    fireEvent.change(screen.getByLabelText('Inicio'), { target: { value: '2026-11-20T18:00' } })
+    fireEvent.click(screen.getByRole('button', { name: 'Guardar evento' }))
+    await waitFor(() => expect(fetchMock).toHaveBeenCalledWith('/api/v1/teams/team-a/calendar?year=2026&month=11', expect.anything()))
+
+    fireEvent.click(screen.getByRole('button', { name: 'Mes anterior' }))
+    await waitFor(() => expect(fetchMock).toHaveBeenCalledWith('/api/v1/teams/team-a/calendar?year=2026&month=10', expect.anything()))
+    mutationCalendar.resolve(jsonResponse({
+      seasonStart: '2026-07-01', seasonEnd: '2027-06-30', month: '2026-11-01', items: [], plans: [],
+    }))
+    await waitFor(() => expect(screen.getByRole('grid', { name: /Calendario de octubre de 2026/i })).toBeInTheDocument())
+    expect(screen.queryByRole('grid', { name: /Calendario de noviembre de 2026/i })).not.toBeInTheDocument()
   })
 
   it('reinicia calendario, editores y borrador de pizarra al cambiar de equipo', async () => {

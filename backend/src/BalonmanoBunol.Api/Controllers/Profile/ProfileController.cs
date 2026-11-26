@@ -29,6 +29,8 @@ public sealed class ProfileController(IProfileService profiles) : ControllerBase
 
     [HttpPost("avatar")]
     [Consumes("multipart/form-data")]
+    [RequestSizeLimit(5_300_000)]
+    [RequestFormLimits(MultipartBodyLengthLimit = 5_300_000, ValueLengthLimit = 16 * 1024)]
     public async Task<IActionResult> SetAvatar(CancellationToken cancellationToken)
     {
         if (!TryGetUserId(out var userId)) return Unauthorized();

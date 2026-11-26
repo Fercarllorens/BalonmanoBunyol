@@ -68,12 +68,32 @@ public sealed class PostgreSqlIntegrationTests
 
             var health = await firstUser.GetAsync("/api/health");
             Assert.Equal(HttpStatusCode.OK, health.StatusCode);
+            using (var apiInfoResponse = await firstUser.GetAsync("/api"))
+            {
+                Assert.Equal(HttpStatusCode.OK, apiInfoResponse.StatusCode);
+                using var apiInfo = JsonDocument.Parse(await apiInfoResponse.Content.ReadAsStringAsync());
+                Assert.Equal("/docs", apiInfo.RootElement.GetProperty("documentation").GetString());
+            }
+            using (var documentation = await firstUser.GetAsync("/docs"))
+            {
+                Assert.Equal(HttpStatusCode.OK, documentation.StatusCode);
+                Assert.Equal("text/html", documentation.Content.Headers.ContentType?.MediaType);
+                Assert.Contains("API del Club Balonmano Buñol", await documentation.Content.ReadAsStringAsync());
+            }
             Assert.Equal(HttpStatusCode.Unauthorized, (await firstUser.GetAsync("/api/v1/auth/me")).StatusCode);
             Assert.Equal(HttpStatusCode.Unauthorized, (await firstUser.GetAsync("/api/v1/profile/")).StatusCode);
             Assert.Equal(HttpStatusCode.OK, (await firstUser.GetAsync("/api/v1/feed")).StatusCode);
             var registration = await RegisterAsync(firstUser, "ana@example.es", "Jugador", "Ana");
             Assert.Contains(registration.Headers, header => header.Key.Equals("Set-Cookie", StringComparison.OrdinalIgnoreCase) && string.Join(';', header.Value).Contains("cb-bunol-session", StringComparison.Ordinal));
             Assert.Equal(HttpStatusCode.OK, (await firstUser.GetAsync("/api/v1/auth/me")).StatusCode);
+            using (var bodyTokenOnlyForm = new MultipartFormDataContent())
+            {
+                bodyTokenOnlyForm.Add(new StringContent(await GetCsrfTokenAsync(firstUser)), "__RequestVerificationToken");
+                using var bodyTokenOnlyRequest = new HttpRequestMessage(HttpMethod.Post, "/api/v1/profile/avatar") { Content = bodyTokenOnlyForm };
+                using var bodyTokenOnlyResponse = await firstUser.SendAsync(bodyTokenOnlyRequest);
+                Assert.Equal(HttpStatusCode.BadRequest, bodyTokenOnlyResponse.StatusCode);
+                Assert.Contains("caducado", await bodyTokenOnlyResponse.Content.ReadAsStringAsync(), StringComparison.OrdinalIgnoreCase);
+            }
             var profile = await firstUser.GetFromJsonAsync<JsonElement>("/api/v1/profile/");
             Assert.Equal("Ana", profile.GetProperty("firstName").GetString());
             Assert.True(profile.GetProperty("preferredTeamId").ValueKind == JsonValueKind.Null);
@@ -221,6 +241,20 @@ public sealed class PostgreSqlIntegrationTests
             invalidMediaRequest.Headers.Add("X-CSRF-TOKEN", await GetCsrfTokenAsync(firstUser));
             Assert.Equal(HttpStatusCode.BadRequest, (await firstUser.SendAsync(invalidMediaRequest)).StatusCode);
 
+            using (var oversizedTextForm = new MultipartFormDataContent { { new StringContent(new string('x', 17 * 1024)), "content" } })
+            using (var oversizedTextRequest = new HttpRequestMessage(HttpMethod.Post, "/api/v1/feed") { Content = oversizedTextForm })
+            {
+                oversizedTextRequest.Headers.Add("X-CSRF-TOKEN", await GetCsrfTokenAsync(firstUser));
+                Assert.Equal(HttpStatusCode.BadRequest, (await firstUser.SendAsync(oversizedTextRequest)).StatusCode);
+            }
+            using (var unknownLengthContent = CreateUnknownLengthFormContent("content", "Publicación sin longitud declarada"))
+            using (var unknownLengthRequest = new HttpRequestMessage(HttpMethod.Post, "/api/v1/feed") { Content = unknownLengthContent })
+            {
+                Assert.Null(unknownLengthRequest.Content.Headers.ContentLength);
+                unknownLengthRequest.Headers.Add("X-CSRF-TOKEN", await GetCsrfTokenAsync(firstUser));
+                Assert.Equal(HttpStatusCode.Created, (await firstUser.SendAsync(unknownLengthRequest)).StatusCode);
+            }
+
             using (var largeVideoForm = new MultipartFormDataContent { { new StringContent("Vídeo de 40 MiB"), "content" } })
             {
                 var videoBytes = new byte[40 * 1024 * 1024];
@@ -309,6 +343,9 @@ public sealed class PostgreSqlIntegrationTests
             var concurrentDecisionRequest = Assert.Single(requestsBeforeConcurrentDecision!, item => item.GetProperty("email").GetString() == "solicitud.concurrente@example.es");
             var concurrentDecisionRequestId = concurrentDecisionRequest.GetProperty("id").GetGuid();
             await LoginAsync(secondAdministrator, "ana.segunda@example.es", "BalonmanoTest1!");
+            var secondAdministratorProfile = await secondAdministrator.GetFromJsonAsync<JsonElement>("/api/v1/auth/me");
+            var secondAdministratorId = secondAdministratorProfile.GetProperty("id").GetGuid();
+            Assert.Contains("Administrador", secondAdministratorProfile.GetProperty("roles").EnumerateArray().Select(role => role.GetString()));
             using var decisionBarrier = new Barrier(2);
             var concurrentDecisions = await Task.WhenAll(
                 ResolveRoleRequestConcurrentlyAsync(administrator, concurrentDecisionRequestId, "approve", decisionBarrier),
@@ -402,6 +439,47 @@ public sealed class PostgreSqlIntegrationTests
             {
                 updatePlayerPreference.Headers.Add("X-CSRF-TOKEN", await GetCsrfTokenAsync(firstUser));
                 Assert.Equal(HttpStatusCode.OK, (await firstUser.SendAsync(updatePlayerPreference)).StatusCode);
+            }
+            var implicitCalendar = await administrator.GetFromJsonAsync<JsonElement>($"/api/v1/teams/{teamId}/calendar");
+            var clubToday = DateOnly.FromDateTime(TimeZoneInfo.ConvertTime(DateTimeOffset.UtcNow, ResolveTestClubTimeZone()).DateTime);
+            Assert.Equal($"{clubToday:yyyy-MM}-01", implicitCalendar.GetProperty("month").GetString());
+            var explicitCalendar = await administrator.GetFromJsonAsync<JsonElement>($"/api/v1/teams/{teamId}/calendar?year=2026&month=10");
+            Assert.Equal("2026-10-01", explicitCalendar.GetProperty("month").GetString());
+            using (var deactivatePreferredTeam = new HttpRequestMessage(HttpMethod.Put, $"/api/v1/admin/teams/{seniorTeamId}/active?isActive=false"))
+            {
+                deactivatePreferredTeam.Headers.Add("X-CSRF-TOKEN", await GetCsrfTokenAsync(administrator));
+                Assert.Equal(HttpStatusCode.NoContent, (await administrator.SendAsync(deactivatePreferredTeam)).StatusCode);
+            }
+            using (var preserveInactivePreference = new HttpRequestMessage(HttpMethod.Put, "/api/v1/profile/")
+            {
+                Content = JsonContent.Create(new { firstName = "Ana", lastName = "Pruebas", email = "ana.nueva@example.es", preferredTeamId = seniorTeamId })
+            })
+            {
+                preserveInactivePreference.Headers.Add("X-CSRF-TOKEN", await GetCsrfTokenAsync(firstUser));
+                Assert.Equal(HttpStatusCode.OK, (await firstUser.SendAsync(preserveInactivePreference)).StatusCode);
+            }
+            using (var deactivateOtherTeam = new HttpRequestMessage(HttpMethod.Put, $"/api/v1/admin/teams/{teamId}/active?isActive=false"))
+            {
+                deactivateOtherTeam.Headers.Add("X-CSRF-TOKEN", await GetCsrfTokenAsync(administrator));
+                Assert.Equal(HttpStatusCode.NoContent, (await administrator.SendAsync(deactivateOtherTeam)).StatusCode);
+            }
+            using (var rejectOtherInactivePreference = new HttpRequestMessage(HttpMethod.Put, "/api/v1/profile/")
+            {
+                Content = JsonContent.Create(new { firstName = "Ana", lastName = "Pruebas", email = "ana.nueva@example.es", preferredTeamId = teamId })
+            })
+            {
+                rejectOtherInactivePreference.Headers.Add("X-CSRF-TOKEN", await GetCsrfTokenAsync(firstUser));
+                Assert.Equal(HttpStatusCode.BadRequest, (await firstUser.SendAsync(rejectOtherInactivePreference)).StatusCode);
+            }
+            using (var reactivatePreferredTeam = new HttpRequestMessage(HttpMethod.Put, $"/api/v1/admin/teams/{seniorTeamId}/active?isActive=true"))
+            {
+                reactivatePreferredTeam.Headers.Add("X-CSRF-TOKEN", await GetCsrfTokenAsync(administrator));
+                Assert.Equal(HttpStatusCode.NoContent, (await administrator.SendAsync(reactivatePreferredTeam)).StatusCode);
+            }
+            using (var reactivateOtherTeam = new HttpRequestMessage(HttpMethod.Put, $"/api/v1/admin/teams/{teamId}/active?isActive=true"))
+            {
+                reactivateOtherTeam.Headers.Add("X-CSRF-TOKEN", await GetCsrfTokenAsync(administrator));
+                Assert.Equal(HttpStatusCode.NoContent, (await administrator.SendAsync(reactivateOtherTeam)).StatusCode);
             }
             using (var registerWithSeniorPreference = await RegisterAsync(thirdUser, "nuevo@example.es", "Socio", "Nuevo"))
             {
@@ -607,6 +685,38 @@ public sealed class PostgreSqlIntegrationTests
             Assert.Contains("CuerpoTecnico", listedCoach.GetProperty("roles").EnumerateArray().Select(role => role.GetString()));
             Assert.Single(listedCoach.GetProperty("teams").EnumerateArray());
 
+            var coachTeamIdsBeforeRoleChange = listedCoach.GetProperty("teams").EnumerateArray().Select(team => team.GetProperty("id").GetGuid()).ToArray();
+            using (var removeCoachRole = new HttpRequestMessage(HttpMethod.Put, $"/api/v1/admin/users/{approvedUser.GetProperty("id").GetGuid()}/role")
+            {
+                Content = JsonContent.Create(new { role = "Jugador" })
+            })
+            {
+                removeCoachRole.Headers.Add("X-CSRF-TOKEN", await GetCsrfTokenAsync(administrator));
+                Assert.Equal(HttpStatusCode.NoContent, (await administrator.SendAsync(removeCoachRole)).StatusCode);
+            }
+            var myTeamsAfterCoachRoleRemoval = await secondUser.GetFromJsonAsync<JsonElement[]>("/api/v1/my-teams");
+            Assert.NotNull(myTeamsAfterCoachRoleRemoval);
+            Assert.All(myTeamsAfterCoachRoleRemoval!, item => Assert.Equal("Jugador", item.GetProperty("access").GetString()));
+            var teamsAfterCoachRoleRemoval = await administrator.GetFromJsonAsync<JsonElement[]>($"/api/v1/admin/users?query=socia%40example.es");
+            Assert.NotNull(teamsAfterCoachRoleRemoval);
+            var playerRoleAdminEntry = Assert.Single(teamsAfterCoachRoleRemoval!);
+            Assert.Empty(playerRoleAdminEntry.GetProperty("teams").EnumerateArray());
+            using (var restoreCoachRole = new HttpRequestMessage(HttpMethod.Put, $"/api/v1/admin/users/{approvedUser.GetProperty("id").GetGuid()}/role")
+            {
+                Content = JsonContent.Create(new { role = "CuerpoTecnico" })
+            })
+            {
+                restoreCoachRole.Headers.Add("X-CSRF-TOKEN", await GetCsrfTokenAsync(administrator));
+                Assert.Equal(HttpStatusCode.NoContent, (await administrator.SendAsync(restoreCoachRole)).StatusCode);
+            }
+            var myTeamsAfterCoachRoleRestore = await secondUser.GetFromJsonAsync<JsonElement[]>("/api/v1/my-teams");
+            Assert.NotNull(myTeamsAfterCoachRoleRestore);
+            Assert.Contains(myTeamsAfterCoachRoleRestore!, item => item.GetProperty("id").GetGuid() == teamId && item.GetProperty("access").GetString() == "CuerpoTecnico");
+            var restoredCoachEntries = await administrator.GetFromJsonAsync<JsonElement[]>("/api/v1/admin/users?query=socia%40example.es");
+            Assert.NotNull(restoredCoachEntries);
+            var restoredCoachAdminEntry = Assert.Single(restoredCoachEntries!);
+            Assert.Equal(coachTeamIdsBeforeRoleChange.Order(), restoredCoachAdminEntry.GetProperty("teams").EnumerateArray().Select(item => item.GetProperty("id").GetGuid()).Order());
+
             using var officialForm = new MultipartFormDataContent { { new StringContent("Comunicado de integración"), "content" } };
             using var officialPost = new HttpRequestMessage(HttpMethod.Post, "/api/v1/feed") { Content = officialForm };
             officialPost.Headers.Add("X-CSRF-TOKEN", await GetCsrfTokenAsync(secondUser));
@@ -643,16 +753,14 @@ public sealed class PostgreSqlIntegrationTests
             Assert.DoesNotContain(feed.GetProperty("posts").EnumerateArray(), post => post.GetProperty("id").GetGuid() == postId);
 
             var adminOneId = bootstrapAdministrator.GetProperty("id").GetGuid();
-            var adminTwoId = manuallyChangedDifferentRoleUser.GetProperty("id").GetGuid();
-            using var thirdAdministrator = factory.CreateClient(new WebApplicationFactoryClientOptions { BaseAddress = new Uri("https://localhost") });
-            await LoginAsync(thirdAdministrator, "nuevo@example.es", "BalonmanoTest1!");
+            var adminTwoId = secondAdministratorId;
 
             using var roleChangeBarrier = new Barrier(2);
             var concurrentRoleChanges = await Task.WhenAll(
                 RemoveOtherAdministratorAsync(administrator, adminTwoId, roleChangeBarrier),
-                RemoveOtherAdministratorAsync(thirdAdministrator, adminOneId, roleChangeBarrier));
+                RemoveOtherAdministratorAsync(secondAdministrator, adminOneId, roleChangeBarrier));
             Assert.Single(concurrentRoleChanges, status => status == HttpStatusCode.NoContent);
-            Assert.Single(concurrentRoleChanges, status => status is HttpStatusCode.BadRequest or HttpStatusCode.Forbidden);
+            Assert.Single(concurrentRoleChanges, status => status == HttpStatusCode.BadRequest);
             var remainingAdministratorCount = await GetActiveAdministratorCountAsync(schemaConnection.ConnectionString);
             Assert.Equal(1, remainingAdministratorCount);
 
@@ -695,6 +803,49 @@ public sealed class PostgreSqlIntegrationTests
         var response = await client.SendAsync(request);
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         return response;
+    }
+
+    private static HttpContent CreateUnknownLengthFormContent(string fieldName, string value)
+    {
+        var content = new StreamContent(new ChunkedRequestStream(System.Text.Encoding.UTF8.GetBytes(value)));
+        content.Headers.ContentType = new MediaTypeHeaderValue("text/plain");
+        var multipart = new MultipartFormDataContent($"boundary-{Guid.NewGuid():N}");
+        multipart.Add(content, fieldName);
+        return multipart;
+    }
+
+    private static TimeZoneInfo ResolveTestClubTimeZone()
+    {
+        try { return TimeZoneInfo.FindSystemTimeZoneById("Europe/Madrid"); }
+        catch (TimeZoneNotFoundException) { return TimeZoneInfo.FindSystemTimeZoneById("Romance Standard Time"); }
+    }
+
+    private sealed class ChunkedRequestStream(byte[] content) : Stream
+    {
+        private int position;
+        public override bool CanRead => true;
+        public override bool CanSeek => false;
+        public override bool CanWrite => false;
+        public override long Length => throw new NotSupportedException();
+        public override long Position { get => throw new NotSupportedException(); set => throw new NotSupportedException(); }
+        public override int Read(byte[] buffer, int offset, int count)
+        {
+            var available = Math.Min(count, content.Length - position);
+            Array.Copy(content, position, buffer, offset, available);
+            position += available;
+            return available;
+        }
+        public override ValueTask<int> ReadAsync(Memory<byte> buffer, CancellationToken cancellationToken = default)
+        {
+            var available = Math.Min(buffer.Length, content.Length - position);
+            content.AsMemory(position, available).CopyTo(buffer);
+            position += available;
+            return ValueTask.FromResult(available);
+        }
+        public override void Flush() => throw new NotSupportedException();
+        public override long Seek(long offset, SeekOrigin origin) => throw new NotSupportedException();
+        public override void SetLength(long value) => throw new NotSupportedException();
+        public override void Write(byte[] buffer, int offset, int count) => throw new NotSupportedException();
     }
 
     private static async Task LoginAsync(HttpClient client, string email, string password)

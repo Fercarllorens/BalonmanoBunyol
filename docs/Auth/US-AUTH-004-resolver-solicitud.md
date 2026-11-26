@@ -34,8 +34,10 @@
 - **Entonces** la API rechaza el cambio y conserva la resolución anterior.
 
 - **Dado** que dos Administradores intentan resolver a la vez la misma solicitud Pendiente,
-- **Cuando** una decisión se reserva primero desde el estado Pendiente,
-- **Entonces** solo esa decisión cambia los roles y queda auditada como éxito; la otra recibe conflicto y no modifica roles ni genera auditoría de resolución.
+- **Cuando** una decisión reserva Pendiente y confirma su transacción,
+- **Entonces** solo esa decisión queda resuelta y auditada: si aprueba, cambia el rol; si rechaza, el rol se conserva.
+- **Y** la otra decisión recibe conflicto y no cambia roles ni genera auditoría de resolución.
+- **Y** una reserva revertida no determina qué decisión resulta ganadora.
 
 ### Acceso a la vista de solicitudes desde la barra
 

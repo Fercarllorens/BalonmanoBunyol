@@ -29,10 +29,9 @@ public sealed class TeamsController(ITeamSpaceService teams) : ControllerBase
     public async Task<IActionResult> Calendar(Guid teamId, [FromQuery] int? year, [FromQuery] int? month, CancellationToken cancellationToken)
     {
         if (!TryGetUserId(out var userId)) return Unauthorized();
-        var now = DateTime.UtcNow;
         try
         {
-            var calendar = await teams.GetCalendarAsync(userId, teamId, year ?? now.Year, month ?? now.Month, cancellationToken);
+            var calendar = await teams.GetCalendarAsync(userId, teamId, year, month, cancellationToken);
             return calendar is null ? NotFound() : Ok(calendar);
         }
         catch (ArgumentOutOfRangeException) { return BadRequest(new { message = "El mes indicado no es válido." }); }

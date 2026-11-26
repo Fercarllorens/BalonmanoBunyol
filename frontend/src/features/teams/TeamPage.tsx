@@ -265,6 +265,8 @@ export default function TeamPage({ theme, onToggleTheme, user }: { theme: Theme;
   const [trainingPlanOpen, setTrainingPlanOpen] = useState(false)
   const [calendar, setCalendar] = useState<TeamCalendar | null>(null)
   const [calendarMonth, setCalendarMonth] = useState(() => monthDateKey(new Date()))
+  const calendarMonthRef = useRef(calendarMonth)
+  useEffect(() => { calendarMonthRef.current = calendarMonth }, [calendarMonth])
   const [editingEvent, setEditingEvent] = useState<CalendarItem | null>(null)
   const [editingTraining, setEditingTraining] = useState<CalendarItem | null>(null)
   const [now] = useState(() => Date.now())
@@ -370,8 +372,9 @@ export default function TeamPage({ theme, onToggleTheme, user }: { theme: Theme;
       void fetch(`/api/v1/teams/${space.team.id}/players/search?query=${encodeURIComponent(query.trim())}`, { credentials: 'include', cache: 'no-store' })
         .then(async (response) => {
           if (!response.ok) throw new Error('No se pudieron buscar jugadores.')
+          const results = await response.json() as Candidate[]
           if (active) {
-            setCandidates(await response.json() as Candidate[])
+            setCandidates(Array.isArray(results) ? results : [])
             setActiveCandidateIndex(-1)
             setCandidateMenuOpen(true)
           }
@@ -409,6 +412,7 @@ export default function TeamPage({ theme, onToggleTheme, user }: { theme: Theme;
   }
 
   const handleCandidateSearchKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (candidates.length === 0) return
     if (event.key === 'ArrowDown' && candidates.length > 0) {
       event.preventDefault()
       setCandidateMenuOpen(true)
@@ -566,13 +570,14 @@ export default function TeamPage({ theme, onToggleTheme, user }: { theme: Theme;
 
   const loadCalendar = async (teamId: string, selectionVersion: number) => {
     if (!space || space.team.id !== teamId) return false
+    const requestedMonth = calendarMonthRef.current
     const requestId = ++calendarRequestIdRef.current
-    const [year, month] = calendarMonth.split('-')
+    const [year, month] = requestedMonth.split('-')
     const response = await fetch(`/api/v1/teams/${teamId}/calendar?year=${year}&month=${month}`, { credentials: 'include', cache: 'no-store' })
-    if (!isCurrentSelection(teamId, selectionVersion) || calendarRequestIdRef.current !== requestId) return false
+    if (!isCurrentSelection(teamId, selectionVersion) || calendarMonthRef.current !== requestedMonth || calendarRequestIdRef.current !== requestId) return false
     if (!response.ok) throw new Error('No se pudo cargar el calendario.')
     const result = await response.json() as TeamCalendar
-    if (!isCurrentSelection(teamId, selectionVersion) || calendarRequestIdRef.current !== requestId) return false
+    if (!isCurrentSelection(teamId, selectionVersion) || calendarMonthRef.current !== requestedMonth || calendarRequestIdRef.current !== requestId) return false
     setCalendar(result)
     return true
   }
@@ -667,7 +672,10 @@ export default function TeamPage({ theme, onToggleTheme, user }: { theme: Theme;
     const nextKey = monthDateKey(next)
     const firstMonth = calendar?.seasonStart.slice(0, 7) ?? seasonStartKey().slice(0, 7)
     const lastMonth = calendar?.seasonEnd.slice(0, 7) ?? seasonEndKey().slice(0, 7)
-    if (nextKey >= firstMonth && nextKey <= lastMonth) setCalendarMonth(nextKey)
+    if (nextKey >= firstMonth && nextKey <= lastMonth) {
+      calendarMonthRef.current = nextKey
+      setCalendarMonth(nextKey)
+    }
   }
 
   const isCalendarFirstMonth = calendarMonth === (calendar?.seasonStart.slice(0, 7) ?? seasonStartKey().slice(0, 7))
@@ -693,7 +701,9 @@ export default function TeamPage({ theme, onToggleTheme, user }: { theme: Theme;
     setSpace(null)
     setLoadingSpace(Boolean(teamId))
     setCalendar(null)
-    setCalendarMonth(monthDateKey(new Date()))
+    const currentMonth = monthDateKey(new Date())
+    calendarMonthRef.current = currentMonth
+    setCalendarMonth(currentMonth)
     setEditingEvent(null)
     setEditingTraining(null)
     setMatchFormOpen(false)

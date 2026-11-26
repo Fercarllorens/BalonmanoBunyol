@@ -36,10 +36,12 @@ public sealed class TeamSpaceService(ClubDbContext db, UserManager<ClubUser> use
                 .Select(team => new TeamSummaryDto(team.Id, team.Name, team.Category, "Administrador"))
                 .ToListAsync(cancellationToken);
 
-        var staff = await db.TeamAssignments.AsNoTracking().Where(item => item.UserId == userId)
-            .Join(db.Teams.AsNoTracking().Where(team => team.IsActive), item => item.TeamId, team => team.Id,
-                (_, team) => new TeamSummaryDto(team.Id, team.Name, team.Category, "CuerpoTecnico"))
-            .ToListAsync(cancellationToken);
+        var staff = await users.IsInRoleAsync(user, "CuerpoTecnico")
+            ? await db.TeamAssignments.AsNoTracking().Where(item => item.UserId == userId)
+                .Join(db.Teams.AsNoTracking().Where(team => team.IsActive), item => item.TeamId, team => team.Id,
+                    (_, team) => new TeamSummaryDto(team.Id, team.Name, team.Category, "CuerpoTecnico"))
+                .ToListAsync(cancellationToken)
+            : new List<TeamSummaryDto>();
         var playerTeams = await db.TeamPlayerMemberships.AsNoTracking().Where(item => item.UserId == userId)
             .Join(db.Teams.AsNoTracking().Where(team => team.IsActive), item => item.TeamId, team => team.Id,
                 (_, team) => new TeamSummaryDto(team.Id, team.Name, team.Category, "Jugador"))
@@ -97,17 +99,18 @@ public sealed class TeamSpaceService(ClubDbContext db, UserManager<ClubUser> use
         return new TeamSpaceDto(new TeamSummaryDto(team.Id, team.Name, team.Category, access), players, matchDtos, events, boardDtos, access is "CuerpoTecnico" or "Administrador");
     }
 
-    public async Task<TeamCalendarDto?> GetCalendarAsync(Guid userId, Guid teamId, int year, int month, CancellationToken cancellationToken)
+    public async Task<TeamCalendarDto?> GetCalendarAsync(Guid userId, Guid teamId, int? year, int? month, CancellationToken cancellationToken)
     {
         var access = await GetAccessAsync(userId, teamId, cancellationToken);
         if (access is null) return null;
-        if (month is < 1 or > 12) throw new ArgumentOutOfRangeException(nameof(month));
-
         var today = ClubToday();
+        var selectedYear = year ?? today.Year;
+        var selectedMonthNumber = month ?? today.Month;
+        if (selectedMonthNumber is < 1 or > 12) throw new ArgumentOutOfRangeException(nameof(month));
         var seasonStartYear = today.Month >= 7 ? today.Year : today.Year - 1;
         var seasonStart = new DateOnly(seasonStartYear, 7, 1);
         var seasonEnd = new DateOnly(seasonStartYear + 1, 6, 30);
-        var selectedMonth = new DateOnly(year, month, 1);
+        var selectedMonth = new DateOnly(selectedYear, selectedMonthNumber, 1);
         if (selectedMonth < seasonStart || selectedMonth > seasonEnd) selectedMonth = new DateOnly(today.Year, today.Month, 1);
         var monthStart = selectedMonth;
         var monthEnd = selectedMonth.AddMonths(1).AddDays(-1);

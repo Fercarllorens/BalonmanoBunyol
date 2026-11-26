@@ -13,6 +13,7 @@ public sealed class TeamBoardController(ITeamSpaceService teams) : ControllerBas
     [HttpPost("board")]
     [Consumes("multipart/form-data")]
     [RequestSizeLimit(401L * 1024 * 1024)]
+    [RequestFormLimits(MultipartBodyLengthLimit = 401L * 1024 * 1024, ValueLengthLimit = 16 * 1024)]
     public async Task<IActionResult> CreatePost(Guid teamId, CancellationToken cancellationToken)
     {
         if (!TryGetUserId(out var userId)) return Unauthorized();

@@ -4,7 +4,7 @@ public interface ITeamSpaceService
 {
     Task<IReadOnlyList<TeamSummaryDto>> GetMyTeamsAsync(Guid userId, CancellationToken cancellationToken);
     Task<TeamSpaceDto?> GetTeamAsync(Guid userId, Guid teamId, CancellationToken cancellationToken);
-    Task<TeamCalendarDto?> GetCalendarAsync(Guid userId, Guid teamId, int year, int month, CancellationToken cancellationToken);
+    Task<TeamCalendarDto?> GetCalendarAsync(Guid userId, Guid teamId, int? year, int? month, CancellationToken cancellationToken);
     Task<IReadOnlyList<TeamPlayerSearchDto>> SearchPlayersAsync(Guid userId, Guid teamId, string query, CancellationToken cancellationToken);
     Task<TeamOperationResult> AddPlayerAsync(Guid userId, Guid teamId, TeamPlayerInput input, CancellationToken cancellationToken);
     Task<TeamOperationResult> RemovePlayerAsync(Guid userId, Guid teamId, Guid playerId, CancellationToken cancellationToken);

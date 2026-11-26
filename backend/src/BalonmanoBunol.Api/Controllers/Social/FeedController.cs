@@ -2,7 +2,6 @@ using System.Security.Claims;
 using BalonmanoBunol.Application.Social;
 using BalonmanoBunol.Infrastructure.Identity;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,15 +25,12 @@ public sealed class FeedController(IFeedService feed) : ControllerBase
     [Authorize]
     [Consumes("multipart/form-data")]
     [RequestSizeLimit(201L * 1024 * 1024)]
+    [RequestFormLimits(MultipartBodyLengthLimit = 201L * 1024 * 1024, ValueLengthLimit = 16 * 1024)]
     public async Task<IActionResult> Create(CancellationToken cancellationToken)
     {
         const long maxRequestBytes = 201L * 1024 * 1024;
-        if (Request.ContentLength is null)
-            return BadRequest(new { message = "No se ha podido determinar el tamaño total de los adjuntos." });
-        if (Request.ContentLength > maxRequestBytes)
+        if (Request.ContentLength is > maxRequestBytes)
             return BadRequest(new { message = "El tamaño total de los adjuntos supera el límite permitido." });
-        var requestSizeFeature = HttpContext.Features.Get<IHttpMaxRequestBodySizeFeature>();
-        if (requestSizeFeature is { IsReadOnly: false }) requestSizeFeature.MaxRequestBodySize = maxRequestBytes;
         if (!Guid.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out var authorId)) return Unauthorized();
 
         IFormCollection form;

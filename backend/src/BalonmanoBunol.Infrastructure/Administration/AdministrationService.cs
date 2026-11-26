@@ -50,13 +50,15 @@ public sealed class AdministrationService(ClubDbContext db, UserManager<ClubUser
         foreach (var user in matches)
         {
             var roleNames = await users.GetRolesAsync(user);
-            var assignedTeams = await db.TeamAssignments.AsNoTracking()
-                .Where(assignment => assignment.UserId == user.Id)
-                .Join(db.Teams.AsNoTracking(), assignment => assignment.TeamId, team => team.Id,
-                    (_, team) => new { team.Id, team.Name, team.Category })
-                .OrderBy(team => team.Category).ThenBy(team => team.Name)
-                .Select(team => new AssignedTeamDto(team.Id, team.Name, team.Category))
-                .ToListAsync(cancellationToken);
+            var assignedTeams = roleNames.Contains("CuerpoTecnico")
+                ? await db.TeamAssignments.AsNoTracking()
+                    .Where(assignment => assignment.UserId == user.Id)
+                    .Join(db.Teams.AsNoTracking(), assignment => assignment.TeamId, team => team.Id,
+                        (_, team) => new { team.Id, team.Name, team.Category })
+                    .OrderBy(team => team.Category).ThenBy(team => team.Name)
+                    .Select(team => new AssignedTeamDto(team.Id, team.Name, team.Category))
+                    .ToListAsync(cancellationToken)
+                : [];
             result.Add(new AdminUserDto(user.Id, user.DisplayName, user.Email ?? string.Empty, roleNames.ToArray(), assignedTeams));
         }
         return result;
@@ -271,11 +273,6 @@ public sealed class AdministrationService(ClubDbContext db, UserManager<ClubUser
         if (!removeResult.Succeeded) return AdminOperationResult.Failure("No se pudieron actualizar los roles de la cuenta.");
         var addResult = await users.AddToRoleAsync(target, input.Role);
         if (!addResult.Succeeded) return AdminOperationResult.Failure("No se pudieron actualizar los roles de la cuenta.");
-        if (input.Role != "CuerpoTecnico" && input.Role != "Administrador")
-        {
-            var assignments = await db.TeamAssignments.Where(item => item.UserId == userId).ToListAsync(cancellationToken);
-            db.TeamAssignments.RemoveRange(assignments);
-        }
         db.AdministrationAuditEntries.Add(new AdministrationAuditEntry(administratorId, userId, "RoleChanged", $"{string.Join(',', oldPrincipalRoles)} -> {input.Role}"));
 
         foreach (var request in pendingRoleRequests)
