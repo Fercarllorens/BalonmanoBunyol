@@ -29,11 +29,13 @@ public sealed class PostgreSqlIntegrationTests
         var schema = $"test_{Guid.NewGuid():N}";
         var mediaRoot = Path.Combine(Path.GetTempPath(), "balonmano-api-tests", Guid.NewGuid().ToString("N"));
         var avatarRoot = Path.Combine(Path.GetTempPath(), "balonmano-api-tests", Guid.NewGuid().ToString("N"));
+        var frontendRoot = Path.Combine(Path.GetTempPath(), "balonmano-api-tests", Guid.NewGuid().ToString("N"));
         var masterConnection = new NpgsqlConnectionStringBuilder(testDatabase);
         var schemaConnection = new NpgsqlConnectionStringBuilder(testDatabase) { SearchPath = schema };
         var previousConnection = Environment.GetEnvironmentVariable("ConnectionStrings__ClubDatabase");
         var previousMediaRoot = Environment.GetEnvironmentVariable("PostMedia__RootPath");
         var previousAvatarRoot = Environment.GetEnvironmentVariable("ProfileAvatar__RootPath");
+        var previousFrontendRoot = Environment.GetEnvironmentVariable("Frontend__WebRoot");
         var previousAdminEmail = Environment.GetEnvironmentVariable("BootstrapAdmin__Email");
         var previousAdminPassword = Environment.GetEnvironmentVariable("BootstrapAdmin__Password");
         var administratorEmail = $"admin-{Guid.NewGuid():N}@example.es";
@@ -51,6 +53,10 @@ public sealed class PostgreSqlIntegrationTests
             Environment.SetEnvironmentVariable("ConnectionStrings__ClubDatabase", schemaConnection.ConnectionString);
             Environment.SetEnvironmentVariable("PostMedia__RootPath", mediaRoot);
             Environment.SetEnvironmentVariable("ProfileAvatar__RootPath", avatarRoot);
+            Directory.CreateDirectory(frontendRoot);
+            await File.WriteAllTextAsync(Path.Combine(frontendRoot, "index.html"), "<html><body><div id=\"root\">demo spa</div></body></html>");
+            await File.WriteAllTextAsync(Path.Combine(frontendRoot, "sw.js"), "self.addEventListener('fetch', () => {});");
+            Environment.SetEnvironmentVariable("Frontend__WebRoot", frontendRoot);
             Environment.SetEnvironmentVariable("BootstrapAdmin__Email", administratorEmail);
             Environment.SetEnvironmentVariable("BootstrapAdmin__Password", administratorPassword);
             await using var factory = new WebApplicationFactory<Program>().WithWebHostBuilder(builder =>
@@ -68,6 +74,18 @@ public sealed class PostgreSqlIntegrationTests
 
             var health = await firstUser.GetAsync("/api/health");
             Assert.Equal(HttpStatusCode.OK, health.StatusCode);
+            using (var ready = await firstUser.GetAsync("/api/ready"))
+            {
+                Assert.Equal(HttpStatusCode.OK, ready.StatusCode);
+                using var readyBody = JsonDocument.Parse(await ready.Content.ReadAsStringAsync());
+                Assert.Equal("ready", readyBody.RootElement.GetProperty("status").GetString());
+            }
+            using (var readiness = await firstUser.GetAsync("/api/ready"))
+            {
+                Assert.Equal(HttpStatusCode.OK, readiness.StatusCode);
+                using var readinessBody = JsonDocument.Parse(await readiness.Content.ReadAsStringAsync());
+                Assert.Equal("ready", readinessBody.RootElement.GetProperty("status").GetString());
+            }
             using (var apiInfoResponse = await firstUser.GetAsync("/api"))
             {
                 Assert.Equal(HttpStatusCode.OK, apiInfoResponse.StatusCode);
@@ -79,6 +97,38 @@ public sealed class PostgreSqlIntegrationTests
                 Assert.Equal(HttpStatusCode.OK, documentation.StatusCode);
                 Assert.Equal("text/html", documentation.Content.Headers.ContentType?.MediaType);
                 Assert.Contains("API del Club Balonmano Buñol", await documentation.Content.ReadAsStringAsync());
+            }
+            using (var spaRoute = await firstUser.GetAsync("/auth"))
+            {
+                Assert.Equal(HttpStatusCode.OK, spaRoute.StatusCode);
+                Assert.Contains("demo spa", await spaRoute.Content.ReadAsStringAsync());
+                Assert.Equal("no-store, no-cache", spaRoute.Headers.CacheControl?.ToString());
+            }
+            using (var serviceWorker = await firstUser.GetAsync("/sw.js"))
+            {
+                Assert.Equal(HttpStatusCode.OK, serviceWorker.StatusCode);
+                Assert.Equal("no-cache", serviceWorker.Headers.CacheControl?.ToString());
+            }
+            using (var spaRoute = await firstUser.GetAsync("/auth"))
+            {
+                Assert.Equal(HttpStatusCode.OK, spaRoute.StatusCode);
+                Assert.Contains("demo spa", await spaRoute.Content.ReadAsStringAsync());
+                Assert.Equal("no-store, no-cache", spaRoute.Headers.CacheControl?.ToString());
+            }
+            using (var serviceWorker = await firstUser.GetAsync("/sw.js"))
+            {
+                Assert.Equal(HttpStatusCode.OK, serviceWorker.StatusCode);
+                Assert.Equal("no-cache", serviceWorker.Headers.CacheControl?.ToString());
+            }
+            using (var spaRoutesResponse = await firstUser.GetAsync("/auth"))
+            {
+                Assert.Equal(HttpStatusCode.OK, spaRoutesResponse.StatusCode);
+                Assert.Contains("id=\"root\"", await spaRoutesResponse.Content.ReadAsStringAsync());
+            }
+            using (var serviceWorkerResponse = await firstUser.GetAsync("/sw.js"))
+            {
+                Assert.Equal(HttpStatusCode.OK, serviceWorkerResponse.StatusCode);
+                Assert.Equal("no-cache", serviceWorkerResponse.Headers.CacheControl?.ToString());
             }
             Assert.Equal(HttpStatusCode.Unauthorized, (await firstUser.GetAsync("/api/v1/auth/me")).StatusCode);
             Assert.Equal(HttpStatusCode.Unauthorized, (await firstUser.GetAsync("/api/v1/profile/")).StatusCode);
@@ -776,10 +826,12 @@ public sealed class PostgreSqlIntegrationTests
             Environment.SetEnvironmentVariable("ConnectionStrings__ClubDatabase", previousConnection);
             Environment.SetEnvironmentVariable("PostMedia__RootPath", previousMediaRoot);
             Environment.SetEnvironmentVariable("ProfileAvatar__RootPath", previousAvatarRoot);
+            Environment.SetEnvironmentVariable("Frontend__WebRoot", previousFrontendRoot);
             Environment.SetEnvironmentVariable("BootstrapAdmin__Email", previousAdminEmail);
             Environment.SetEnvironmentVariable("BootstrapAdmin__Password", previousAdminPassword);
             if (Directory.Exists(mediaRoot)) Directory.Delete(mediaRoot, recursive: true);
             if (Directory.Exists(avatarRoot)) Directory.Delete(avatarRoot, recursive: true);
+            if (Directory.Exists(frontendRoot)) Directory.Delete(frontendRoot, recursive: true);
             await using var connection = new NpgsqlConnection(masterConnection.ConnectionString);
             await connection.OpenAsync();
             await using var dropSchema = new NpgsqlCommand($"DROP SCHEMA IF EXISTS \"{schema}\" CASCADE", connection);

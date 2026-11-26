@@ -18,4 +18,8 @@ export default defineConfig({
       },
     },
   },
+  build: {
+    outDir: '../backend/src/BalonmanoBunol.Api/wwwroot',
+    emptyOutDir: true,
+  },
 })

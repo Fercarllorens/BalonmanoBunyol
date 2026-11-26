@@ -1,0 +1,14 @@
+**/bin
+**/obj
+**/node_modules
+**/dist
+**/wwwroot
+**/TestResults
+.git
+.env
+.env.*
+!.env.example
+!.env.*.example
+**/App_Data
+**/.vs
+**/.idea
