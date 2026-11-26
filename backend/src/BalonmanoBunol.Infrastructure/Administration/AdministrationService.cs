@@ -321,6 +321,11 @@ public sealed class AdministrationService(ClubDbContext db, UserManager<ClubUser
         (await users.IsInRoleAsync(target, "Jugador") || await users.IsInRoleAsync(target, "CuerpoTecnico"))
         && !await users.IsInRoleAsync(target, "Administrador");
 
-    private Task<bool> IsStaffAssignedAsync(Guid staffId, Guid teamId, CancellationToken cancellationToken) =>
-        db.TeamAssignments.AnyAsync(assignment => assignment.UserId == staffId && assignment.TeamId == teamId, cancellationToken);
+    private async Task<bool> IsStaffAssignedAsync(Guid staffId, Guid teamId, CancellationToken cancellationToken)
+    {
+        var staff = await users.FindByIdAsync(staffId.ToString());
+        return staff is { IsActive: true }
+            && await users.IsInRoleAsync(staff, "CuerpoTecnico")
+            && await db.TeamAssignments.AnyAsync(assignment => assignment.UserId == staffId && assignment.TeamId == teamId, cancellationToken);
+    }
 }

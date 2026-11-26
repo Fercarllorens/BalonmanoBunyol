@@ -301,11 +301,25 @@ describe('TeamPage', () => {
     vi.useFakeTimers({ toFake: ['Date'] })
     vi.setSystemTime(new Date(2026, 10, 15, 12))
     const mutationCalendar = deferred<Response>()
+    let novemberCalendarCalls = 0
+    const octoberEvent = {
+      id: 'october-match', source: 'Partido', kind: 'Partido', title: 'Partido de octubre', startsAt: '2026-10-12T18:00:00Z',
+      endsAt: null, venue: 'El Planell', notes: '', isCancelled: false, trainingSlotId: null, trainingDate: null, canManage: false, callups: null,
+    }
     const fetchMock = vi.fn().mockImplementation((input: RequestInfo | URL, init?: RequestInit) => {
       const url = String(input)
-      if (url.includes('/calendar?')) return url.includes('month=11') ? mutationCalendar.promise : Promise.resolve(jsonResponse({
-        seasonStart: '2026-07-01', seasonEnd: '2027-06-30', month: '2026-10-01', items: [], plans: [],
-      }))
+      if (url.includes('/calendar?')) {
+        if (url.includes('month=11')) {
+          novemberCalendarCalls += 1
+          if (novemberCalendarCalls === 1) return Promise.resolve(jsonResponse({
+            seasonStart: '2026-07-01', seasonEnd: '2027-06-30', month: '2026-11-01', items: [], plans: [],
+          }))
+          return mutationCalendar.promise
+        }
+        return Promise.resolve(jsonResponse({
+          seasonStart: '2026-07-01', seasonEnd: '2027-06-30', month: '2026-10-01', items: [octoberEvent], plans: [],
+        }))
+      }
       if (url.endsWith('/team-a/events') && init?.method === 'POST') return Promise.resolve(new Response(null, { status: 204 }))
       return Promise.resolve(responseFor(url))
     })
@@ -319,15 +333,21 @@ describe('TeamPage', () => {
     fireEvent.change(screen.getByLabelText('Actividad'), { target: { value: 'Reunión de noviembre' } })
     fireEvent.change(screen.getByLabelText('Inicio'), { target: { value: '2026-11-20T18:00' } })
     fireEvent.click(screen.getByRole('button', { name: 'Guardar evento' }))
-    await waitFor(() => expect(fetchMock).toHaveBeenCalledWith('/api/v1/teams/team-a/calendar?year=2026&month=11', expect.anything()))
+    await waitFor(() => expect(novemberCalendarCalls).toBe(2))
 
     fireEvent.click(screen.getByRole('button', { name: 'Mes anterior' }))
     await waitFor(() => expect(fetchMock).toHaveBeenCalledWith('/api/v1/teams/team-a/calendar?year=2026&month=10', expect.anything()))
+    expect(await screen.findAllByText('Partido de octubre')).not.toHaveLength(0)
     mutationCalendar.resolve(jsonResponse({
-      seasonStart: '2026-07-01', seasonEnd: '2027-06-30', month: '2026-11-01', items: [], plans: [],
+      seasonStart: '2026-07-01', seasonEnd: '2027-06-30', month: '2026-11-01', items: [{
+        id: 'stale-november-match', source: 'Partido', kind: 'Partido', title: 'Respuesta obsoleta de noviembre', startsAt: '2026-11-20T18:00:00Z',
+        endsAt: null, venue: 'El Planell', notes: '', isCancelled: false, trainingSlotId: null, trainingDate: null, canManage: false, callups: null,
+      }], plans: [],
     }))
     await waitFor(() => expect(screen.getByRole('grid', { name: /Calendario de octubre de 2026/i })).toBeInTheDocument())
     expect(screen.queryByRole('grid', { name: /Calendario de noviembre de 2026/i })).not.toBeInTheDocument()
+    expect(screen.getAllByText('Partido de octubre')).not.toHaveLength(0)
+    expect(screen.queryByText('Respuesta obsoleta de noviembre')).not.toBeInTheDocument()
   })
 
   it('reinicia calendario, editores y borrador de pizarra al cambiar de equipo', async () => {

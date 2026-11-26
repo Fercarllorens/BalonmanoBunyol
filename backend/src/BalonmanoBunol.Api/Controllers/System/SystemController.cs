@@ -32,9 +32,9 @@ public sealed class SystemController : ControllerBase
         <body>
           <main>
             <h1>API del Club Balonmano Buñol · v1</h1>
-            <p>La API usa JSON salvo las cargas multipart indicadas. Las operaciones que modifican datos requieren sesión y el encabezado <code>X-CSRF-TOKEN</code>.</p>
+            <p>La API usa JSON salvo las cargas multipart indicadas. Las operaciones que modifican datos requieren el encabezado <code>X-CSRF-TOKEN</code>. El inicio de sesión y el registro no requieren una sesión previa, pero sí ese token; las demás mutaciones requieren además una sesión activa.</p>
             <h2>Sesión y perfil</h2>
-            <ul><li><code>POST /api/v1/auth/login</code></li><li><code>POST /api/v1/auth/register</code></li><li><code>GET /api/v1/auth/me</code></li><li><code>GET|PUT /api/v1/profile</code></li><li><code>POST|DELETE /api/v1/profile/avatar</code></li></ul>
+            <ul><li><code>GET /api/v1/auth/csrf</code> (obtener el token CSRF antes de una mutación)</li><li><code>POST /api/v1/auth/login</code></li><li><code>POST /api/v1/auth/register</code></li><li><code>GET /api/v1/auth/me</code></li><li><code>GET|PUT /api/v1/profile</code></li><li><code>POST|DELETE /api/v1/profile/avatar</code></li></ul>
             <h2>Feed</h2>
             <ul><li><code>GET|POST /api/v1/feed</code> (POST multipart/form-data)</li><li><code>GET /api/v1/feed/announcements</code></li><li><code>DELETE /api/v1/feed/{postId}</code></li></ul>
             <h2>Equipos</h2>

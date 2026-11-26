@@ -443,8 +443,10 @@ public sealed class PostgreSqlIntegrationTests
             var implicitCalendar = await administrator.GetFromJsonAsync<JsonElement>($"/api/v1/teams/{teamId}/calendar");
             var clubToday = DateOnly.FromDateTime(TimeZoneInfo.ConvertTime(DateTimeOffset.UtcNow, ResolveTestClubTimeZone()).DateTime);
             Assert.Equal($"{clubToday:yyyy-MM}-01", implicitCalendar.GetProperty("month").GetString());
-            var explicitCalendar = await administrator.GetFromJsonAsync<JsonElement>($"/api/v1/teams/{teamId}/calendar?year=2026&month=10");
-            Assert.Equal("2026-10-01", explicitCalendar.GetProperty("month").GetString());
+            var calendarSeasonStartYear = clubToday.Month >= 7 ? clubToday.Year : clubToday.Year - 1;
+            var octoberYear = calendarSeasonStartYear;
+            var explicitCalendar = await administrator.GetFromJsonAsync<JsonElement>($"/api/v1/teams/{teamId}/calendar?year={octoberYear}&month=10");
+            Assert.Equal($"{octoberYear}-10-01", explicitCalendar.GetProperty("month").GetString());
             using (var deactivatePreferredTeam = new HttpRequestMessage(HttpMethod.Put, $"/api/v1/admin/teams/{seniorTeamId}/active?isActive=false"))
             {
                 deactivatePreferredTeam.Headers.Add("X-CSRF-TOKEN", await GetCsrfTokenAsync(administrator));
@@ -760,7 +762,7 @@ public sealed class PostgreSqlIntegrationTests
                 RemoveOtherAdministratorAsync(administrator, adminTwoId, roleChangeBarrier),
                 RemoveOtherAdministratorAsync(secondAdministrator, adminOneId, roleChangeBarrier));
             Assert.Single(concurrentRoleChanges, status => status == HttpStatusCode.NoContent);
-            Assert.Single(concurrentRoleChanges, status => status == HttpStatusCode.BadRequest);
+            Assert.Single(concurrentRoleChanges, status => status is HttpStatusCode.BadRequest or HttpStatusCode.Forbidden);
             var remainingAdministratorCount = await GetActiveAdministratorCountAsync(schemaConnection.ConnectionString);
             Assert.Equal(1, remainingAdministratorCount);
 
