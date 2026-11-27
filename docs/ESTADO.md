@@ -7,6 +7,8 @@
 - PostgreSQL local por Docker Compose, EF Core/Npgsql, Identity con `ClubUser` y contexto EF.
 - Entidades `Team` y `Post`; feed general paginado, selección por comunicados oficiales, publicaciones con medios, entrega de adjuntos y borrado lógico solo por autor.
 - Frontend React/TypeScript/Vite con landing oficial responsive, tema claro/oscuro persistente y feed público accesible sin iniciar sesión.
+- Escudo del club `balonmano.jpeg` integrado en marca de cabeceras, acceso, panel de partido y generado como favicon y recursos PWA/Apple.
+- Emblema oficial integrado en cabeceras y acceso; favicon, iconos PWA y Apple touch icon generados desde la imagen original del club.
 - Barra superior compartida según sesión, Feed como pantalla principal autenticada y ruta separada para solicitudes administrativas.
 - Navegación con barra superior según sesión: landing pública para visitantes, Feed como destino principal tras autenticación y ruta administrativa para solicitudes.
 - Pantalla unificada `/auth` con Login/Registro, alta básica automática y solicitudes de rol para Jugador/Cuerpo Técnico.
@@ -27,6 +29,7 @@
 - Infraestructura de pruebas añadida: suite .NET xUnit para dominio, Feed, persistencia/modelo y almacenamiento; integración API/PostgreSQL aislada por esquema; frontend Vitest/Testing Library para Auth, API cliente, Feed y administración.
 - Verificación actual: solución compilada; 38 pruebas backend pasan con PostgreSQL configurado (37 unitarias y una integración API/PostgreSQL). Las 33 pruebas frontend pasan; build y lint frontend sin errores. Sin `BALONMANO_TEST_DATABASE`, se omite la integración.
 - Migraciones EF `InitialAuthSchema`, `ClubManagementAndTeamSpace` y `RemoveTeamSeasonAndUseTeamPreference` aplicadas en PostgreSQL local. La última unifica Senior A/B como categoría Senior, elimina la temporada del equipo y transforma la preferencia del perfil en referencia opcional a equipo.
+- Cuota global configurable de 300 MiB diarios UTC para cargas de feed/pizarra/avatar, respaldada por reserva atómica PostgreSQL; cola durable con reintentos para eliminar adjuntos de feed/pizarra y avatares, con migración `DailyUploadQuotaAndStorageDeletion`. Registro sigue abierto; pendiente aplicar la migración en el entorno de demo al desplegar.
 - `AGENTS.md` y esta carpeta de documentación persistente.
 - Vistas de referencia existentes conservadas.
 

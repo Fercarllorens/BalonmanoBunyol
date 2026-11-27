@@ -12,14 +12,14 @@ public sealed class TeamBoardController(ITeamSpaceService teams) : ControllerBas
 {
     [HttpPost("board")]
     [Consumes("multipart/form-data")]
-    [RequestSizeLimit(401L * 1024 * 1024)]
-    [RequestFormLimits(MultipartBodyLengthLimit = 401L * 1024 * 1024, ValueLengthLimit = 16 * 1024)]
+    [RequestSizeLimit(301L * 1024 * 1024)]
+    [RequestFormLimits(MultipartBodyLengthLimit = 301L * 1024 * 1024, ValueLengthLimit = 16 * 1024)]
     public async Task<IActionResult> CreatePost(Guid teamId, CancellationToken cancellationToken)
     {
         if (!TryGetUserId(out var userId)) return Unauthorized();
-        const long maxRequestBodySize = 401L * 1024 * 1024;
+        const long maxRequestBodySize = 301L * 1024 * 1024;
         if (Request.ContentLength is > maxRequestBodySize)
-            return BadRequest(new { message = "Los adjuntos superan el límite total de 400 MB." });
+            return BadRequest(new { message = "Los adjuntos superan el límite total de 300 MiB." });
         IFormCollection form;
         try { form = await Request.ReadFormAsync(cancellationToken); }
         catch (InvalidDataException) { return BadRequest(new { message = "El tamaño o formato de la solicitud no es válido." }); }
@@ -35,8 +35,15 @@ public sealed class TeamBoardController(ITeamSpaceService teams) : ControllerBas
 
         try
         {
-            var result = await teams.CreateBoardPostAsync(userId, teamId, new TeamBoardInput(form["content"].ToString()), files, cancellationToken);
-            return result.Succeeded ? NoContent() : BadRequest(new { message = result.Error });
+            try
+            {
+                var result = await teams.CreateBoardPostAsync(userId, teamId, new TeamBoardInput(form["content"].ToString()), files, cancellationToken);
+                return result.Succeeded ? NoContent() : BadRequest(new { message = result.Error });
+            }
+            catch (BalonmanoBunol.Application.Storage.UploadQuotaExceededException exception)
+            {
+                return StatusCode(StatusCodes.Status429TooManyRequests, new { message = exception.Message });
+            }
         }
         finally
         {
@@ -56,6 +63,13 @@ public sealed class TeamBoardController(ITeamSpaceService teams) : ControllerBas
                     ? null
                     : file.Value.FileName,
                 enableRangeProcessing: file.Value.ContentType.StartsWith("video/", StringComparison.OrdinalIgnoreCase));
+    }
+
+    [HttpDelete("board/{postId:guid}")]
+    public async Task<IActionResult> DeletePost(Guid teamId, Guid postId, CancellationToken cancellationToken)
+    {
+        if (!TryGetUserId(out var userId)) return Unauthorized();
+        return await teams.DeleteBoardPostAsync(userId, teamId, postId, cancellationToken) ? NoContent() : NotFound();
     }
 
     private bool TryGetUserId(out Guid userId) => Guid.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out userId);

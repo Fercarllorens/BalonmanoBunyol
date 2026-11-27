@@ -436,6 +436,25 @@ describe('TeamPage', () => {
     expect(screen.getByRole('link', { name: 'ejercicios.pdf' })).toHaveAttribute('href', '/api/v1/teams/team-a/board-files/pdf-1')
   })
 
+  it('permite al staff eliminar un mensaje de la pizarra y recarga el espacio', async () => {
+    let remainingPosts = [{ id: 'post-1', authorId: user.id, authorName: user.displayName, content: 'Mensaje a eliminar', createdAt: new Date().toISOString(), attachments: [] }]
+    const fetchMock = vi.fn().mockImplementation((input: RequestInfo | URL, init?: RequestInit) => {
+      const url = String(input)
+      if (url.endsWith('/board/post-1') && init?.method === 'DELETE') { remainingPosts = []; return Promise.resolve(new Response(null, { status: 204 })) }
+      if (url.endsWith('/team-a/space')) return Promise.resolve(jsonResponse({ ...space, boardPosts: remainingPosts }))
+      return Promise.resolve(responseFor(url))
+    })
+    vi.stubGlobal('fetch', fetchMock)
+    render(<TeamPage theme="light" onToggleTheme={() => undefined} user={user}/> )
+    fireEvent.click(await screen.findByRole('button', { name: 'Pizarra' }))
+    const deleteButton = await screen.findByRole('button', { name: 'Eliminar mensaje de la pizarra' })
+    fireEvent.click(deleteButton)
+
+    await waitFor(() => expect(fetchMock).toHaveBeenCalledWith('/api/v1/teams/team-a/board/post-1', expect.objectContaining({ method: 'DELETE' })))
+    expect(await screen.findByRole('status')).toHaveTextContent('Mensaje eliminado de la pizarra.')
+    await waitFor(() => expect(screen.queryByText('Mensaje a eliminar')).not.toBeInTheDocument())
+  })
+
   it('muestra el calendario mensual y la temporada automática, y permite navegar de mes', async () => {
     vi.useFakeTimers({ toFake: ['Date'] })
     vi.setSystemTime(new Date(2026, 10, 15, 12))

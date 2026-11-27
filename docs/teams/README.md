@@ -6,7 +6,7 @@
 - La lista de equipos disponibles se calcula desde las asignaciones del staff o la pertenencia como jugador. Administración puede consultar todos los equipos activos.
 - Plantilla con nombre, avatar, dorsal y posición; pueden pertenecer a ella cuentas activas de Jugador o Cuerpo Técnico sin modificar su rol principal. Administración asigna desde `/admin`, el staff asignado puede añadir o retirar desde su equipo.
 - Próximos partidos y convocatoria; cada jugador convocado puede confirmar o indicar que no está disponible.
-- Pizarra privada con mensajes y hasta cuatro archivos JPEG/PNG/WebP, MP4/WebM o PDF de 100 MB cada uno, validados en servidor; el cuerpo multipart admite hasta 401 MiB. Imágenes y vídeos se previsualizan en el mensaje y los documentos siguen disponibles como enlaces.
+- Pizarra privada con mensajes y hasta cuatro archivos JPEG/PNG/WebP, MP4/WebM o PDF de 100 MB cada uno, validados en servidor; el total por mensaje es 300 MiB más overhead multipart. Las cargas comparten además la cuota diaria global. Imágenes y vídeos se previsualizan en el mensaje y los documentos siguen disponibles como enlaces; Administración y staff asignado pueden borrar mensajes.
 - Calendario mensual de la temporada automática julio-junio, con planificación recurrente semanal de entrenamientos, partidos y gestión de eventos puntuales.
 - Estadísticas deportivas editables por staff: partidos, minutos, goles y paradas.
 - No se muestran datos médicos ni carga de salud en este apartado.

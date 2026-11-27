@@ -12,6 +12,8 @@ services:
         value: Production
       - key: FileStorage__Provider
         value: R2
+      - key: UploadQuota__DailyLimitBytes
+        value: 314572800
       - key: ConnectionStrings__ClubDatabase
         sync: false
       - key: BootstrapAdmin__Email

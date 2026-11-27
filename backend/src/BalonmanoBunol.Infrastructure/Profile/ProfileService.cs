@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 using BalonmanoBunol.Application.Profile;
+using BalonmanoBunol.Application.Storage;
 using BalonmanoBunol.Domain.Teams;
 using BalonmanoBunol.Infrastructure.Identity;
 using BalonmanoBunol.Infrastructure.Persistence;
@@ -16,6 +17,8 @@ public sealed class ProfileService(
     UserManager<ClubUser> userManager,
     IHttpContextAccessor httpContextAccessor,
     IProfileAvatarStorage avatarStorage,
+    IUploadQuota uploadQuota,
+    IStorageDeletionQueue deletionQueue,
     ClubDbContext db) : IProfileService
 {
     private const long MaxAvatarBytes = 5 * 1024 * 1024;
@@ -76,27 +79,64 @@ public sealed class ProfileService(
 
     public async Task<ProfileOperationResult> SetAvatarAsync(Guid userId, string contentType, long length, Stream content, CancellationToken cancellationToken)
     {
+        var user = await userManager.FindByIdAsync(userId.ToString());
+        if (user is null || !user.IsActive) return ProfileOperationResult.Failure("No se ha encontrado la cuenta.");
         if (length <= 0 || length > MaxAvatarBytes) return ProfileOperationResult.Failure("La imagen debe pesar 5 MB o menos.");
         if (!AvatarTypes.TryGetValue(contentType, out var avatarType))
             return ProfileOperationResult.Failure("Formatos admitidos: JPEG, PNG y WebP.");
         if (!await HasValidSignatureAsync(content, avatarType.ContentType, cancellationToken))
             return ProfileOperationResult.Failure("El contenido del archivo no coincide con el formato de imagen indicado.");
 
-        var user = await userManager.FindByIdAsync(userId.ToString());
-        if (user is null || !user.IsActive) return ProfileOperationResult.Failure("No se ha encontrado la cuenta.");
+        if (!await uploadQuota.TryReserveAsync(length, cancellationToken)) throw new UploadQuotaExceededException();
+
         if (content.CanSeek) content.Position = 0;
         var oldStorageKey = user.AvatarStorageKey;
         var newStorageKey = await avatarStorage.SaveAsync(Guid.NewGuid(), avatarType.Extension, content, cancellationToken);
+        await using var transaction = await db.Database.BeginTransactionAsync(cancellationToken);
         user.AvatarStorageKey = newStorageKey;
         var updateResult = await userManager.UpdateAsync(user);
         if (!updateResult.Succeeded)
         {
-            await avatarStorage.DeleteAsync(newStorageKey, cancellationToken);
+            await transaction.RollbackAsync(cancellationToken);
+            user.AvatarStorageKey = oldStorageKey;
+            db.Entry(user).State = EntityState.Unchanged;
+            try { await avatarStorage.DeleteAsync(newStorageKey, cancellationToken); }
+            catch
+            {
+                db.Entry(user).State = EntityState.Unchanged;
+                try { await deletionQueue.EnqueueDurableAsync("avatar", newStorageKey, CancellationToken.None); }
+                catch { /* No ocultar el error de guardado del perfil. */ }
+            }
             return ProfileOperationResult.Failure("No se pudo guardar la foto de perfil.");
         }
-        if (oldStorageKey is not null) await avatarStorage.DeleteAsync(oldStorageKey, cancellationToken);
+        if (oldStorageKey is not null)
+        {
+            try
+            {
+                await deletionQueue.EnqueueAsync("avatar", oldStorageKey, cancellationToken);
+            }
+            catch
+            {
+                await transaction.RollbackAsync(CancellationToken.None);
+                user.AvatarStorageKey = oldStorageKey;
+                db.Entry(user).State = EntityState.Unchanged;
+                await CleanupUncommittedAvatarAsync(newStorageKey);
+                return ProfileOperationResult.Failure("No se pudo programar la limpieza de la foto de perfil anterior.");
+            }
+        }
+        await transaction.CommitAsync(cancellationToken);
         await RefreshSessionAsync(user);
         return ProfileOperationResult.Success(await ToDtoAsync(user, cancellationToken));
+    }
+
+    private async Task CleanupUncommittedAvatarAsync(string storageKey)
+    {
+        try { await avatarStorage.DeleteAsync(storageKey, CancellationToken.None); }
+        catch
+        {
+            try { await deletionQueue.EnqueueDurableAsync("avatar", storageKey, CancellationToken.None); }
+            catch { /* No ocultar el error de persistencia del perfil; el encolador durable usa un contexto independiente. */ }
+        }
     }
 
     public async Task<bool> RemoveAvatarAsync(Guid userId, CancellationToken cancellationToken)
@@ -104,10 +144,12 @@ public sealed class ProfileService(
         var user = await userManager.FindByIdAsync(userId.ToString());
         if (user is null || !user.IsActive || user.AvatarStorageKey is null) return false;
         var oldStorageKey = user.AvatarStorageKey;
+        await using var transaction = await db.Database.BeginTransactionAsync(cancellationToken);
         user.AvatarStorageKey = null;
         var result = await userManager.UpdateAsync(user);
         if (!result.Succeeded) return false;
-        await avatarStorage.DeleteAsync(oldStorageKey, cancellationToken);
+        await deletionQueue.EnqueueAsync("avatar", oldStorageKey, cancellationToken);
+        await transaction.CommitAsync(cancellationToken);
         await RefreshSessionAsync(user);
         return true;
     }

@@ -7,13 +7,34 @@
 @media(max-width:700px){.account-menu-trigger{min-height:36px}.account-menu-avatar{width:29px;height:29px;flex-basis:29px;border-radius:9px}.account-menu-popover{top:calc(100% + 8px);right:-4px;width:min(290px,calc(100vw - 20px))}.account-menu-summary{padding-top:13px}.site-header .account-menu-popover{right:0}}
 
 /* Asegura que la cuenta conserva su aspecto si el navegador recupera CSS anterior. */
-.global-nav .account-menu{flex:0 0 auto}
-.global-nav .account-menu-trigger{appearance:none;-webkit-appearance:none;display:flex;align-items:center;gap:9px;min-height:44px;padding:4px 9px 4px 5px;border:1px solid transparent;border-radius:11px;background:transparent;color:var(--text);font:inherit;text-align:left;cursor:pointer}
-.global-nav .account-menu-trigger:hover,.global-nav .account-menu.is-open .account-menu-trigger{border-color:var(--line);background:var(--surface);box-shadow:0 2px 8px rgba(15,23,42,.06)}
-.global-nav .account-menu-trigger .account-menu-avatar{display:grid;place-items:center;width:34px;height:34px;flex:0 0 34px;overflow:hidden;border:2px solid color-mix(in srgb,var(--blue) 22%,var(--surface));border-radius:10px;object-fit:cover;background:color-mix(in srgb,var(--blue) 10%,var(--surface));color:var(--blue);font:800 11px 'Plus Jakarta Sans',sans-serif;letter-spacing:.02em}
-.global-nav .account-menu-trigger .account-menu-label{display:grid;gap:2px;min-width:0;text-align:left}
-.global-nav .account-menu-trigger .account-menu-label strong{max-width:145px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font:700 10px 'Plus Jakarta Sans',sans-serif;color:var(--text)}
-.global-nav .account-menu-trigger .account-menu-label small{font-size:8px;color:var(--muted)}
-.global-nav .account-menu-trigger .account-menu-chevron{font-size:17px;color:var(--muted);transition:transform .18s ease}
-@media(max-width:900px){.global-nav .account-menu-trigger{gap:5px;padding:4px}.global-nav .account-menu-label{display:none}}
-@media(max-width:700px){.global-nav .account-menu-trigger{min-height:36px}.global-nav .account-menu-trigger .account-menu-avatar{width:29px;height:29px;flex-basis:29px;border-radius:9px}}
+.account-menu{flex:0 0 auto}
+.account-menu-trigger{appearance:none;-webkit-appearance:none;display:flex;align-items:center;gap:9px;min-height:44px;padding:4px 9px 4px 5px;border:1px solid transparent;border-radius:11px;background:transparent;color:var(--text);font:inherit;text-align:left;cursor:pointer}
+.account-menu-trigger:hover,.account-menu.is-open .account-menu-trigger{border-color:var(--line);background:var(--surface);box-shadow:0 2px 8px rgba(15,23,42,.06)}
+.account-menu-trigger .account-menu-avatar{display:grid;place-items:center;width:34px;height:34px;flex:0 0 34px;overflow:hidden;border:2px solid color-mix(in srgb,var(--blue) 22%,var(--surface));border-radius:10px;object-fit:cover;background:color-mix(in srgb,var(--blue) 10%,var(--surface));color:var(--blue);font:800 11px 'Plus Jakarta Sans',sans-serif;letter-spacing:.02em}
+.account-menu-trigger .account-menu-label{display:grid;gap:2px;min-width:0;text-align:left}
+.account-menu-trigger .account-menu-label strong{max-width:145px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font:700 10px 'Plus Jakarta Sans',sans-serif;color:var(--text)}
+.account-menu-trigger .account-menu-label small{font-size:8px;color:var(--muted)}
+.account-menu-trigger .account-menu-chevron{font-size:17px;color:var(--muted);transition:transform .18s ease}
+@media(max-width:900px){.account-menu-trigger{gap:5px;padding:4px}.account-menu-label{display:none}}
+@media(max-width:700px){.account-menu-trigger{min-height:36px}.account-menu-trigger .account-menu-avatar{width:29px;height:29px;flex-basis:29px;border-radius:9px}}
+
+.header-controls{display:flex;align-items:center;gap:8px;flex:0 0 auto}
+
+@media(max-width:700px){
+  .feed-header{height:auto;min-height:84px;padding:6px 12px 8px}
+  .feed-header .global-header-inner{width:100%;height:auto;padding:0;display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"brand controls" "nav nav";column-gap:8px;row-gap:5px;align-items:center}
+  .feed-header .brand{grid-area:brand;min-width:0;gap:7px}
+  .feed-header .brand-shield{width:34px;height:34px;flex:0 0 34px}
+  .feed-header .brand-name{min-width:0}
+  .feed-header .brand-name strong{font-size:10px;letter-spacing:.055em;white-space:nowrap}
+  .feed-header .brand-name small{font-size:6px;letter-spacing:.14em}
+  .feed-header .header-controls{grid-area:controls;gap:5px}
+  .feed-header .global-nav{grid-area:nav;width:100%;min-width:0;margin:0;padding:1px 0 2px;display:flex;justify-content:flex-start;gap:18px;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none}
+  .feed-header .global-nav::-webkit-scrollbar{display:none}
+  .feed-header .global-nav>a{flex:0 0 auto;font-size:12px;padding:3px 0;white-space:nowrap}
+  .feed-header .global-nav .global-login,.feed-header .global-nav .global-register{padding:4px 0;border:0;background:transparent;color:var(--muted)}
+  .feed-header .account-menu-trigger{min-height:36px;padding:3px}
+  .feed-header .account-menu-trigger .account-menu-avatar{width:30px;height:30px;flex-basis:30px}
+  .feed-header .theme-toggle{width:36px;height:36px}
+  .feed-header .account-menu-popover{top:calc(100% + 8px);right:0;width:min(290px,calc(100vw - 24px))}
+}

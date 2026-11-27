@@ -34,7 +34,7 @@ La landing `/` es la entrada pública; las cuentas con sesión activa se redirig
 
 La landing `/` es la entrada pública; las cuentas con sesión activa se redirigen allí a `/feed`. La barra global cambia según sesión; la ruta `/admin/solicitudes` se expone a Administradores en frontend y permanece protegida por rol en API.
 
-La PWA usa un manifiesto y service worker propios: se almacena el shell y recursos estáticos, mientras todas las rutas `/api/`, `/auth` y `/feed` quedan explícitamente fuera del service worker. No se cachean respuestas de API ni el feed. iOS y Android requieren servir la aplicación por HTTPS en producción.
+La PWA usa un manifiesto y service worker propios: se almacena el shell y recursos estáticos, mientras todas las rutas `/api/`, `/auth` y `/feed` quedan explícitamente fuera del service worker. No se cachean respuestas de API ni el feed. El escudo oficial se usa como recurso de marca y como iconos rasterizados de 64 px (favicon), 180 px (Apple), 192 px y 512 px (PWA). iOS y Android requieren servir la aplicación por HTTPS en producción.
 
 La funcionalidad de perfil almacena nombre, apellidos, equipo preferido opcional y clave de avatar en `ClubUser`. El equipo preferido referencia `teams`; al registrarse se asigna el primer equipo activo de categoría Senior ordenado por nombre, o queda vacío si no existe ninguno. Los avatares se guardan fuera de PostgreSQL, en `App_Data/profile-avatars` localmente, y se sirven mediante endpoint autenticado. Las mutaciones requieren antiforgery y las respuestas de perfil llevan `Cache-Control: no-store`.
 
@@ -53,6 +53,7 @@ El espacio `/equipo` resuelve equipos desde `team_assignments` para Cuerpo Técn
 - `/api/health` confirma que el proceso responde y `/api/ready` comprueba además la conexión a PostgreSQL para los checks del proveedor.
 - El arranque serializa las migraciones PostgreSQL con `pg_advisory_lock`, ligado a la sesión/conexión. Neon debe configurarse con la URL directa sin `-pooler` porque su pooler en modo transacción no conserva este bloqueo; la API rechaza esa configuración antes de arrancar. En Render se respetan los encabezados `X-Forwarded-*` para TLS y cookies seguras.
 - Las migraciones EF Core se generan con `dotnet-ef`; `FeedPostsV2` incorpora borrado lógico, tabla de adjuntos e índices de consulta.
+- Las cargas de feed, pizarra y avatar comparten `UploadQuota:DailyLimitBytes` (demo: 314572800, 300 MiB), reservada atómicamente por día UTC en PostgreSQL. Los bytes se reservan justo antes de escribir en almacenamiento, después de validar contenido, y no se reembolsan tras iniciar el envío. Las eliminaciones R2 se conservan en `storage_deletion_jobs` y un worker las ejecuta con reintentos; la migración inicial también encola adjuntos de feed que ya estaban borrados lógicamente.
 
 ## Pruebas
 

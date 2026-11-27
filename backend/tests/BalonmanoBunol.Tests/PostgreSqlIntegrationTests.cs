@@ -36,6 +36,7 @@ public sealed class PostgreSqlIntegrationTests
         var previousMediaRoot = Environment.GetEnvironmentVariable("PostMedia__RootPath");
         var previousAvatarRoot = Environment.GetEnvironmentVariable("ProfileAvatar__RootPath");
         var previousFrontendRoot = Environment.GetEnvironmentVariable("Frontend__WebRoot");
+        var previousUploadQuota = Environment.GetEnvironmentVariable("UploadQuota__DailyLimitBytes");
         var previousAdminEmail = Environment.GetEnvironmentVariable("BootstrapAdmin__Email");
         var previousAdminPassword = Environment.GetEnvironmentVariable("BootstrapAdmin__Password");
         var administratorEmail = $"admin-{Guid.NewGuid():N}@example.es";
@@ -57,6 +58,7 @@ public sealed class PostgreSqlIntegrationTests
             await File.WriteAllTextAsync(Path.Combine(frontendRoot, "index.html"), "<html><body><div id=\"root\">demo spa</div></body></html>");
             await File.WriteAllTextAsync(Path.Combine(frontendRoot, "sw.js"), "self.addEventListener('fetch', () => {});");
             Environment.SetEnvironmentVariable("Frontend__WebRoot", frontendRoot);
+            Environment.SetEnvironmentVariable("UploadQuota__DailyLimitBytes", (41L * 1024 * 1024).ToString());
             Environment.SetEnvironmentVariable("BootstrapAdmin__Email", administratorEmail);
             Environment.SetEnvironmentVariable("BootstrapAdmin__Password", administratorPassword);
             await using var factory = new WebApplicationFactory<Program>().WithWebHostBuilder(builder =>
@@ -317,6 +319,20 @@ public sealed class PostgreSqlIntegrationTests
                 using var largeVideoResponse = await firstUser.SendAsync(largeVideoRequest, HttpCompletionOption.ResponseHeadersRead);
                 var largeVideoResponseBody = await largeVideoResponse.Content.ReadAsStringAsync();
                 Assert.True(largeVideoResponse.StatusCode == HttpStatusCode.Created, largeVideoResponseBody);
+            }
+
+            using (var overQuotaForm = new MultipartFormDataContent { { new StringContent("Debe agotar la cuota diaria"), "content" } })
+            {
+                var pngBytes = new byte[2 * 1024 * 1024];
+                new byte[] { 0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A }.CopyTo(pngBytes, 0);
+                using var overQuotaImage = new ByteArrayContent(pngBytes);
+                overQuotaImage.Headers.ContentType = new MediaTypeHeaderValue("image/png");
+                overQuotaForm.Add(overQuotaImage, "files", "sobre-cuota.png");
+                using var overQuotaRequest = new HttpRequestMessage(HttpMethod.Post, "/api/v1/feed") { Content = overQuotaForm };
+                overQuotaRequest.Headers.Add("X-CSRF-TOKEN", await GetCsrfTokenAsync(firstUser));
+                using var overQuotaResponse = await firstUser.SendAsync(overQuotaRequest);
+                Assert.Equal(HttpStatusCode.TooManyRequests, overQuotaResponse.StatusCode);
+                Assert.Contains("límite diario", await overQuotaResponse.Content.ReadAsStringAsync(), StringComparison.OrdinalIgnoreCase);
             }
 
             await RegisterAsync(secondUser, "socia@example.es", "CuerpoTecnico");
@@ -723,6 +739,18 @@ public sealed class PostgreSqlIntegrationTests
             Assert.Contains(teamSpaceWithBoard.GetProperty("boardPosts").EnumerateArray(), post => post.GetProperty("content").GetString() == "Indicaciones del entrenamiento");
             using (var privateImageResponse = await thirdUser.GetAsync($"/api/v1/teams/{teamId}/board-files/{imageAttachmentId}"))
                 Assert.Equal(HttpStatusCode.NotFound, privateImageResponse.StatusCode);
+            using (var playerDeleteBoardPost = new HttpRequestMessage(HttpMethod.Delete, $"/api/v1/teams/{teamId}/board/{mediaPost.GetProperty("id").GetGuid()}"))
+            {
+                playerDeleteBoardPost.Headers.Add("X-CSRF-TOKEN", await GetCsrfTokenAsync(firstUser));
+                Assert.Equal(HttpStatusCode.NotFound, (await firstUser.SendAsync(playerDeleteBoardPost)).StatusCode);
+            }
+            using (var staffDeleteBoardPost = new HttpRequestMessage(HttpMethod.Delete, $"/api/v1/teams/{teamId}/board/{mediaPost.GetProperty("id").GetGuid()}"))
+            {
+                staffDeleteBoardPost.Headers.Add("X-CSRF-TOKEN", await GetCsrfTokenAsync(secondUser));
+                Assert.Equal(HttpStatusCode.NoContent, (await secondUser.SendAsync(staffDeleteBoardPost)).StatusCode);
+            }
+            using (var deletedBoardImage = await secondUser.GetAsync($"/api/v1/teams/{teamId}/board-files/{imageAttachmentId}"))
+                Assert.Equal(HttpStatusCode.NotFound, deletedBoardImage.StatusCode);
             using (var addPlayerByStaff = new HttpRequestMessage(HttpMethod.Post, $"/api/v1/teams/{teamId}/players")
             {
                 Content = JsonContent.Create(new { userId = registration.Content is null ? Guid.Empty : JsonDocument.Parse(await registration.Content.ReadAsStringAsync()).RootElement.GetProperty("id").GetGuid(), jerseyNumber = 22, position = "Portero" })
@@ -827,6 +855,7 @@ public sealed class PostgreSqlIntegrationTests
             Environment.SetEnvironmentVariable("PostMedia__RootPath", previousMediaRoot);
             Environment.SetEnvironmentVariable("ProfileAvatar__RootPath", previousAvatarRoot);
             Environment.SetEnvironmentVariable("Frontend__WebRoot", previousFrontendRoot);
+            Environment.SetEnvironmentVariable("UploadQuota__DailyLimitBytes", previousUploadQuota);
             Environment.SetEnvironmentVariable("BootstrapAdmin__Email", previousAdminEmail);
             Environment.SetEnvironmentVariable("BootstrapAdmin__Password", previousAdminPassword);
             if (Directory.Exists(mediaRoot)) Directory.Delete(mediaRoot, recursive: true);

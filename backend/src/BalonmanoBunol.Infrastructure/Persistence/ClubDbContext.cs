@@ -28,6 +28,8 @@ public sealed class ClubDbContext(DbContextOptions<ClubDbContext> options)
     public DbSet<Post> Posts => Set<Post>();
     public DbSet<RoleRequest> RoleRequests => Set<RoleRequest>();
     public DbSet<PostAttachment> PostAttachments => Set<PostAttachment>();
+    public DbSet<DailyUploadUsage> DailyUploadUsages => Set<DailyUploadUsage>();
+    public DbSet<StorageDeletionJob> StorageDeletionJobs => Set<StorageDeletionJob>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -204,6 +206,27 @@ public sealed class ClubDbContext(DbContextOptions<ClubDbContext> options)
             entity.HasOne<Team>().WithMany().HasForeignKey(user => user.PreferredTeamId).OnDelete(DeleteBehavior.SetNull);
             entity.Property(user => user.AvatarStorageKey).HasMaxLength(80);
             entity.HasIndex(user => user.IsActive);
+        });
+
+        builder.Entity<DailyUploadUsage>(entity =>
+        {
+            entity.ToTable("upload_daily_usage");
+            entity.HasKey(item => item.UsageDate);
+            entity.Property(item => item.UsageDate).HasColumnName("usage_date");
+            entity.Property(item => item.UsedBytes).HasColumnName("used_bytes").IsRequired();
+        });
+
+        builder.Entity<StorageDeletionJob>(entity =>
+        {
+            entity.ToTable("storage_deletion_jobs");
+            entity.HasKey(item => item.Id);
+            entity.Property(item => item.StorageKind).HasColumnName("storage_kind").HasMaxLength(30).IsRequired();
+            entity.Property(item => item.StorageKey).HasColumnName("storage_key").HasMaxLength(500).IsRequired();
+            entity.Property(item => item.Attempts).HasColumnName("attempts").IsRequired();
+            entity.Property(item => item.AvailableAt).HasColumnName("available_at").IsRequired();
+            entity.Property(item => item.LastError).HasColumnName("last_error").HasMaxLength(500);
+            entity.HasIndex(item => item.AvailableAt).HasDatabaseName("ix_storage_deletion_jobs_available_at");
+            entity.HasIndex(item => new { item.StorageKind, item.StorageKey }).IsUnique().HasDatabaseName("ix_storage_deletion_jobs_kind_key");
         });
 
     }

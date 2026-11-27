@@ -1,6 +1,7 @@
 using BalonmanoBunol.Application.Social;
 using BalonmanoBunol.Domain.Social;
 using BalonmanoBunol.Infrastructure.Social;
+using BalonmanoBunol.Application.Storage;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 
@@ -10,7 +11,14 @@ public sealed class FeedServiceTests
 {
     private readonly Mock<IPostRepository> _posts = new(MockBehavior.Strict);
     private readonly Mock<IPostMediaStorage> _media = new(MockBehavior.Strict);
-    private FeedService CreateService() => new(_posts.Object, _media.Object);
+    private readonly Mock<IUploadQuota> _quota = new(MockBehavior.Strict);
+    private readonly Mock<IStorageDeletionQueue> _deletionQueue = new(MockBehavior.Strict);
+    private FeedService CreateService()
+    {
+        _quota.Setup(quota => quota.TryReserveAsync(It.IsAny<long>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(true);
+        return new(_posts.Object, _media.Object, _quota.Object, _deletionQueue.Object);
+    }
 
     [Fact]
     public async Task GetLatest_ClampsPageSizeAndReturnsCursorOnlyWhenThereAreMoreResults()
@@ -114,11 +122,39 @@ public sealed class FeedServiceTests
     }
 
     [Fact]
+    public async Task Create_ContinuesCompensationWhenEnqueueFailsAndPreservesOriginalException()
+    {
+        var firstAttachment = Attachment("image/jpeg", 3, [0xFF, 0xD8, 0xFF]);
+        var secondAttachment = Attachment("image/png", 8, [0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A]);
+        var originalException = new DbUpdateException("database unavailable");
+        _media.SetupSequence(storage => storage.SaveAsync(It.IsAny<Guid>(), It.IsAny<string>(), It.IsAny<Stream>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync("first.jpg")
+            .ReturnsAsync("second.png");
+        _media.Setup(storage => storage.DeleteAsync("first.jpg", It.IsAny<CancellationToken>())).ThrowsAsync(new IOException("R2 unavailable"));
+        _media.Setup(storage => storage.DeleteAsync("second.png", It.IsAny<CancellationToken>())).ThrowsAsync(new IOException("R2 unavailable"));
+        _deletionQueue.Setup(queue => queue.EnqueueDurableAsync("feed", "first.jpg", It.IsAny<CancellationToken>())).ThrowsAsync(new InvalidOperationException("queue unavailable"));
+        _deletionQueue.Setup(queue => queue.EnqueueDurableAsync("feed", "second.png", It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
+        _posts.Setup(repository => repository.AddAsync(It.IsAny<Post>(), It.IsAny<IReadOnlyList<PostAttachment>>(), It.IsAny<CancellationToken>())).ThrowsAsync(originalException);
+
+        var thrown = await Assert.ThrowsAsync<DbUpdateException>(() => CreateService().CreateAsync(
+            Command(Guid.NewGuid(), "Fotos", [firstAttachment, secondAttachment]), CancellationToken.None));
+
+        Assert.Same(originalException, thrown);
+        _media.Verify(storage => storage.DeleteAsync("first.jpg", It.IsAny<CancellationToken>()), Times.Once);
+        _media.Verify(storage => storage.DeleteAsync("second.png", It.IsAny<CancellationToken>()), Times.Once);
+        _deletionQueue.Verify(queue => queue.EnqueueDurableAsync("feed", "first.jpg", It.IsAny<CancellationToken>()), Times.Once);
+        _deletionQueue.Verify(queue => queue.EnqueueDurableAsync("feed", "second.png", It.IsAny<CancellationToken>()), Times.Once);
+    }
+
+    [Fact]
     public async Task Delete_OnlyDeletesActivePostsOwnedByRequester()
     {
         var authorId = Guid.NewGuid();
         var otherId = Guid.NewGuid();
         var post = new Post(authorId, "Post");
+        _posts.Setup(repository => repository.GetAttachmentStorageKeysAsync(post.Id, It.IsAny<CancellationToken>())).ReturnsAsync(new[] { "key1" });
+        _deletionQueue.Setup(queue => queue.EnqueueAsync("feed", "key1", It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
+        _posts.Setup(repository => repository.DeleteWithStorageCleanupAsync(post, It.Is<IReadOnlyList<string>>(keys => keys.SequenceEqual(new[] { "key1" })), It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
         _posts.Setup(repository => repository.GetByIdAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
             .Returns((Guid requestedId, CancellationToken _) => Task.FromResult<Post?>(requestedId == post.Id ? post : null));
         _posts.Setup(repository => repository.SaveChangesAsync(It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
@@ -131,7 +167,7 @@ public sealed class FeedServiceTests
 
         Assert.False(post.IsPublished);
         Assert.NotNull(post.DeletedAt);
-        _posts.Verify(repository => repository.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+        _posts.Verify(repository => repository.DeleteWithStorageCleanupAsync(post, It.IsAny<IReadOnlyList<string>>(), It.IsAny<CancellationToken>()), Times.Once);
     }
 
     private static CreatePostCommand Command(Guid authorId, string? content, IReadOnlyList<CreatePostAttachment>? attachments = null, IReadOnlyList<string>? roles = null, string? avatarUrl = null) =>
