@@ -1,0 +1,72 @@
+name: CI
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-test:
+    name: Build and test
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_DB: balonmano_ci
+          POSTGRES_USER: balonmano_ci
+          POSTGRES_PASSWORD: ci-only-password
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U balonmano_ci -d balonmano_ci"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    env:
+      BALONMANO_TEST_DATABASE: Host=localhost;Port=5432;Database=balonmano_ci;Username=balonmano_ci;Password=ci-only-password
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 10
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Restore backend dependencies
+        run: dotnet restore BalonmanoBunyol.slnx
+
+      - name: Build backend
+        run: dotnet build BalonmanoBunyol.slnx --no-restore --configuration Release
+
+      - name: Test backend
+        run: dotnet test BalonmanoBunyol.slnx --no-build --no-restore --configuration Release
+
+      - name: Install frontend dependencies
+        run: npm ci --prefix frontend
+
+      - name: Test frontend
+        run: npm --prefix frontend test
+
+      - name: Build frontend
+        run: npm --prefix frontend run build
+
+      - name: Lint frontend
+        run: npm --prefix frontend run lint

@@ -36,3 +36,5 @@ frontend/dist/
 # Enviroment
 .env
 .accs
+
+**/publishcheck
