@@ -35,10 +35,24 @@ describe('PublicFeedPage sidebars', () => {
     expect(within(rightRail as HTMLElement).queryByText('Club Directo')).not.toBeInTheDocument()
   })
 
-  it('mantiene los laterales previstos para una visita pública', () => {
+  it('mantiene los laterales previstos para una visita pública', async () => {
+    vi.stubGlobal('fetch', vi.fn().mockImplementation((input: RequestInfo | URL) => {
+      if (String(input).includes('/api/v1/feed')) {
+        return Promise.resolve(new Response(JSON.stringify({
+          posts: [{
+            id: 'public-post', authorId: 'author-1', authorDisplayName: 'Ana Jugadora', authorAvatarUrl: null,
+            authorProfile: 'Jugador/a', content: 'Publicación visible para comprobar el pie', createdAt: '2026-01-01T10:00:00Z', attachments: [],
+          }],
+          hasMore: false, nextBefore: null, nextBeforeId: null,
+        }), { status: 200 }))
+      }
+      return Promise.resolve(new Response(null, { status: 204 }))
+    }))
     render(<PublicFeedPage theme="dark" onToggleTheme={() => undefined} user={null}/>)
 
-    expect(document.querySelector('.post-footer')).not.toBeInTheDocument()
+    const visiblePost = await screen.findByText('Publicación visible para comprobar el pie')
+    expect(visiblePost.closest('.feed-post')).toBeInTheDocument()
+    expect(visiblePost.closest('.feed-post')?.querySelector('.post-footer')).not.toBeInTheDocument()
     expect(screen.getByText('Visitante')).toBeInTheDocument()
     expect(screen.getByText('Encuentro de ejemplo, no oficial')).toBeInTheDocument()
     expect(screen.getByText('Clasificación de demostración')).toBeInTheDocument()

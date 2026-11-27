@@ -452,6 +452,7 @@ describe('TeamPage', () => {
 
     await waitFor(() => expect(fetchMock).toHaveBeenCalledWith('/api/v1/teams/team-a/board/post-1', expect.objectContaining({ method: 'DELETE' })))
     expect(await screen.findByRole('status')).toHaveTextContent('Mensaje eliminado de la pizarra.')
+    await waitFor(() => expect(screen.queryByText('Mensaje a eliminar')).not.toBeInTheDocument())
   })
 
   it('muestra el calendario mensual y la temporada automática, y permite navegar de mes', async () => {

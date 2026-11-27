@@ -417,17 +417,41 @@ public sealed class TeamSpaceService(ClubDbContext db, UserManager<ClubUser> use
         }
         catch (ArgumentException exception)
         {
-            foreach (var entry in db.ChangeTracker.Entries<TeamBoardAttachment>().Where(entry => entry.State == EntityState.Added)) entry.State = EntityState.Detached;
-            db.Entry(post).State = EntityState.Detached;
-            foreach (var key in keys) await deletionQueue.EnqueueAsync("team-board", key, CancellationToken.None);
+            DetachFailedBoardPost(post);
+            await CompensateBoardFilesAsync(keys);
             return TeamOperationResult.Failure(exception.Message);
         }
         catch
         {
-            foreach (var entry in db.ChangeTracker.Entries<TeamBoardAttachment>().Where(entry => entry.State == EntityState.Added)) entry.State = EntityState.Detached;
-            db.Entry(post).State = EntityState.Detached;
-            foreach (var key in keys) await deletionQueue.EnqueueAsync("team-board", key, CancellationToken.None);
+            DetachFailedBoardPost(post);
+            await CompensateBoardFilesAsync(keys);
             throw;
+        }
+    }
+
+    private void DetachFailedBoardPost(TeamBoardPost post)
+    {
+        foreach (var entry in db.ChangeTracker.Entries<TeamBoardAttachment>().Where(entry => entry.State == EntityState.Added)) entry.State = EntityState.Detached;
+        db.Entry(post).State = EntityState.Detached;
+    }
+
+    private async Task CompensateBoardFilesAsync(IReadOnlyList<string> keys)
+    {
+        foreach (var key in keys)
+        {
+            try
+            {
+                await deletionQueue.EnqueueAsync("team-board", key, CancellationToken.None);
+                continue;
+            }
+            catch { /* Intenta borrar directamente y continúa con las claves restantes. */ }
+
+            try { await storage.DeleteAsync(key, CancellationToken.None); }
+            catch
+            {
+                try { await deletionQueue.EnqueueDurableAsync("team-board", key, CancellationToken.None); }
+                catch { /* Conserva el error original y sigue compensando las otras claves. */ }
+            }
         }
     }
 

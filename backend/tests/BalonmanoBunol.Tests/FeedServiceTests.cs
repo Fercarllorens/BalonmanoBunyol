@@ -122,6 +122,31 @@ public sealed class FeedServiceTests
     }
 
     [Fact]
+    public async Task Create_ContinuesCompensationWhenEnqueueFailsAndPreservesOriginalException()
+    {
+        var firstAttachment = Attachment("image/jpeg", 3, [0xFF, 0xD8, 0xFF]);
+        var secondAttachment = Attachment("image/png", 8, [0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A]);
+        var originalException = new DbUpdateException("database unavailable");
+        _media.SetupSequence(storage => storage.SaveAsync(It.IsAny<Guid>(), It.IsAny<string>(), It.IsAny<Stream>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync("first.jpg")
+            .ReturnsAsync("second.png");
+        _media.Setup(storage => storage.DeleteAsync("first.jpg", It.IsAny<CancellationToken>())).ThrowsAsync(new IOException("R2 unavailable"));
+        _media.Setup(storage => storage.DeleteAsync("second.png", It.IsAny<CancellationToken>())).ThrowsAsync(new IOException("R2 unavailable"));
+        _deletionQueue.Setup(queue => queue.EnqueueDurableAsync("feed", "first.jpg", It.IsAny<CancellationToken>())).ThrowsAsync(new InvalidOperationException("queue unavailable"));
+        _deletionQueue.Setup(queue => queue.EnqueueDurableAsync("feed", "second.png", It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
+        _posts.Setup(repository => repository.AddAsync(It.IsAny<Post>(), It.IsAny<IReadOnlyList<PostAttachment>>(), It.IsAny<CancellationToken>())).ThrowsAsync(originalException);
+
+        var thrown = await Assert.ThrowsAsync<DbUpdateException>(() => CreateService().CreateAsync(
+            Command(Guid.NewGuid(), "Fotos", [firstAttachment, secondAttachment]), CancellationToken.None));
+
+        Assert.Same(originalException, thrown);
+        _media.Verify(storage => storage.DeleteAsync("first.jpg", It.IsAny<CancellationToken>()), Times.Once);
+        _media.Verify(storage => storage.DeleteAsync("second.png", It.IsAny<CancellationToken>()), Times.Once);
+        _deletionQueue.Verify(queue => queue.EnqueueDurableAsync("feed", "first.jpg", It.IsAny<CancellationToken>()), Times.Once);
+        _deletionQueue.Verify(queue => queue.EnqueueDurableAsync("feed", "second.png", It.IsAny<CancellationToken>()), Times.Once);
+    }
+
+    [Fact]
     public async Task Delete_OnlyDeletesActivePostsOwnedByRequester()
     {
         var authorId = Guid.NewGuid();

@@ -77,9 +77,8 @@ public sealed class FeedService(IPostRepository posts, IPostMediaStorage mediaSt
                 try { await mediaStorage.DeleteAsync(key, CancellationToken.None); }
                 catch
                 {
-                    await deletionQueue.EnqueueAsync("feed", key, CancellationToken.None);
-                    try { await posts.SaveChangesAsync(CancellationToken.None); }
-                    catch { /* Conserva el error original; el ciclo de vida de la petición termina aquí. */ }
+                    try { await deletionQueue.EnqueueDurableAsync("feed", key, CancellationToken.None); }
+                    catch { /* Sigue con el resto de claves y conserva la excepción original de la publicación. */ }
                 }
             }
             throw;

@@ -79,6 +79,8 @@ public sealed class ProfileService(
 
     public async Task<ProfileOperationResult> SetAvatarAsync(Guid userId, string contentType, long length, Stream content, CancellationToken cancellationToken)
     {
+        var user = await userManager.FindByIdAsync(userId.ToString());
+        if (user is null || !user.IsActive) return ProfileOperationResult.Failure("No se ha encontrado la cuenta.");
         if (length <= 0 || length > MaxAvatarBytes) return ProfileOperationResult.Failure("La imagen debe pesar 5 MB o menos.");
         if (!AvatarTypes.TryGetValue(contentType, out var avatarType))
             return ProfileOperationResult.Failure("Formatos admitidos: JPEG, PNG y WebP.");
@@ -87,8 +89,6 @@ public sealed class ProfileService(
 
         if (!await uploadQuota.TryReserveAsync(length, cancellationToken)) throw new UploadQuotaExceededException();
 
-        var user = await userManager.FindByIdAsync(userId.ToString());
-        if (user is null || !user.IsActive) return ProfileOperationResult.Failure("No se ha encontrado la cuenta.");
         if (content.CanSeek) content.Position = 0;
         var oldStorageKey = user.AvatarStorageKey;
         var newStorageKey = await avatarStorage.SaveAsync(Guid.NewGuid(), avatarType.Extension, content, cancellationToken);
@@ -104,17 +104,39 @@ public sealed class ProfileService(
             catch
             {
                 db.Entry(user).State = EntityState.Unchanged;
-                await deletionQueue.EnqueueAsync("avatar", newStorageKey, CancellationToken.None);
+                try { await deletionQueue.EnqueueDurableAsync("avatar", newStorageKey, CancellationToken.None); }
+                catch { /* No ocultar el error de guardado del perfil. */ }
             }
             return ProfileOperationResult.Failure("No se pudo guardar la foto de perfil.");
         }
         if (oldStorageKey is not null)
         {
-            await deletionQueue.EnqueueAsync("avatar", oldStorageKey, cancellationToken);
+            try
+            {
+                await deletionQueue.EnqueueAsync("avatar", oldStorageKey, cancellationToken);
+            }
+            catch
+            {
+                await transaction.RollbackAsync(CancellationToken.None);
+                user.AvatarStorageKey = oldStorageKey;
+                db.Entry(user).State = EntityState.Unchanged;
+                await CleanupUncommittedAvatarAsync(newStorageKey);
+                return ProfileOperationResult.Failure("No se pudo programar la limpieza de la foto de perfil anterior.");
+            }
         }
         await transaction.CommitAsync(cancellationToken);
         await RefreshSessionAsync(user);
         return ProfileOperationResult.Success(await ToDtoAsync(user, cancellationToken));
+    }
+
+    private async Task CleanupUncommittedAvatarAsync(string storageKey)
+    {
+        try { await avatarStorage.DeleteAsync(storageKey, CancellationToken.None); }
+        catch
+        {
+            try { await deletionQueue.EnqueueDurableAsync("avatar", storageKey, CancellationToken.None); }
+            catch { /* No ocultar el error de persistencia del perfil; el encolador durable usa un contexto independiente. */ }
+        }
     }
 
     public async Task<bool> RemoveAvatarAsync(Guid userId, CancellationToken cancellationToken)
