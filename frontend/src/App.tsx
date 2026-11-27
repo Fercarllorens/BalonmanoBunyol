@@ -12,6 +12,7 @@ import './features/system/site-header.css'
 import './features/profile/profile.css'
 import './features/administration/administration.css'
 import './features/teams/teams.css'
+import './brand-assets.css'
 
 export type { Theme } from './features/system/ThemeToggle'
 

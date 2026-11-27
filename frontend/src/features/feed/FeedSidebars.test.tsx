@@ -17,6 +17,11 @@ describe('PublicFeedPage sidebars', () => {
     }))
   })
 
+  it('muestra el escudo del club en el panel del próximo partido', () => {
+    render(<PublicFeedPage theme="light" onToggleTheme={() => undefined} user={null}/>)
+    expect(document.querySelector('.club-logo-image')).toHaveAttribute('src', '/club-bunol-escudo.jpeg')
+  })
+
   it('muestra la cuenta real y el panel de competición una sola vez', () => {
     const user: SessionUser = { id: 'user-1', displayName: 'Ana Jugadora', email: 'ana@example.es', roles: ['Jugador'] }
     render(<PublicFeedPage theme="light" onToggleTheme={() => undefined} user={user}/>)

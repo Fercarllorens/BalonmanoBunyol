@@ -28,7 +28,7 @@ const teams = [
 const Icon = ({ children, className = '' }: { children: string; className?: string }) => <span className={`material-symbols-outlined ${className}`} aria-hidden="true">{children}</span>
 
 function Brand() {
-  return <a className="brand" href="/" aria-label="Club Balonmano Buñol, página principal"><span className="brand-shield"><Icon>sports_handball</Icon></span><span className="brand-name"><strong>C.BM. BUÑOL</strong><small>CLUB OFICIAL</small></span></a>
+  return <a className="brand" href="/" aria-label="Club Balonmano Buñol, página principal"><img className="brand-shield" src="/club-bunol-escudo.jpeg" alt=""/><span className="brand-name"><strong>C.BM. BUÑOL</strong><small>CLUB OFICIAL</small></span></a>
 }
 
 function LandingPage({ theme, onToggleTheme, user }: LandingProps) {

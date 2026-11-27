@@ -9,6 +9,14 @@ vi.mock('./authApi', () => ({
 import { postJson } from './authApi'
 
 describe('AuthPage', () => {
+  it('muestra el escudo del club en la marca del acceso', () => {
+    window.history.replaceState({}, '', '/auth')
+    render(<AuthPage theme="light" onToggleTheme={() => undefined} onAuthenticated={() => undefined}/> )
+
+    expect(document.querySelector('.auth-brand-shield')).toHaveAttribute('src', '/club-bunol-escudo.jpeg')
+    expect(document.querySelector('.auth-card-brand img')).toHaveAttribute('src', '/club-bunol-escudo.jpeg')
+  })
+
   it('muestra login por defecto, alterna a registro y permite seleccionar el tipo de cuenta', () => {
     window.history.replaceState({}, '', '/auth')
     render(<AuthPage theme="light" onToggleTheme={() => undefined} onAuthenticated={() => undefined}/>)

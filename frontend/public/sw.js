@@ -1,4 +1,4 @@
-const CACHE_NAME = 'cb-bunol-shell-v4'
+const CACHE_NAME = 'cb-bunol-shell-v5'
 const SHELL_URL = '/'
 const STATIC_FILE = /\.(?:js|css|svg|png|jpg|jpeg|webp|woff2?)$/i
 

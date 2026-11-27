@@ -53,6 +53,11 @@ describe('SiteHeader', () => {
     expect(screen.getByRole('link', { name: 'Administración' })).toHaveAttribute('href', '/admin')
   })
 
+  it('muestra el escudo del club como imagen de marca', () => {
+    render(<SiteHeader theme="light" onToggleTheme={() => undefined} user={user}/> )
+    expect(screen.getByRole('link', { name: 'Club Balonmano Buñol' }).querySelector('.brand-shield')).toHaveAttribute('src', '/club-bunol-escudo.jpeg')
+  })
+
   it('mantiene navegación y controles de cuenta en regiones independientes', () => {
     render(<SiteHeader theme="light" onToggleTheme={() => undefined} user={user}/> )
     const navigation = screen.getByRole('navigation', { name: 'Navegación de cuenta' })
