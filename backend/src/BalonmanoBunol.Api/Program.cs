@@ -2,16 +2,24 @@ using BalonmanoBunol.Infrastructure;
 using BalonmanoBunol.Infrastructure.Identity;
 using BalonmanoBunol.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Antiforgery;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var renderPort = builder.Configuration["PORT"];
+if (int.TryParse(renderPort, out var port))
+    builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
 
 if (string.IsNullOrWhiteSpace(builder.Configuration.GetConnectionString("ClubDatabase")))
 {
     throw new InvalidOperationException("Falta ConnectionStrings__ClubDatabase. Inicia la API con npm run api para cargar la configuración local desde .env.");
 }
+NeonConnectionStringValidator.EnsureDirectConnection(builder.Configuration.GetConnectionString("ClubDatabase"));
 
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddAuthorization();
@@ -41,12 +49,55 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-await InitializeDatabaseAsync(app);
-
+var forwardedHeadersOptions = new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto,
+    ForwardLimit = 1,
+};
+forwardedHeadersOptions.KnownIPNetworks.Clear();
+forwardedHeadersOptions.KnownProxies.Clear();
+app.UseForwardedHeaders(forwardedHeadersOptions);
 app.UseHttpsRedirection();
 app.UseCors("Frontend");
 app.UseAuthentication();
 app.UseAuthorization();
+
+await using (var startupScope = app.Services.CreateAsyncScope())
+{
+    await InitializeDatabaseAsync(startupScope.ServiceProvider);
+}
+
+var webRoot = builder.Configuration["Frontend:WebRoot"];
+if (!string.IsNullOrWhiteSpace(webRoot))
+{
+    var fileProvider = new PhysicalFileProvider(Path.GetFullPath(webRoot));
+    app.Use(async (context, next) =>
+    {
+        var path = context.Request.Path;
+        var indexPath = Path.Combine(Path.GetFullPath(webRoot), "index.html");
+        var hasSpaEntry = File.Exists(indexPath);
+        var isSpaRoute = path.Equals("/", StringComparison.OrdinalIgnoreCase)
+            || path.Equals("/auth", StringComparison.OrdinalIgnoreCase)
+            || path.StartsWithSegments("/feed", StringComparison.OrdinalIgnoreCase)
+            || path.Equals("/perfil", StringComparison.OrdinalIgnoreCase)
+            || path.StartsWithSegments("/admin", StringComparison.OrdinalIgnoreCase)
+            || path.Equals("/equipo", StringComparison.OrdinalIgnoreCase);
+        if (isSpaRoute && hasSpaEntry)
+            context.Response.Headers.CacheControl = "no-store, no-cache";
+        await next();
+    });
+    app.UseDefaultFiles(new DefaultFilesOptions { FileProvider = fileProvider });
+    app.UseStaticFiles(new StaticFileOptions
+    {
+        FileProvider = fileProvider,
+        OnPrepareResponse = context =>
+        {
+            if (context.File.Name.Equals("sw.js", StringComparison.OrdinalIgnoreCase)
+                || context.File.Name.Equals("manifest.webmanifest", StringComparison.OrdinalIgnoreCase))
+                context.Context.Response.Headers.CacheControl = "no-cache";
+        }
+    });
+}
 app.Use(async (context, next) =>
 {
     if (context.Request.Path.StartsWithSegments("/api/v1/auth")
@@ -96,15 +147,64 @@ app.Use(async (context, next) =>
 });
 
 app.MapControllers();
+if (!string.IsNullOrWhiteSpace(webRoot))
+{
+    app.MapFallback(async context =>
+    {
+        if (context.Request.Path.StartsWithSegments("/api") || Path.HasExtension(context.Request.Path))
+        {
+            context.Response.StatusCode = StatusCodes.Status404NotFound;
+            return;
+        }
+
+        var indexPath = Path.Combine(Path.GetFullPath(webRoot), "index.html");
+        if (!File.Exists(indexPath))
+        {
+            context.Response.StatusCode = StatusCodes.Status404NotFound;
+            return;
+        }
+
+        context.Response.ContentType = "text/html; charset=utf-8";
+        await context.Response.SendFileAsync(indexPath);
+    });
+}
 app.Run();
 
-static async Task InitializeDatabaseAsync(WebApplication app)
+static async Task InitializeDatabaseAsync(IServiceProvider services)
 {
-    await using var scope = app.Services.CreateAsyncScope();
-    var dbContext = scope.ServiceProvider.GetRequiredService<ClubDbContext>();
-    await dbContext.Database.MigrateAsync();
+    var configuration = services.GetRequiredService<IConfiguration>();
+    var dbContext = services.GetRequiredService<ClubDbContext>();
+    await dbContext.Database.OpenConnectionAsync();
+    var connection = dbContext.Database.GetDbConnection();
+    try
+    {
+        await using (var acquireLock = connection.CreateCommand())
+        {
+            acquireLock.CommandText = "SELECT pg_advisory_lock(731942605182)";
+            await acquireLock.ExecuteScalarAsync();
+        }
 
-    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
+        await dbContext.Database.MigrateAsync();
+        await SeedIdentityAsync(services, configuration, dbContext);
+    }
+    finally
+    {
+        try
+        {
+            await using var releaseLock = connection.CreateCommand();
+            releaseLock.CommandText = "SELECT pg_advisory_unlock(731942605182)";
+            await releaseLock.ExecuteScalarAsync();
+        }
+        finally
+        {
+            await dbContext.Database.CloseConnectionAsync();
+        }
+    }
+}
+
+static async Task SeedIdentityAsync(IServiceProvider services, IConfiguration configuration, ClubDbContext dbContext)
+{
+    var roleManager = services.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
     var roles = new[] { "SocioAficion", "Jugador", "CuerpoTecnico", "Administrador" };
     foreach (var role in roles)
     {
@@ -115,13 +215,12 @@ static async Task InitializeDatabaseAsync(WebApplication app)
         }
     }
 
-    var configuration = scope.ServiceProvider.GetRequiredService<IConfiguration>();
     var adminEmail = configuration["BootstrapAdmin:Email"];
     var adminPassword = configuration["BootstrapAdmin:Password"];
     var adminName = configuration["BootstrapAdmin:DisplayName"] ?? "Admin Buñol";
     if (string.IsNullOrWhiteSpace(adminEmail) || string.IsNullOrWhiteSpace(adminPassword)) return;
 
-    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ClubUser>>();
+    var userManager = services.GetRequiredService<UserManager<ClubUser>>();
     var normalizedEmail = adminEmail.Trim();
     var admin = await userManager.FindByEmailAsync(normalizedEmail);
     if (admin is null)

@@ -1,0 +1,30 @@
+services:
+  - type: web
+    name: balonmano-bunol-demo
+    runtime: docker
+    plan: free
+    region: frankfurt
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /api/ready
+    envVars:
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production
+      - key: FileStorage__Provider
+        value: R2
+      - key: ConnectionStrings__ClubDatabase
+        sync: false
+      - key: BootstrapAdmin__Email
+        sync: false
+      - key: BootstrapAdmin__Password
+        sync: false
+      - key: BootstrapAdmin__DisplayName
+        value: Administración Demo
+      - key: R2__Endpoint
+        sync: false
+      - key: R2__Bucket
+        sync: false
+      - key: R2__AccessKeyId
+        sync: false
+      - key: R2__SecretAccessKey
+        sync: false

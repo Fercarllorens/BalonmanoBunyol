@@ -26,10 +26,11 @@
 | D-022 | La resolución de solicitudes de rol reserva atómicamente la transición desde Pendiente | Acordada/implementada | Un `UPDATE` condicional dentro de la transacción permite un único ganador entre decisiones concurrentes; cambios de rol y auditoría se confirman juntos y las decisiones perdedoras reciben conflicto. |
 | D-023 | Límites de cuerpo HTTP de cargas multimedia por endpoint | Acordada/implementada | Feed: 201 MiB para cuatro vídeos de hasta 50 MiB y overhead multipart. Tablón: 401 MiB para cuatro archivos de hasta 100 MiB y overhead. No se amplía globalmente Kestrel. |
 | D-024 | Los cambios del perfil y correo se guardan en una transacción Identity compartida | Acordada/implementada | Se actualizan todos los campos del usuario en una sola escritura dentro de la transacción del `ClubDbContext`; la cookie se refresca únicamente tras confirmar, evitando correos parcialmente persistidos ante fallos de concurrencia. |
+| D-025 | La demo se publica como una sola aplicación Docker y los archivos usan almacenamiento S3-compatible | Acordada/implementada | React/PWA y API comparten origen para conservar cookies y rutas relativas. El filesystem local sigue como opción de desarrollo; Cloudflare R2 se selecciona mediante configuración para persistir medios en el servicio efímero gratuito. |
 
 ## Pendiente de decisión
 
-- Proveedor de hosting para API, frontend, PostgreSQL y ficheros.
+- Dominio propio y volumen/cadencia de copias de seguridad para un despliegue productivo del club; la configuración actual es solo una demo gratuita.
 - Proveedores para correo, notificaciones push y entrega de imágenes.
 - Matriz de roles, privacidad de cuentas menores y autorización/consentimiento.
 - Integración de datos oficiales de federación, estadísticas y clasificaciones.
