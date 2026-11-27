@@ -22,7 +22,7 @@ namespace BalonmanoBunol.Infrastructure.Persistence.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("BalonmanoBunol.Domain.Auth.AdministrationAuditEntry", b =>
+            modelBuilder.Entity("BalonmanoBunol.Domain.Administration.AdministrationAuditEntry", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -686,6 +686,64 @@ namespace BalonmanoBunol.Infrastructure.Persistence.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("BalonmanoBunol.Infrastructure.Persistence.DailyUploadUsage", b =>
+                {
+                    b.Property<DateTime>("UsageDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("usage_date");
+
+                    b.Property<long>("UsedBytes")
+                        .HasColumnType("bigint")
+                        .HasColumnName("used_bytes");
+
+                    b.HasKey("UsageDate");
+
+                    b.ToTable("upload_daily_usage", (string)null);
+                });
+
+            modelBuilder.Entity("BalonmanoBunol.Infrastructure.Persistence.StorageDeletionJob", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Attempts")
+                        .HasColumnType("integer")
+                        .HasColumnName("attempts");
+
+                    b.Property<DateTimeOffset>("AvailableAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("available_at");
+
+                    b.Property<string>("LastError")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("last_error");
+
+                    b.Property<string>("StorageKey")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("storage_key");
+
+                    b.Property<string>("StorageKind")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("storage_kind");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AvailableAt")
+                        .HasDatabaseName("ix_storage_deletion_jobs_available_at");
+
+                    b.HasIndex("StorageKind", "StorageKey")
+                        .IsUnique()
+                        .HasDatabaseName("ix_storage_deletion_jobs_kind_key");
+
+                    b.ToTable("storage_deletion_jobs", (string)null);
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", b =>
                 {
                     b.Property<Guid>("Id")
@@ -816,7 +874,7 @@ namespace BalonmanoBunol.Infrastructure.Persistence.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("BalonmanoBunol.Domain.Auth.AdministrationAuditEntry", b =>
+            modelBuilder.Entity("BalonmanoBunol.Domain.Administration.AdministrationAuditEntry", b =>
                 {
                     b.HasOne("BalonmanoBunol.Infrastructure.Identity.ClubUser", null)
                         .WithMany()

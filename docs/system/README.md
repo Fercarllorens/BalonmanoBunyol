@@ -7,6 +7,7 @@ Este grupo recoge historias y criterios de aceptación que afectan transversalme
 - [US-SYS-001 — Cambiar el tema de la web](US-SYS-001-cambiar-tema.md) — implementada.
 - [US-SYS-002 — Navegación y barra superior según sesión](US-SYS-002-navegacion-y-barra-de-sesion.md) — implementada.
 - [US-SYS-003 — Actualizar recursos PWA sin conservar estilos antiguos](US-SYS-003-actualizar-recursos-pwa.md) — implementada.
+- [US-SYS-004 — Limitar y limpiar las subidas de archivos](US-SYS-004-cuota-y-limpieza-de-archivos.md) — implementada.
 - [US-SYS-005 — Validar las pull requests con CI](US-SYS-005-validar-pull-requests-con-ci.md) — implementada.
 
 Todos los criterios usan el formato español **Dado – Cuando – Entonces**.

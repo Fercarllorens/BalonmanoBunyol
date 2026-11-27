@@ -10,6 +10,7 @@ using BalonmanoBunol.Application.Social;
 using BalonmanoBunol.Application.Profile;
 using BalonmanoBunol.Application.Administration;
 using BalonmanoBunol.Application.Teams;
+using BalonmanoBunol.Application.Storage;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -75,6 +76,8 @@ public static class DependencyInjection
         });
 
         services.AddScoped<IPostRepository, PostRepository>();
+        services.AddScoped<IUploadQuota, PostgresDailyUploadQuota>();
+        services.AddScoped<IStorageDeletionQueue, StorageDeletionQueue>();
         var r2Configuration = new R2ObjectStorageConfiguration(
             configuration["FileStorage:Provider"], configuration["R2:Endpoint"], configuration["R2:Bucket"],
             configuration["R2:AccessKeyId"], configuration["R2:SecretAccessKey"]);
@@ -123,6 +126,7 @@ public static class DependencyInjection
         services.AddScoped<IProfileService, ProfileService>();
         services.AddScoped<IAdministrationService, AdministrationService>();
         services.AddScoped<ITeamSpaceService, TeamSpaceService>();
+        services.AddHostedService<StorageDeletionWorker>();
         return services;
     }
 }

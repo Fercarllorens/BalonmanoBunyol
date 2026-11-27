@@ -52,4 +52,17 @@ describe('SiteHeader', () => {
     rerender(<SiteHeader theme="light" onToggleTheme={() => undefined} user={{ ...user, roles: ['Administrador'] }}/>)
     expect(screen.getByRole('link', { name: 'Administración' })).toHaveAttribute('href', '/admin')
   })
+
+  it('mantiene navegación y controles de cuenta en regiones independientes', () => {
+    render(<SiteHeader theme="light" onToggleTheme={() => undefined} user={user}/> )
+    const navigation = screen.getByRole('navigation', { name: 'Navegación de cuenta' })
+    const accountMenu = screen.getByRole('button', { name: 'Menú de usuario: Ana Jugadora' })
+    const themeToggle = screen.getByRole('button', { name: 'Cambiar a tema oscuro' })
+
+    expect(navigation).toContainElement(screen.getByRole('link', { name: 'Feed' }))
+    expect(navigation).toContainElement(screen.getByRole('link', { name: 'Equipo' }))
+    expect(navigation).not.toContainElement(accountMenu)
+    expect(navigation).not.toContainElement(themeToggle)
+    expect(accountMenu.closest('.header-controls')).toContainElement(themeToggle)
+  })
 })

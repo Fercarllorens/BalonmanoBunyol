@@ -27,4 +27,8 @@
 
 - **Dado** que adjunto hasta cuatro archivos permitidos de 100 MB cada uno,
 - **Cuando** publico el mensaje,
-- **Entonces** el límite de solicitud multipart permite el total de archivos más su overhead y el servidor aplica también los límites por archivo y total.
+- **Entonces** el servidor aplica el límite por archivo, el límite total de 300 MiB y la cuota global diaria compartida de subidas.
+
+- **Dado** que soy Administración o staff asignado al equipo,
+- **Cuando** elimino un mensaje de la pizarra,
+- **Entonces** deja de ser visible y sus adjuntos se eliminan de R2 mediante la cola de limpieza reintentable.

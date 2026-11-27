@@ -22,4 +22,17 @@ public sealed class PersistenceModelTests
         Assert.Equal(nameof(PostAttachment.PostId), Assert.Single(foreignKey.Properties).Name);
         Assert.DoesNotContain(attachment.GetProperties(), property => property.IsShadowProperty());
     }
+
+    [Fact]
+    public void UploadQuotaAndStorageDeletionEntities_ArePersistedWithExpectedTables()
+    {
+        var options = new DbContextOptionsBuilder<ClubDbContext>()
+            .UseNpgsql("Host=localhost;Database=model-only;Username=test;Password=test")
+            .Options;
+        using var context = new ClubDbContext(options);
+
+        Assert.Equal("upload_daily_usage", context.Model.FindEntityType(typeof(DailyUploadUsage))!.GetTableName());
+        Assert.Equal("storage_deletion_jobs", context.Model.FindEntityType(typeof(StorageDeletionJob))!.GetTableName());
+        Assert.Equal("usage_date", context.Model.FindEntityType(typeof(DailyUploadUsage))!.FindProperty(nameof(DailyUploadUsage.UsageDate))!.GetColumnName());
+    }
 }

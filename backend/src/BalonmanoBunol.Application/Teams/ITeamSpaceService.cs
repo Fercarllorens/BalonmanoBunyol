@@ -19,5 +19,6 @@ public interface ITeamSpaceService
     Task<TeamOperationResult> SetTrainingExceptionAsync(Guid userId, Guid teamId, Guid slotId, DateOnly date, TeamTrainingExceptionInput input, CancellationToken cancellationToken);
     Task<TeamOperationResult> DeleteTrainingExceptionAsync(Guid userId, Guid teamId, Guid slotId, DateOnly date, CancellationToken cancellationToken);
     Task<TeamOperationResult> CreateBoardPostAsync(Guid userId, Guid teamId, TeamBoardInput input, IReadOnlyList<TeamBoardFile> files, CancellationToken cancellationToken);
+    Task<bool> DeleteBoardPostAsync(Guid userId, Guid teamId, Guid postId, CancellationToken cancellationToken);
     Task<(Stream Content, string ContentType, string FileName)?> OpenBoardAttachmentAsync(Guid userId, Guid teamId, Guid attachmentId, CancellationToken cancellationToken);
 }

@@ -27,6 +27,7 @@
 - Infraestructura de pruebas añadida: suite .NET xUnit para dominio, Feed, persistencia/modelo y almacenamiento; integración API/PostgreSQL aislada por esquema; frontend Vitest/Testing Library para Auth, API cliente, Feed y administración.
 - Verificación actual: solución compilada; 38 pruebas backend pasan con PostgreSQL configurado (37 unitarias y una integración API/PostgreSQL). Las 33 pruebas frontend pasan; build y lint frontend sin errores. Sin `BALONMANO_TEST_DATABASE`, se omite la integración.
 - Migraciones EF `InitialAuthSchema`, `ClubManagementAndTeamSpace` y `RemoveTeamSeasonAndUseTeamPreference` aplicadas en PostgreSQL local. La última unifica Senior A/B como categoría Senior, elimina la temporada del equipo y transforma la preferencia del perfil en referencia opcional a equipo.
+- Cuota global configurable de 300 MiB diarios UTC para cargas de feed/pizarra/avatar, respaldada por reserva atómica PostgreSQL; cola durable con reintentos para eliminar adjuntos de feed/pizarra y avatares, con migración `DailyUploadQuotaAndStorageDeletion`. Registro sigue abierto; pendiente aplicar la migración en el entorno de demo al desplegar.
 - `AGENTS.md` y esta carpeta de documentación persistente.
 - Vistas de referencia existentes conservadas.
 

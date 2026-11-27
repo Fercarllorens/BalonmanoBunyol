@@ -1,6 +1,7 @@
 using System.Security.Cryptography;
 using BalonmanoBunol.Application.Administration;
 using BalonmanoBunol.Application.Teams;
+using BalonmanoBunol.Application.Storage;
 using BalonmanoBunol.Domain.Teams;
 using BalonmanoBunol.Infrastructure.Identity;
 using BalonmanoBunol.Infrastructure.Persistence;
@@ -9,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BalonmanoBunol.Infrastructure.Teams;
 
-public sealed class TeamSpaceService(ClubDbContext db, UserManager<ClubUser> users, ITeamBoardStorage storage, IAdministrationService administration) : ITeamSpaceService
+public sealed class TeamSpaceService(ClubDbContext db, UserManager<ClubUser> users, ITeamBoardStorage storage, IAdministrationService administration, IUploadQuota uploadQuota, IStorageDeletionQueue deletionQueue) : ITeamSpaceService
 {
     private static readonly TimeZoneInfo ClubTimeZone = ResolveClubTimeZone();
 
@@ -387,16 +388,24 @@ public sealed class TeamSpaceService(ClubDbContext db, UserManager<ClubUser> use
         var content = input.Content?.Trim() ?? string.Empty;
         if (content.Length > 4000 || (string.IsNullOrWhiteSpace(content) && files.Count == 0)) return TeamOperationResult.Failure("Escribe un mensaje (máximo 4000 caracteres) o adjunta un archivo.");
         if (files.Count > MaxFiles) return TeamOperationResult.Failure("Se permiten hasta cuatro archivos por mensaje.");
-        if (files.Sum(file => file.Length) > MaxTotalFileBytes) return TeamOperationResult.Failure("El tamaño total de los adjuntos no puede superar 400 MB.");
+        if (files.Sum(file => file.Length) > MaxTotalFileBytes) return TeamOperationResult.Failure("El tamaño total de los adjuntos no puede superar 300 MiB.");
+        foreach (var file in files)
+        {
+            if (!AllowedFiles.TryGetValue(file.ContentType, out _) || file.Length <= 0 || file.Length > MaxFileBytes)
+                return TeamOperationResult.Failure("Admite imágenes, vídeos o PDF de hasta 100 MB por archivo.");
+            if (!await HasValidSignatureAsync(file.Content, file.ContentType, cancellationToken))
+                return TeamOperationResult.Failure("El contenido no coincide con el tipo de archivo indicado.");
+            file.Content.Position = 0;
+        }
+        var totalBytes = files.Sum(file => file.Length);
+        if (totalBytes > 0 && !await uploadQuota.TryReserveAsync(totalBytes, cancellationToken)) throw new UploadQuotaExceededException();
         var post = new TeamBoardPost(teamId, userId, string.IsNullOrWhiteSpace(content) ? "Adjunto del equipo" : content);
         var keys = new List<string>();
         try
         {
             foreach (var file in files)
             {
-                if (!AllowedFiles.TryGetValue(file.ContentType, out var type) || file.Length <= 0 || file.Length > MaxFileBytes)
-                    throw new ArgumentException("Admite imágenes, vídeos o PDF de hasta 100 MB por archivo.");
-                if (!await HasValidSignatureAsync(file.Content, file.ContentType, cancellationToken)) throw new ArgumentException("El contenido no coincide con el tipo de archivo indicado.");
+                var type = AllowedFiles[file.ContentType];
                 file.Content.Position = 0;
                 var key = await storage.SaveAsync(Guid.NewGuid(), type.Extension, file.Content, cancellationToken);
                 keys.Add(key);
@@ -408,14 +417,56 @@ public sealed class TeamSpaceService(ClubDbContext db, UserManager<ClubUser> use
         }
         catch (ArgumentException exception)
         {
-            foreach (var key in keys) await storage.DeleteAsync(key, CancellationToken.None);
+            DetachFailedBoardPost(post);
+            await CompensateBoardFilesAsync(keys);
             return TeamOperationResult.Failure(exception.Message);
         }
         catch
         {
-            foreach (var key in keys) await storage.DeleteAsync(key, CancellationToken.None);
+            DetachFailedBoardPost(post);
+            await CompensateBoardFilesAsync(keys);
             throw;
         }
+    }
+
+    private void DetachFailedBoardPost(TeamBoardPost post)
+    {
+        foreach (var entry in db.ChangeTracker.Entries<TeamBoardAttachment>().Where(entry => entry.State == EntityState.Added)) entry.State = EntityState.Detached;
+        db.Entry(post).State = EntityState.Detached;
+    }
+
+    private async Task CompensateBoardFilesAsync(IReadOnlyList<string> keys)
+    {
+        foreach (var key in keys)
+        {
+            try
+            {
+                await deletionQueue.EnqueueAsync("team-board", key, CancellationToken.None);
+                continue;
+            }
+            catch { /* Intenta borrar directamente y continúa con las claves restantes. */ }
+
+            try { await storage.DeleteAsync(key, CancellationToken.None); }
+            catch
+            {
+                try { await deletionQueue.EnqueueDurableAsync("team-board", key, CancellationToken.None); }
+                catch { /* Conserva el error original y sigue compensando las otras claves. */ }
+            }
+        }
+    }
+
+    public async Task<bool> DeleteBoardPostAsync(Guid userId, Guid teamId, Guid postId, CancellationToken cancellationToken)
+    {
+        if (!await CanManageAsync(userId, teamId, cancellationToken)) return false;
+        var post = await db.TeamBoardPosts.SingleOrDefaultAsync(item => item.Id == postId && item.TeamId == teamId, cancellationToken);
+        if (post is null) return false;
+        var keys = await db.TeamBoardAttachments.Where(item => item.BoardPostId == postId).Select(item => item.StorageKey).ToListAsync(cancellationToken);
+        await using var transaction = await db.Database.BeginTransactionAsync(cancellationToken);
+        foreach (var key in keys) await deletionQueue.EnqueueAsync("team-board", key, cancellationToken);
+        db.TeamBoardPosts.Remove(post);
+        await db.SaveChangesAsync(cancellationToken);
+        await transaction.CommitAsync(cancellationToken);
+        return true;
     }
 
     public async Task<(Stream Content, string ContentType, string FileName)?> OpenBoardAttachmentAsync(Guid userId, Guid teamId, Guid attachmentId, CancellationToken cancellationToken)
@@ -478,5 +529,5 @@ public sealed class TeamSpaceService(ClubDbContext db, UserManager<ClubUser> use
 
     private const int MaxFiles = 4;
     private const long MaxFileBytes = 100L * 1024 * 1024;
-    private const long MaxTotalFileBytes = 400L * 1024 * 1024;
+    private const long MaxTotalFileBytes = 300L * 1024 * 1024;
 }

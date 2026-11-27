@@ -103,6 +103,7 @@ app.Use(async (context, next) =>
     if (context.Request.Path.StartsWithSegments("/api/v1/auth")
         || context.Request.Path.StartsWithSegments("/api/v1/admin")
         || context.Request.Path.StartsWithSegments("/api/v1/profile")
+        || context.Request.Path.StartsWithSegments("/api/v1/feed")
         || context.Request.Path.StartsWithSegments("/api/v1/teams")
         || context.Request.Path.StartsWithSegments("/api/v1/my-teams"))
         context.Response.Headers.CacheControl = "no-store, no-cache";
