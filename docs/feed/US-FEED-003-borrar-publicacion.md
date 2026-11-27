@@ -9,6 +9,7 @@
 - **Dado** que soy la persona autora de una publicación activa,
 - **Cuando** confirmo su borrado,
 - **Entonces** se marca como eliminada y deja de aparecer en la feed general.
+- **Y** sus adjuntos dejan de servirse y se encolan para su eliminación física de R2.
 
 ### No borrar publicaciones ajenas
 

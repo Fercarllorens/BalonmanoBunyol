@@ -38,7 +38,7 @@ describe('PublicFeedPage sidebars', () => {
   it('mantiene los laterales previstos para una visita pública', () => {
     render(<PublicFeedPage theme="dark" onToggleTheme={() => undefined} user={null}/>)
 
-    expect(screen.getByText('Comunidad del club')).toBeInTheDocument()
+    expect(document.querySelector('.post-footer')).not.toBeInTheDocument()
     expect(screen.getByText('Visitante')).toBeInTheDocument()
     expect(screen.getByText('Encuentro de ejemplo, no oficial')).toBeInTheDocument()
     expect(screen.getByText('Clasificación de demostración')).toBeInTheDocument()

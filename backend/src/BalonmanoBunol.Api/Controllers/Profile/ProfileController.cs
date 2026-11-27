@@ -44,8 +44,15 @@ public sealed class ProfileController(IProfileService profiles) : ControllerBase
         if (file is null) return BadRequest(new { message = "Selecciona una imagen de perfil." });
         if (file.Length > 5 * 1024 * 1024) return BadRequest(new { message = "La imagen debe pesar 5 MB o menos." });
         await using var stream = file.OpenReadStream();
-        var result = await profiles.SetAvatarAsync(userId, file.ContentType, file.Length, stream, cancellationToken);
-        return result.Succeeded ? Ok(result.Profile) : BadRequest(new { message = result.Error });
+        try
+        {
+            var result = await profiles.SetAvatarAsync(userId, file.ContentType, file.Length, stream, cancellationToken);
+            return result.Succeeded ? Ok(result.Profile) : BadRequest(new { message = result.Error });
+        }
+        catch (BalonmanoBunol.Application.Storage.UploadQuotaExceededException exception)
+        {
+            return StatusCode(StatusCodes.Status429TooManyRequests, new { message = exception.Message });
+        }
     }
 
     [HttpDelete("avatar")]

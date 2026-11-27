@@ -24,5 +24,7 @@ La aplicación manejará información de jugadores, posiblemente menores, e info
 - Cifrar conexiones en tránsito y aplicar cifrado/controles de acceso del proveedor para copias y almacenamiento.
 - Usar cookies seguras o una estrategia de tokens evaluada para el despliegue; proteger contra CSRF/XSS y aplicar límites de petición.
 - Guardar secretos únicamente en el gestor de secretos o variables seguras del entorno.
+- Aplicar una cuota global diaria persistente y atómica a todas las cargas de archivos; registrar los bytes admitidos y rechazar la carga cuando se agote la cuota.
+- Al desvincular objetos de R2, ocultarlos inmediatamente desde la aplicación y encolar su borrado físico durable con reintentos; no confiar en tareas en memoria.
 
 Este documento recoge criterios de ingeniería, no sustituye la evaluación legal/de protección de datos que pueda requerir el club antes de tratar información real.

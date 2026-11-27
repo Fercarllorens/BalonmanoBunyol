@@ -1,10 +1,11 @@
 using BalonmanoBunol.Application.Social;
 using BalonmanoBunol.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
+using BalonmanoBunol.Application.Storage;
 
 namespace BalonmanoBunol.Infrastructure.Social;
 
-public sealed class PostRepository(ClubDbContext dbContext) : IPostRepository
+public sealed class PostRepository(ClubDbContext dbContext, IStorageDeletionQueue deletionQueue) : IPostRepository
 {
     public async Task<IReadOnlyList<FeedPostDto>> GetLatestAsync(int pageSize, DateTimeOffset? before, Guid? beforeId, bool officialOnly, CancellationToken cancellationToken)
     {
@@ -58,11 +59,23 @@ public sealed class PostRepository(ClubDbContext dbContext) : IPostRepository
     {
         dbContext.Posts.Add(post);
         dbContext.PostAttachments.AddRange(attachments);
-        await dbContext.SaveChangesAsync(cancellationToken);
+        try { await dbContext.SaveChangesAsync(cancellationToken); }
+        catch { dbContext.ChangeTracker.Clear(); throw; }
     }
 
     public Task<BalonmanoBunol.Domain.Social.Post?> GetByIdAsync(Guid postId, CancellationToken cancellationToken) =>
         dbContext.Posts.SingleOrDefaultAsync(post => post.Id == postId, cancellationToken);
+
+    public async Task<IReadOnlyList<string>> GetAttachmentStorageKeysAsync(Guid postId, CancellationToken cancellationToken) =>
+        await dbContext.PostAttachments.Where(item => item.PostId == postId).Select(item => item.StorageKey).ToListAsync(cancellationToken);
+
+    public async Task DeleteWithStorageCleanupAsync(BalonmanoBunol.Domain.Social.Post post, IReadOnlyList<string> storageKeys, CancellationToken cancellationToken)
+    {
+        await using var transaction = await dbContext.Database.BeginTransactionAsync(cancellationToken);
+        foreach (var storageKey in storageKeys) await deletionQueue.EnqueueAsync("feed", storageKey, cancellationToken);
+        await dbContext.SaveChangesAsync(cancellationToken);
+        await transaction.CommitAsync(cancellationToken);
+    }
 
     public async Task<(string StorageKey, string ContentType, string FileName)?> GetPublicAttachmentAsync(Guid attachmentId, CancellationToken cancellationToken)
     {

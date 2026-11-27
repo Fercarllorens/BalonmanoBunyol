@@ -101,7 +101,14 @@ export default function SiteHeader({ theme, onToggleTheme, user, variant = 'stan
           <a href="/feed">Feed</a>
           <a href="/equipo">Equipo</a>
           {isAdmin && <a href="/admin">Administración</a>}
-          <div className={`account-menu ${accountMenuOpen ? 'is-open' : ''}`} ref={accountMenuRef}>
+        </> : <>
+          <a href="/feed">Feed Social</a>
+          <a className="global-login" href="/auth?tab=login">Iniciar sesión</a>
+          <a className="global-register" href="/auth?tab=register">Registrarse</a>
+        </>}
+      </nav>
+      <div className="header-controls">
+        {user && <div className={`account-menu ${accountMenuOpen ? 'is-open' : ''}`} ref={accountMenuRef}>
             <button ref={accountMenuTriggerRef} className="account-menu-trigger" type="button" aria-label={`Menú de usuario: ${user.displayName}`} aria-haspopup="menu" aria-expanded={accountMenuOpen} aria-controls="account-menu-popover" onClick={toggleAccountMenu} onKeyDown={handleAccountTriggerKeyDown}>
               {user.avatarUrl ? <img className="account-menu-avatar" src={user.avatarUrl} alt=""/> : <span className="account-menu-avatar account-menu-initials" aria-hidden="true">{user.displayName.trim().split(/\s+/).slice(0, 2).map((part) => part[0]).join('').toUpperCase()}</span>}
               <span className="account-menu-label"><strong>{user.displayName}</strong><small>Mi cuenta</small></span>
@@ -117,14 +124,9 @@ export default function SiteHeader({ theme, onToggleTheme, user, variant = 'stan
               <div className="account-menu-divider"/>
               <button className="account-menu-item account-menu-logout" type="button" role="menuitem" onClick={() => { setAccountMenuOpen(false); void logout() }}><span className="account-menu-item-icon material-symbols-outlined" aria-hidden="true">logout</span><span><strong>Cerrar sesión</strong><small>Salir de tu cuenta</small></span></button>
             </div>}
-          </div>
-        </> : <>
-          <a href="/feed">Feed Social</a>
-          <a className="global-login" href="/auth?tab=login">Iniciar sesión</a>
-          <a className="global-register" href="/auth?tab=register">Registrarse</a>
-        </>}
+          </div>}
         <ThemeToggle theme={theme} onToggle={onToggleTheme}/>
-      </nav>
+      </div>
       {logoutError && <span className="global-logout-error" role="alert">{logoutError}</span>}
     </div>
   </header>

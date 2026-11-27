@@ -53,6 +53,7 @@ El espacio `/equipo` resuelve equipos desde `team_assignments` para Cuerpo Técn
 - `/api/health` confirma que el proceso responde y `/api/ready` comprueba además la conexión a PostgreSQL para los checks del proveedor.
 - El arranque serializa las migraciones PostgreSQL con `pg_advisory_lock`, ligado a la sesión/conexión. Neon debe configurarse con la URL directa sin `-pooler` porque su pooler en modo transacción no conserva este bloqueo; la API rechaza esa configuración antes de arrancar. En Render se respetan los encabezados `X-Forwarded-*` para TLS y cookies seguras.
 - Las migraciones EF Core se generan con `dotnet-ef`; `FeedPostsV2` incorpora borrado lógico, tabla de adjuntos e índices de consulta.
+- Las cargas de feed, pizarra y avatar comparten `UploadQuota:DailyLimitBytes` (demo: 314572800, 300 MiB), reservada atómicamente por día UTC en PostgreSQL. Los bytes se reservan justo antes de escribir en almacenamiento, después de validar contenido, y no se reembolsan tras iniciar el envío. Las eliminaciones R2 se conservan en `storage_deletion_jobs` y un worker las ejecuta con reintentos; la migración inicial también encola adjuntos de feed que ya estaban borrados lógicamente.
 
 ## Pruebas
 

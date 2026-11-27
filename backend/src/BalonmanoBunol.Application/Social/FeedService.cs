@@ -1,8 +1,9 @@
 using BalonmanoBunol.Domain.Social;
+using BalonmanoBunol.Application.Storage;
 
 namespace BalonmanoBunol.Application.Social;
 
-public sealed class FeedService(IPostRepository posts, IPostMediaStorage mediaStorage) : IFeedService
+public sealed class FeedService(IPostRepository posts, IPostMediaStorage mediaStorage, IUploadQuota uploadQuota, IStorageDeletionQueue deletionQueue) : IFeedService
 {
     private const int MaxPostLength = 5000;
     private const int MaxAttachments = 4;
@@ -40,17 +41,24 @@ public sealed class FeedService(IPostRepository posts, IPostMediaStorage mediaSt
         var post = new Post(command.AuthorId, content);
         var attachmentRecords = new List<PostAttachment>();
         var savedStorageKeys = new List<string>();
+        foreach (var attachment in command.Attachments)
+        {
+            var contentType = attachment.ContentType.Trim().ToLowerInvariant();
+            if (!AllowedMedia.TryGetValue(contentType, out var media))
+                throw new ArgumentException("Solo se admiten imágenes JPEG, PNG o WebP y vídeos MP4 o WebM.");
+            if (attachment.Length <= 0 || attachment.Length > media.MaxLength)
+                throw new ArgumentException(media.Kind == "image" ? "Cada imagen debe pesar 10 MB o menos." : "Cada vídeo debe pesar 50 MB o menos.");
+            await ValidateContentSignatureAsync(attachment.Content, contentType, cancellationToken);
+            if (attachment.Content.CanSeek) attachment.Content.Position = 0;
+        }
+        var totalBytes = command.Attachments.Sum(item => item.Length);
+        if (totalBytes > 0 && !await uploadQuota.TryReserveAsync(totalBytes, cancellationToken)) throw new UploadQuotaExceededException();
         try
         {
             foreach (var attachment in command.Attachments)
             {
                 var contentType = attachment.ContentType.Trim().ToLowerInvariant();
-                if (!AllowedMedia.TryGetValue(contentType, out var media))
-                    throw new ArgumentException("Solo se admiten imágenes JPEG, PNG o WebP y vídeos MP4 o WebM.");
-                if (attachment.Length <= 0 || attachment.Length > media.MaxLength)
-                    throw new ArgumentException(media.Kind == "image" ? "Cada imagen debe pesar 10 MB o menos." : "Cada vídeo debe pesar 50 MB o menos.");
-
-                await ValidateContentSignatureAsync(attachment.Content, contentType, cancellationToken);
+                var media = AllowedMedia[contentType];
 
                 var attachmentId = Guid.NewGuid();
                 if (attachment.Content.CanSeek) attachment.Content.Position = 0;
@@ -67,7 +75,12 @@ public sealed class FeedService(IPostRepository posts, IPostMediaStorage mediaSt
             foreach (var key in savedStorageKeys)
             {
                 try { await mediaStorage.DeleteAsync(key, CancellationToken.None); }
-                catch { /* La limpieza de almacenamiento se reintenta externamente; no enmascara el error original. */ }
+                catch
+                {
+                    await deletionQueue.EnqueueAsync("feed", key, CancellationToken.None);
+                    try { await posts.SaveChangesAsync(CancellationToken.None); }
+                    catch { /* Conserva el error original; el ciclo de vida de la petición termina aquí. */ }
+                }
             }
             throw;
         }
@@ -77,8 +90,9 @@ public sealed class FeedService(IPostRepository posts, IPostMediaStorage mediaSt
     {
         var post = await posts.GetByIdAsync(postId, cancellationToken);
         if (post is null || post.AuthorId != requesterId || !post.IsPublished) return false;
+        var storageKeys = await posts.GetAttachmentStorageKeysAsync(postId, cancellationToken);
         post.Delete();
-        await posts.SaveChangesAsync(cancellationToken);
+        await posts.DeleteWithStorageCleanupAsync(post, storageKeys, cancellationToken);
         return true;
     }
 

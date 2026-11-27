@@ -6,7 +6,8 @@ Primera fase de la feed social inspirada en los diseños `feed_social_y_comunida
 
 - Feed general real, cronológico y paginado.
 - Publicar requiere sesión. El feed público se puede consultar sin autenticación.
-- Adjuntos: máximo cuatro por publicación; JPEG/PNG/WebP hasta 10 MB por imagen y MP4/WebM hasta 50 MB por vídeo. El endpoint permite cuerpos multipart de hasta 201 MiB para cubrir cuatro vídeos al máximo más el overhead.
+- Adjuntos: máximo cuatro por publicación; JPEG/PNG/WebP hasta 10 MB por imagen y MP4/WebM hasta 50 MB por vídeo. El endpoint permite cuerpos multipart de hasta 301 MiB, aplicando además la cuota diaria global.
+- Las cargas comparten una cuota diaria global configurable de 300 MiB con la pizarra y los avatares; el contador usa UTC y los borrados no reembolsan consumo diario.
 - Borrado lógico disponible solo para la persona autora; la API aplica la autorización.
 - Filtro «Comunicados» para Administradores y Cuerpo Técnico.
 - «Mi feed» se presenta como pestaña visual, pero no personaliza el contenido en esta fase.
