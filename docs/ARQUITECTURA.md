@@ -60,3 +60,4 @@ El espacio `/equipo` resuelve equipos desde `team_assignments` para Cuerpo Técn
 - Backend: `dotnet test BalonmanoBunyol.slnx`; la prueba de integración PostgreSQL se omite si no se establece `BALONMANO_TEST_DATABASE`. `npm test` en la raíz la configura desde `POSTGRES_DB`, `POSTGRES_USER` y `POSTGRES_PASSWORD` del `.env` local, si existe, y ejecuta el resto de pruebas. La prueba crea y elimina un esquema con nombre aleatorio.
 - Frontend: `npm --prefix frontend test`; `npm --prefix frontend run test:watch` para ejecución interactiva.
 - Antes de incorporar un cambio funcional, añadir pruebas unitarias, de componente o de integración según la capa afectada y ejecutar la suite relevante.
+- GitHub Actions ejecuta `.github/workflows/ci.yml` en cada pull request: restaura/compila/testea .NET 10 con PostgreSQL efímero y ejecuta pruebas, build y lint del frontend en Node.js 22.

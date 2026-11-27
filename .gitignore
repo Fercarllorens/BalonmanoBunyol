@@ -38,3 +38,5 @@ backend/src/BalonmanoBunol.Api/wwwroot/
 # Enviroment
 .env
 .accs
+
+**/publishcheck
