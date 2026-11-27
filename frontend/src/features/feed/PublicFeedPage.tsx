@@ -60,7 +60,7 @@ function CompetitionSidebar() {
     <section className="rail-widget rail-match-card">
       <div className="rail-widget-heading"><span>Próxima jornada</span><span className="mock-badge">DEMO</span></div>
       <div className="rail-match-teams">
-        <div><span className="mock-team-logo">CB</span><strong>C.B. Buñol</strong></div>
+        <div><img className="mock-team-logo club-logo-image" src="/club-bunol-escudo.jpeg" alt=""/><strong>C.B. Buñol</strong></div>
         <span className="rail-match-versus">VS</span>
         <div><span className="mock-team-logo rival">MIS</span><strong>BM. Mislata</strong></div>
       </div>

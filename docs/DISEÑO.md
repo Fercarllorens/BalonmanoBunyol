@@ -3,6 +3,7 @@
 ## Lenguaje visual identificado
 
 - Nombre/identidad: Club Balonmano Buñol, estética deportiva actual y comunitaria.
+- El emblema principal de la web, cabeceras, acceso, favicon y PWA es la imagen `stitch_club_balonmano_bu_ol_hub/balonmano.jpeg`; las variantes de icono de dispositivo se generan en `frontend/public/`.
 - Color principal azul de equipación `#0077B6`; rojo deportivo `#D62828`; azul marino `#023E8A`.
 - Tipografía de titulares Plus Jakarta Sans y de interfaz/datos Inter.
 - Tema claro con superficies blancas y fondo `#F8FAFC`; tema oscuro basado en navy/graphite.

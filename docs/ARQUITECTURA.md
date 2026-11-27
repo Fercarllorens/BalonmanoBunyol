@@ -34,7 +34,7 @@ La landing `/` es la entrada pública; las cuentas con sesión activa se redirig
 
 La landing `/` es la entrada pública; las cuentas con sesión activa se redirigen allí a `/feed`. La barra global cambia según sesión; la ruta `/admin/solicitudes` se expone a Administradores en frontend y permanece protegida por rol en API.
 
-La PWA usa un manifiesto y service worker propios: se almacena el shell y recursos estáticos, mientras todas las rutas `/api/`, `/auth` y `/feed` quedan explícitamente fuera del service worker. No se cachean respuestas de API ni el feed. iOS y Android requieren servir la aplicación por HTTPS en producción.
+La PWA usa un manifiesto y service worker propios: se almacena el shell y recursos estáticos, mientras todas las rutas `/api/`, `/auth` y `/feed` quedan explícitamente fuera del service worker. No se cachean respuestas de API ni el feed. El escudo oficial se usa como recurso de marca y como iconos rasterizados de 64 px (favicon), 180 px (Apple), 192 px y 512 px (PWA). iOS y Android requieren servir la aplicación por HTTPS en producción.
 
 La funcionalidad de perfil almacena nombre, apellidos, equipo preferido opcional y clave de avatar en `ClubUser`. El equipo preferido referencia `teams`; al registrarse se asigna el primer equipo activo de categoría Senior ordenado por nombre, o queda vacío si no existe ninguno. Los avatares se guardan fuera de PostgreSQL, en `App_Data/profile-avatars` localmente, y se sirven mediante endpoint autenticado. Las mutaciones requieren antiforgery y las respuestas de perfil llevan `Cache-Control: no-store`.
 

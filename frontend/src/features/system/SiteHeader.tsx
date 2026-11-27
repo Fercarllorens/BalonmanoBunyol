@@ -92,7 +92,7 @@ export default function SiteHeader({ theme, onToggleTheme, user, variant = 'stan
   return <header className={`global-header ${variant === 'landing' ? 'site-header' : 'feed-header'}`}>
     <div className={variant === 'landing' ? 'site-header-inner' : 'global-header-inner'}>
       <a className="brand" href={brandHref} aria-label="Club Balonmano Buñol">
-        <span className="brand-shield"><span className="material-symbols-outlined" aria-hidden="true">sports_handball</span></span>
+        <img className="brand-shield" src="/club-bunol-escudo.jpeg" alt="" />
         <span className="brand-name"><strong>C.BM. BUÑOL</strong><small>CLUB OFICIAL</small></span>
       </a>
       {variant === 'landing' && !user && <nav className="main-nav" aria-label="Navegación principal"><a href="#historia">El Club</a><a href="#categorias">Cantera</a><a href="#galeria">Galería</a></nav>}
